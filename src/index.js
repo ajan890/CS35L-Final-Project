@@ -31,3 +31,4 @@ const querySnapshot = await getDocs(collection(db, "Users"));
 querySnapshot.forEach((doc) => {
   console.log(doc.data());
 });
+
