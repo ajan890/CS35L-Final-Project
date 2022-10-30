@@ -6,6 +6,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDocs, getFirestore } from "firebase/firestore";
 import { collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -27,7 +28,15 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
+//query
 const querySnapshot = await getDocs(collection(db, "Users"));
 querySnapshot.forEach((doc) => {
   console.log(doc.data());
 });
+
+//write
+function addRequest(name, ) {
+
+}
+
+
