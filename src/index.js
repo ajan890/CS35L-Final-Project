@@ -34,9 +34,14 @@ querySnapshot.forEach((doc) => {
   console.log(doc.data());
 });
 
-//write
-function addRequest(name, ) {
-
+function addRequest(name, desc, tagsArray) {
+  //name, description = strings, tags = string[]
+  setDoc(doc(db, "Requests", name), {
+    title: name,
+    description: desc,
+    tags: tagsArray
+  });
 }
+
 
 
