@@ -1,41 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <script type="text/javascript" src="../src/index.js"></script>  
-  <head>
-    <title>Testing</title>
-  </head>
   <body>
-    <div>This is the landing page</div>
-    <div>
-      <h1>
-        Hello World!
-      </h1>
-      <div>
-        <input type="text" id="name_textbox"/>
-      </div>
-      <div>
-        <input type="text" id="desc_textbox"/>
-      </div>
-      <div>
-        <input type="text" id="tags_textbox"/>
-      </div>
-      <div>
-        <script>
-          function onClick() {
-            var name = document.getElementById('name_textbox').value
-            var desc = document.getElementById('desc_textbox').value
-            var tagsString = document.getElementById('tags_textbox').value
-            var tags = tagsString.split(' ');
-            addRequest(name, desc, tags);
-            console.log(name);
-            console.log(desc);
-            console.log(tags);
-          }
-        </script>
-        <input type="button" id="Submit" onclick="onClick()" height="25" width="150" value="Submit!" />
-      </div>
-      
-
-    </div>
+    <div id="root"></div>
+    <div id="test"></div>
   </body>
 </html>

@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDocs, getFirestore } from "firebase/firestore";
 import { collection } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<h1>Hello World!</h1>);
+
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -29,10 +31,10 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 //query
-const querySnapshot = await getDocs(collection(db, "Users"));
-querySnapshot.forEach((doc) => {
-  console.log(doc.data());
-});
+// const querySnapshot = await getDocs(collection(db, "Users"));
+// querySnapshot.forEach((doc) => {
+//   console.log(doc.data());
+// });
 
 function addRequest(name, desc, tagsArray) {
   //name, description = strings, tags = string[]
@@ -43,5 +45,44 @@ function addRequest(name, desc, tagsArray) {
   });
 }
 
+function onClick() {
+  var name = document.getElementById('name_textbox').value
+  var desc = document.getElementById('desc_textbox').value
+  var tagsString = document.getElementById('tags_textbox').value
+  var tags = tagsString.split(' ');
+  addRequest(name, desc, tags);
+  console.log(name);
+  console.log(desc);
+  console.log(tags);
+}
+
+const testinput = ReactDOM.createRoot(document.getElementById('test'));
 
 
+function testform()
+{
+  const handleSubmit = event => {
+    event.preventDefault();
+    onClick();
+  }
+  return(
+    <div className="wrapper">
+      <h1>How About Them Apples</h1>
+      <form onSubmit={handleSubmit}>
+        <label>
+          <div>
+            <input type="text" id="name_textbox"/>
+          </div>
+          <div>
+            <input type="text" id="desc_textbox"/>
+          </div>
+          <div>
+            <input type="text" id="tags_textbox"/>
+          </div>
+        </label>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  )
+}
+testinput.render(testform());
