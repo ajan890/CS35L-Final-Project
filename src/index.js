@@ -36,34 +36,43 @@ const db = getFirestore(app);
 //   console.log(doc.data());
 // });
 
-function addRequest(name, desc, tagsArray) {
+function addRequest(name, desc, tagsArray, bounty, userID) {
   //name, description = strings, tags = string[]
-  setDoc(doc(db, "Requests", name), {
+  var hash = (new Date().getTime()).toString(36);
+  setDoc(doc(db, "Requests", hash), {
     title: name,
     description: desc,
-    tags: tagsArray
+    tags: tagsArray,
+    bounty: bounty,
+    user: userID
   });
 }
 
-function onClick() {
+function requestButtonOnClick() { //rename this method if necessary.
+  //get user ID that submitted the order
   var name = document.getElementById('name_textbox').value
   var desc = document.getElementById('desc_textbox').value
   var tagsString = document.getElementById('tags_textbox').value
-  var tags = tagsString.split(' ');
-  addRequest(name, desc, tags);
-  console.log(name);
-  console.log(desc);
-  console.log(tags);
+  var bounty = Number(document.getElementById('bounty_textbox').value)
+  var tags = tagsString.split(',');
+  for (var i = 0; i < tags.length; i++) {
+    tags[i] = tags[i].trim();
+  }
+
+  addRequest(name, desc, tags, bounty, "TESTUSER"); //replace "TESTUSER" with the name of the user account
+  console.log("Name of request: " + name);
+  console.log("Description: " + desc);
+  console.log("Tags: " + tags);
+  console.log("Bounty: " + bounty);
 }
 
 const testinput = ReactDOM.createRoot(document.getElementById('test'));
-
 
 function testform()
 {
   const handleSubmit = event => {
     event.preventDefault();
-    onClick();
+    requestButtonOnClick();
   }
   return(
     <div className="wrapper">
@@ -71,13 +80,20 @@ function testform()
       <form onSubmit={handleSubmit}>
         <label>
           <div>
+            <p>Name of Request:</p>
             <input type="text" id="name_textbox"/>
           </div>
           <div>
+            <p>Description:</p>
             <input type="text" id="desc_textbox"/>
           </div>
           <div>
+            <p>Tags (separated by commas):</p>
             <input type="text" id="tags_textbox"/>
+          </div>
+          <div>
+            <p>Bounty (numbers only)</p>
+            <input type="number" id="bounty_textbox"/>
           </div>
         </label>
         <button type="submit">Submit</button>
