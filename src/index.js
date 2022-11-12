@@ -6,9 +6,9 @@ import {
   Outlet,
 } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import Requests from "./requests.js"
 import Login from "./login.js"
 import Home from "./home.js"
-import Requests from "./requests.js"
 import "./index.css"
 
 const router = createBrowserRouter([
