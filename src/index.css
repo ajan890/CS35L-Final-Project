@@ -11,3 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/*used on requests page*/
+div.scrollmenu {
+  overflow: auto;
+  white-space: nowrap;
+  height: 30vh;
+  width: 90%;
+  padding: 10px;
+}
+
+/*used on requests page*/
+div.scrollmenu a {
+  display: inline-block;
+  text-align: left;
+  padding: 30px;
+  text-decoration: none;
+  width: 20%;
+}

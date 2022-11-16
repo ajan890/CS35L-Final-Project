@@ -30,13 +30,14 @@ const db = getFirestore(app);
 
 //query
 async function getRequests() {
-  const querySnapshot = await getDocs(collection(db, "Requests"));
-  var count = 0;
-  querySnapshot.forEach((doc) => {
-    console.log(count + doc.data().description);
-    count++;
-  });
-  printRequests(querySnapshot);
+    const querySnapshot = await getDocs(collection(db, "Requests"));
+    var count = 0;
+    querySnapshot.forEach((doc) => {
+      console.log(count + doc.data().description);
+      count++;
+    });
+
+    printRequests(querySnapshot);
 }
 
 function addRequest(name, desc, tagsArray) {
@@ -51,25 +52,24 @@ function addRequest(name, desc, tagsArray) {
 function formatRequest(request) {
     var data = request.data();
     console.log("Format: " + data.description);
-  return(
-    <div>
-      <p>{data.title}</p>
-      <p>{data.description}</p>
-      <p>{data.tags}</p>
-    </div>
-  );
+    var temp = document.createElement('a');
+    var title = document.createElement('h2');
+    var desc = document.createElement('p');
+    var tags = document.createElement('p');
+    title.innerText = data.title;
+    desc.innerText = data.description;
+    tags.innerText = data.tags;
+    temp.appendChild(title);
+    temp.appendChild(desc);
+    temp.appendChild(tags);
+  return temp;
 }
 
 function printRequests(querySnapshot, user) {
-  var userRequests = <div></div>;
-  var allRequests = <div></div>;
+  querySnapshot = 
   querySnapshot.forEach((request) => {
-    if (request.data().userID == user) {
-      userRequests += (formatRequest(request));
-    }
-    allRequests += (formatRequest(request));
+    document.getElementById('requests').appendChild(formatRequest(request));
   });
-  document.getElementById('requests').innerHTML = allRequests;
 }
 
 function onClick() {
@@ -120,7 +120,9 @@ function testform()
     <div className="wrapper">
       <h1>Requests</h1> 
         <div>
-          <div id="requests">Loading Requests...</div>
+          <div id="requests" className="scrollmenu">
+            
+          </div>
         </div>
       <h1>Submit Request</h1>
       <form onSubmit={handleSubmit}>
