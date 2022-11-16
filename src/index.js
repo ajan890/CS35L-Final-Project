@@ -10,6 +10,7 @@ import Requests from "./requests.js"
 import Login from "./login.js"
 import Home from "./home.js"
 import "./index.css"
+import "./home.css"
 
 const router = createBrowserRouter([
   {
@@ -33,16 +34,5 @@ ReactDOM.createRoot(document.getElementById("nav")).render(
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <div>
-    <li>
-      <a href={'/login'}>Login</a>
-    </li>
-    <li>
-      <a href={'/requests'}>Requests</a>
-    </li>
-    <li>
-      <a href={'/'}>Home</a>
-    </li>
-  </div>
   
 );
