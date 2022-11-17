@@ -1,13 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fahkwang:ital@1&family=Open+Sans:wght@500&display=swap');
 
-.background_one {
+#background_one {
     width: 100%;
     top: -15%;
     position: fixed;
     z-index: 1;
 }
 
-.top_overlay {
+#top_overlay {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -15,7 +16,7 @@
     z-index: 2;
 }
 
-.title_text {
+#title_text {
     position: absolute;
     z-index: 2;
     top: 40%;
@@ -26,7 +27,7 @@
     font-family: 'Fredericka the Great', cursive;
 }
 
-.background_two {
+#background_two {
     width: 100%;
     height: auto;
     margin-top: 40%;
@@ -34,7 +35,7 @@
     z-index: 3;
 }
 
-.login_title {
+#login_title {
     position: absolute;
     top: 142%;
     left: 50%;
@@ -46,7 +47,7 @@
     text-shadow: 2px 2px rgba(250, 234, 214, 0.3);
 }
 
-.login_description {
+#login_description {
     position: absolute;
     top: 160%;
     left: 50%;
@@ -60,7 +61,7 @@
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
 }
 
-.login_button {
+#login_button {
     position: absolute;
     top: 180%;
     left: 50%;
@@ -68,3 +69,50 @@
     z-index: 4;
     font-size: 20px;
 }
+
+#Services {
+    background-color: lightgray;
+    margin-top: -5%;
+    padding-top: 2%;
+    padding-bottom: 2.5%;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    font-size: 50px;
+    font-family: 'Fahkwang', sans-serif;
+    z-index: 3;
+}
+
+#background_three {
+    position: relative;
+    margin-top: -5%;
+    width: 100%;
+    height: auto;
+    z-index: 2;
+}
+
+#services_container {
+    display: flex;
+    position: relative;
+    margin-top: -30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    z-index: 3;
+}
+
+.service_element {
+    display: inline-block;
+    width: 100%;    
+    height: 500px;
+    background-color: rgba(255,255,255,0.5);
+    text-align: center;
+    font-size: 50px;
+    z-index: 3;
+}
+
+.service_text {
+    font-size: 20px;
+}
+
