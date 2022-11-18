@@ -1,5 +1,6 @@
 
-/*from https://dev.to/ag-grid/react-18-avoiding-use-effect-getting-called-twice-4i9e
+/*
+from https://dev.to/ag-grid/react-18-avoiding-use-effect-getting-called-twice-4i9e
 Code written by Niall Crosby
 Used to prevent React from rendering async functions more than once
 */
