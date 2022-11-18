@@ -10,6 +10,7 @@ function Home()
 
         <div id="top_overlay">
             <div id="title_text">A CS35L Project</div>
+            <div id="title_subtitle">Brought to you by a group of humble nerds</div>
         </div>
         
 
@@ -94,17 +95,28 @@ function Home()
                 From Bruins, to Bruins
             </div>
             <div id="propoganda_slogan"><br></br>
-                Better than USC
+                Still better than USC
             </div>
             <div id="propoganda_text"><br></br>
                 We came up with this idea totally on the fly since we needed something for our CS35L project but it actually ended<br></br>
-                up sounding like a pretty great community connection thing that would never work in real life due to the amount of<br></br> 
+                up sounding like a pretty great community connection project that would never work in real life due to the amount of<br></br> 
                 trust each individual would have to have towards every other individual. But hey, that's what dreams (and CS class<br></br> 
                 projects) are for right. With the amount of walking around you have to do everyday, why not help a fellow Bruin out<br></br> 
-                by picking up a couple of things along the way?
+                by picking up a couple of things along the way? Since you're still reading, here's a picture of a laptop and some<br></br> 
+                coffee I found off of google just like all of the other images above. Looks nice, doesn't it? Just like this webpage,<br></br> 
+                I'm sure.
             </div>
         </div>
         
+
+
+        <div id="footer">
+            <img id="footer_img" src={require("./coffee_laptop.jpg")} alt="Coffee's gone"></img>
+            <div id="footer_text">
+                CS35L Final Project © 2022 No Showers | No Rights Reserved | Contact: Joe Mama
+            </div>
+        </div>
+
         </html>
     );
 }
