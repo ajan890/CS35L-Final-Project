@@ -25,19 +25,20 @@
     font-size: 70px;
     color: white;
     font-family: 'Fredericka the Great', cursive;
+    text-align: center;
 }
 
 #background_two {
     width: 100%;
     height: auto;
-    margin-top: 40%;
+    margin-top: 45%;
     position: relative;
     z-index: 3;
 }
 
 #login_title {
-    position: absolute;
-    top: 142%;
+    position: relative;
+    margin-top: -38%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 4;
@@ -48,8 +49,8 @@
 }
 
 #login_description {
-    position: absolute;
-    top: 160%;
+    position: relative;
+    margin-top: 3%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 4;
@@ -62,8 +63,8 @@
 }
 
 #login_button {
-    position: absolute;
-    top: 180%;
+    position: relative;
+    margin-top: 3%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 4;
@@ -72,7 +73,7 @@
 
 #Services {
     background-color: lightgray;
-    margin-top: -5%;
+    margin-top: 17%;
     padding-top: 2%;
     padding-bottom: 2.5%;
     position: relative;
