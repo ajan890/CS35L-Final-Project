@@ -3,6 +3,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getDocs, getFirestore, QueryDocumentSnapshot } from "firebase/firestore";
 import { collection } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
+import { useEffectOnce } from "./singleEffect.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -23,6 +24,7 @@ const labelStyle = {
   color: 'red',
 };
 
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
@@ -30,14 +32,14 @@ const db = getFirestore(app);
 
 //query
 async function getRequests() {
-    const querySnapshot = await getDocs(collection(db, "Requests"));
-    var count = 0;
-    querySnapshot.forEach((doc) => {
-      console.log(count + doc.data().description);
-      count++;
-    });
+  const querySnapshot = await getDocs(collection(db, "Requests"));
+  var count = 0;
+  querySnapshot.forEach((doc) => {
+    console.log(count + doc.data().description);
+    count++;
+  });
 
-    printRequests(querySnapshot);
+  printRequests(querySnapshot);
 }
 
 function addRequest(name, desc, tagsArray) {
@@ -151,7 +153,7 @@ function testform()
 
 function Requests()
 {
-  getRequests();
+  useEffectOnce(getRequests);
     return (
         testform()
 
