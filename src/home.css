@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fahkwang:ital@1&family=Open+Sans:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fahkwang:wght@500&display=swap');
 
 #background_one {
     width: 100%;
@@ -45,35 +45,36 @@
     font-size: 20px;
     text-align: center;
     font-size: 50px;
-    text-shadow: 2px 2px rgba(250, 234, 214, 0.3);
+    color: white;   /* <-- Change color of text title for Royce Hall */
+    text-shadow: 2px 2px rgb(113, 127, 201);    /* <-- Change shadow color of text title for Royce Hall */
 }
 
 #login_description {
     position: relative;
-    margin-top: 3%;
+    margin-top: 4%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 4;
     font-size: 20px;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
-    color: white;
+    color: white;      /* <-- Change color of text for Royce Hall */
     width: max-content;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);  /* <-- Change shadow color of text for Royce Hall */
 }
 
 #login_button {
     position: relative;
-    margin-top: 3%;
+    margin-top: 6%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 4;
     font-size: 20px;
 }
 
-#Services {
+#Features {
     background-color: lightgray;
-    margin-top: 17%;
+    margin-top: 14%;
     padding-top: 2%;
     padding-bottom: 2.5%;
     position: relative;
@@ -87,33 +88,81 @@
 
 #background_three {
     position: relative;
-    margin-top: -5%;
+    margin-top: -10%;
     width: 100%;
     height: auto;
     z-index: 2;
 }
 
-#services_container {
+#features_container {
     display: flex;
     position: relative;
-    margin-top: -30%;
+    margin-top: -28%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
     z-index: 3;
 }
 
-.service_element {
+.feature_element {
     display: inline-block;
+    margin-left: 2%;
     width: 100%;    
-    height: 500px;
-    background-color: rgba(255,255,255,0.5);
+    height: auto;
+    padding-bottom: 10%;
+    background-color: rgb(228, 228, 228);
+    background-size: 80%;
     text-align: center;
-    font-size: 50px;
     z-index: 3;
 }
 
-.service_text {
-    font-size: 20px;
+.feature_number {
+    font-size: 45px;
+    background-color: lightgray;
+    border-radius: 70px;
+    width: 100px;
+    height: 100px;
+    margin-left: 33%;
+    margin-top: -15%;
+    display: flex;
+    align-items: center;
+    text-align: center;
 }
 
+.feature_title {
+    margin-top: 5%;
+    font-size: 30px;
+    font-family: 'Fahkwang', sans-serif;
+}
+
+.feature_text {
+    font-size: 18px;
+    line-height: 30px;
+}
+
+#propoganda {
+    position: relative;
+    margin-top: -16%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    z-index: 2;
+    text-align: center;
+    background-color: black;
+    color: white;
+}
+
+#propoganda_title {
+    font-family: 'Fahkwang', sans-serif;
+    font-size: 40px;
+}
+
+#propoganda_slogan {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+}
+
+#propoganda_text {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    line-height: 30px;
+}   
