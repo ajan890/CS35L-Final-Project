@@ -15,10 +15,10 @@ onAuthStateChanged(auth, (user) => {
 class Dashboard extends React.Component
 {
     
-    componentDidMount()
-    {
+    componentDidMount() {
         document.getElementById("header").innerHTML = "Hello: " + name;
     }
+
     render(){
         return(
             <div id = "wrapper">

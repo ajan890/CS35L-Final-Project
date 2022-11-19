@@ -16,7 +16,7 @@ code {
 div.scrollmenu {
   overflow: auto;
   white-space: nowrap;
-  height: 30vh;
+  height: 25vh;
   width: 90%;
   padding: 10px;
 }
