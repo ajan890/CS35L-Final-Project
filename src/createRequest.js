@@ -1,6 +1,6 @@
 import React from "react"
 import { initializeApp } from "firebase/app";
-import { getDocs, getFirestore } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { Timestamp } from "firebase/firestore";
@@ -19,6 +19,28 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const labelStyle = { color: 'red', };  
+
+function saveTags(tagsArray) {
+    tagsArray.forEach(tag => {
+        setDoc(doc(db, "Tags", tag), {});
+    });
+  }
+
+function addRequest(name, desc, tagsArray, bounty1, userID, from, to) {
+    //name, description = strings, tags = string[]
+    setDoc(doc(db, "Requests", (+new Date).toString(36)), {
+      status: "Not Taken", //can either be "Not Taken," "Taken," "Filled"
+      time_submitted: Timestamp.now(),
+      fulfill_pin: Math.floor((Math.random() * 9000) + 1000),
+      title: name,
+      description: desc,
+      from: from,
+      destination: to,
+      bounty: bounty1,
+      tags: tagsArray,
+      user: userID
+    });
+  }
 
 function onClickCreateRequest() {
     var sendRequest = true;
@@ -54,6 +76,7 @@ function onClickCreateRequest() {
   
     if (sendRequest) {
       addRequest(name, desc, tags, bounty, getAuth().currentUser.uid, loc, dest);
+      saveTags(tags);
       console.log(name);
       console.log(desc);
       console.log(tags);
@@ -67,26 +90,7 @@ function onClickCreateRequest() {
     } else {
       document.getElementById('field').style.color = "#FF0000";
       document.getElementById('field').innerText = 'Please check your input.😭';
-    }
-  
-    //print request submitted
-  
-  }
-
-function addRequest(name, desc, tagsArray, bounty1, userID, from, to) {
-    //name, description = strings, tags = string[]
-    setDoc(doc(db, "Requests", (+new Date).toString(36)), {
-      status: "Not Taken", //can either be "Not Taken," "Taken," "Filled"
-      time_submitted: Timestamp.now(),
-      fulfill_pin: Math.floor((Math.random() * 9000) + 1000),
-      title: name,
-      description: desc,
-      from: from,
-      destination: to,
-      bounty: bounty1,
-      tags: tagsArray,
-      user: userID
-    });
+    }  
   }
 
 class CreateRequest extends React.Component
@@ -128,7 +132,7 @@ class CreateRequest extends React.Component
                 </label>
                 <button type="submit">Submit</button>
                 <div>
-                <p id="field"/>
+                    <p id="field"/>
                 </div>
             </form>
             </div>

@@ -4,7 +4,11 @@ from https://dev.to/ag-grid/react-18-avoiding-use-effect-getting-called-twice-4i
 Code written by Niall Crosby
 Used to prevent React from rendering async functions more than once
 */
+import { render } from "@testing-library/react";
 import { useState, useEffect, useRef } from "react";
+//import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
+import { React } from "react";
 
 export const useEffectOnce = ( effect )=> {
 
@@ -36,4 +40,3 @@ export const useEffectOnce = ( effect )=> {
         };
     }, []);
   };
-  
