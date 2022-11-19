@@ -9,6 +9,7 @@ import Login from "./login.js"
 import Home from "./home.js"
 import Dashboard from "./dashboard.js"
 import "./index.css"
+import CreateRequest from "./createRequest.js"
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/requests",
         element: <Requests />,
+      },
+      {
+        path: "/dashboard/newrequest",
+        element: <CreateRequest />,
       }
     ]
 
@@ -51,6 +56,9 @@ ReactDOM.createRoot(document.getElementById("nav")).render(
     </li>
     <li>
       <a href={'/dashboard'}>Dashboard</a>
+    </li>
+    <li>
+      <a href={'/dashboard/newrequest'}>create new request</a>
     </li>
   </div>
   
