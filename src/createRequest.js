@@ -4,6 +4,7 @@ import { getFirestore } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { Timestamp } from "firebase/firestore";
+import { removeElement } from "./utilities";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDhVImrXhCHZzckmpPC0N4ZPacZKjTc0xI",
@@ -81,12 +82,19 @@ function onClickCreateRequest() {
       console.log(desc);
       console.log(tags);
       document.getElementById('name_req_label').innerText = '';
+      document.getElementById('name_textbox').value = '';
       document.getElementById('desc_req_label').innerText = '';
+      document.getElementById('desc_textbox').value = '';
       document.getElementById('tags_req_label').innerText = '';
+      document.getElementById('tags_textbox').value = '';
       document.getElementById('bounty_req_label').innerText = '';
+      document.getElementById('bounty_textbox').value = '';
       document.getElementById('dest_req_label').innerText = '';
+      document.getElementById('from_textbox').value = '';
+      document.getElementById('to_textbox').value = '';
       document.getElementById('field').style.color = "#00FF00";
       document.getElementById('field').innerText = 'Request Submitted! 😃';
+      document.getElementById('name_textbox').height = 0;
     } else {
       document.getElementById('field').style.color = "#FF0000";
       document.getElementById('field').innerText = 'Please check your input.😭';
@@ -102,7 +110,7 @@ class CreateRequest extends React.Component
           }
         return(
             <div className="wrapper">
-                <h1>This is the new requests page</h1>
+                <h1>Submit Request</h1>
                 <form onSubmit={handleSubmit}>
                 <label>
                 <div>
@@ -130,10 +138,11 @@ class CreateRequest extends React.Component
                     <input type="text" id="to_textbox"/> <label id="dest_req_label" style={labelStyle}/>
                 </div>
                 </label>
-                <button type="submit">Submit</button>
+                <button type="submit">Submit</button> <label id="field"/>
                 <div>
-                    <p id="field"/>
+                  <a href="./requests">Return to Requests</a>
                 </div>
+
             </form>
             </div>
         );
