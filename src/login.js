@@ -26,7 +26,7 @@ async function isExistingUser(uid)
   const users = collection(db, "Users");
   const q = query(users, where("UID", "==", uid));
   const num = await getCountFromServer(q);
-  if(num.data().count == 0)
+  if(num.data().count === 0)
   {
     return false;
   }
@@ -49,7 +49,7 @@ async function addNewUser(user)
 onAuthStateChanged(auth, async (user) => {
   if(user) {
     const is = await isExistingUser(user.uid)
-    if(is == 0)
+    if(is === 0)
     {
       addNewUser(user);
     }

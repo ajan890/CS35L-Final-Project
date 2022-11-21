@@ -4,7 +4,6 @@ import { getFirestore } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { Timestamp } from "firebase/firestore";
-import { removeElement } from "./utilities";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDhVImrXhCHZzckmpPC0N4ZPacZKjTc0xI",
