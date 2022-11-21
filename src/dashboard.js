@@ -9,7 +9,7 @@ onAuthStateChanged(auth, (user) => {
         document.getElementById("header").innerHTML = "Hello: " + name;
     }
     else{
-        console.log("fml");
+        //console.log("fml");
     }
 });
 class Dashboard extends React.Component

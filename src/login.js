@@ -1,7 +1,10 @@
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
-import { getAuth } from "firebase/auth"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { doc, setDoc, getFirestore, collection, query, where, getCountFromServer, } from "firebase/firestore"; 
+import { initializeApp } from 'firebase/app';
+
 const firebaseConfig = {
     apiKey: "AIzaSyDhVImrXhCHZzckmpPC0N4ZPacZKjTc0xI",
     authDomain: "cs35l-final-project-b0129.firebaseapp.com",
@@ -12,12 +15,49 @@ const firebaseConfig = {
     appId: "1:265891179928:web:642ee13badcbbd6f300fed",
     measurementId: "G-KBKX6H2ZL6"
 };
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getFirestore(app);
+
+
+async function isExistingUser(uid)
+{
+  const users = collection(db, "Users");
+  const q = query(users, where("UID", "==", uid));
+  const num = await getCountFromServer(q);
+  if(num.data().count == 0)
+  {
+    return false;
+  }
+  else{
+    return true;
+  }
+}
+
+async function addNewUser(user)
+{
+  await setDoc(doc(db, "Users", user.uid), {
+    balance: 0,
+    email: user.email,
+    name: user.displayName,
+    phone: 6904206969,
+    time_since_active: 0,
+    UID: user.uid,
+  });
+}
+onAuthStateChanged(auth, async (user) => {
+  if(user) {
+    const is = await isExistingUser(user.uid)
+    if(is == 0)
+    {
+      addNewUser(user);
+    }
+  }
+});
 var uiConfig = {
     callbacks: {
       signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-        // User successfully signed in.
-        // Return type determines whether we continue the redirect automatically
-        // or whether we leave that to developer to handle.
         return true;
       },
       uiShown: function() {
@@ -42,8 +82,6 @@ var uiConfig = {
   };
 
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
 
 function startLogin() {
     var ui = new firebaseui.auth.AuthUI(getAuth());

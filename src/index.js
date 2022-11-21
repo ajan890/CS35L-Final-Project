@@ -11,6 +11,21 @@ import Dashboard from "./dashboard.js"
 import "./index.css"
 import CreateRequest from "./createRequest.js"
 
+
+//literally just for sign out, only temporary
+import { getAuth, signOut } from "firebase/auth";
+const auth = getAuth();
+function signout()
+{
+  window.location.href = "/";
+  document.getElementById("Signout").onclick = async function () {
+    signOut(auth).then(() => {
+    }).catch((error) => {
+      // An error happened.
+    });
+  };
+}
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -60,6 +75,9 @@ ReactDOM.createRoot(document.getElementById("nav")).render(
     <li>
       <a href={'/dashboard/newrequest'}>create new request</a>
     </li>
+    <button id="Signout" onClick= {signout}>
+      Sign Out
+    </button>
   </div>
   
 );
