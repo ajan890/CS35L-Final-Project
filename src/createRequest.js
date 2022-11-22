@@ -14,7 +14,7 @@ const firebaseConfig = {
     messagingSenderId: "265891179928",
     appId: "1:265891179928:web:642ee13badcbbd6f300fed",
     measurementId: "G-KBKX6H2ZL6"
-  };
+};
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -139,7 +139,7 @@ class CreateRequest extends React.Component
                 </label>
                 <button type="submit">Submit</button> <label id="field"/>
                 <div>
-                  <a href="./requests">Return to Requests</a>
+                  <a href="./pages/requests">Return to Requests</a>
                 </div>
 
             </form>

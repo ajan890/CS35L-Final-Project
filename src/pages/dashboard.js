@@ -6,7 +6,7 @@ var name = "";
 onAuthStateChanged(auth, (user) => {
     if(user) {
         name = user.displayName;
-        document.getElementById("header").innerHTML = "Hello: " + name;
+        // document.getElementById("header").innerHTML = "Hello: " + name;
     }
     else{
         //console.log("fml");
