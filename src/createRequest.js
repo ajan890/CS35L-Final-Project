@@ -22,7 +22,10 @@ const labelStyle = { color: 'red', };
 
 function saveTags(tagsArray) {
     tagsArray.forEach(tag => {
-        setDoc(doc(db, "Tags", tag), {});
+        var toSave = tag.toLowerCase();
+        setDoc(doc(db, "Tags", toSave), {
+          name: toSave
+        });
     });
   }
 

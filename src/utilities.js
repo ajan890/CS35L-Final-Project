@@ -1,6 +1,6 @@
 
 /*
-from https://dev.to/ag-grid/react-18-avoiding-use-effect-getting-called-twice-4i9e
+useEffectOnce from https://dev.to/ag-grid/react-18-avoiding-use-effect-getting-called-twice-4i9e
 Code written by Niall Crosby
 Used to prevent React from rendering async functions more than once
 */
@@ -9,6 +9,8 @@ import { useState, useEffect, useRef } from "react";
 //import { withRouter } from "react-router";
 //import { Link } from "react-router-dom";
 //import { React } from "react";
+import { collection } from "firebase/firestore";
+import { query, where } from "firebase/firestore";
 
 export const useEffectOnce = ( effect )=> {
 
@@ -40,3 +42,11 @@ export const useEffectOnce = ( effect )=> {
         };
     }, []);
   };
+
+//input1 is a str. Function returns first (up to) 10 tags that begin with input1 in an array.
+export function getRecommendations(input1) {
+  var input = input1.toLowerCase();
+  const tagsRef = collection(db, "Tags");
+  const tagArray = query(tagsRef, where("name" >= input), limit(10));
+  return tagArray;
+}
