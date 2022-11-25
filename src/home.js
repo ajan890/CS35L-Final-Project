@@ -42,14 +42,14 @@ function Home()
                     Requests
                 </div>
                 <div class="feature_text"><br></br><br></br>
-                    Missed an item on your last<br></br>
-                    shopping trip due to ADHD<br></br> 
-                    or don't feel like leaving<br></br> 
-                    the dorm because of crippling<br></br> 
-                    anxiety and depression? Submit<br></br> 
-                    a request in 10 quick seconds<br></br> 
-                    and have the neurotypicals go<br></br> 
-                    do it for you!
+                    We've all had those moments,<br></br>
+                    when you just need a small  <br></br>
+                    item from the UCLA store or <br></br>
+                    want a boba delivered without<br></br>
+                    small order fees. Join our  <br></br>
+                    network and submit a request<br></br>
+                    for small item you want in  <br></br>
+                    under 10 seconds!
                 </div>
             </div>
             <div class="feature_element">
@@ -59,14 +59,14 @@ function Home()
                     from Others
                 </div>
                 <div class="feature_text"><br></br><br></br>
-                    We know you just love being<br></br>
-                    in the sunlight, and getting<br></br> 
-                    fit. You're already taking 15k<br></br> 
-                    steps a day, why not help a<br></br> 
-                    fellow Bruin out along the way?<br></br> 
-                    Browse requests from the<br></br> 
-                    Dashboard and earn some easy<br></br>
-                    cash!
+                    Love lending people a helping<br></br>
+                    hand and contributing to the <br></br>
+                    community? Then this service <br></br>
+                    is for you! Browse a list of <br></br>
+                    all requests made by your    <br></br>
+                    fellow Bruins on your dashboard<br></br> 
+                    and find ones you are able to<br></br>
+                    help with.
                 </div>
             </div>
             <div class="feature_element">
@@ -76,14 +76,14 @@ function Home()
                     Bounty
                 </div>
                 <div class="feature_text"><br></br><br></br>
-                    Got a lil competitive spirit<br></br>
-                    in ya? Need some extra money<br></br> 
-                    outside of the three jobs you're<br></br> 
-                    already working to afford UCLA<br></br> 
-                    tuition? Worry not! Our bounty<br></br> 
-                    system makes sure to reward<br></br> 
-                    consistent fulfillers who help<br></br> 
-                    keep the system going.
+                    Got a lil competitive spirit <br></br>
+                    in ya? Looking to earn a little<br></br> 
+                    extra money on the side without<br></br> 
+                    spending too much time? Worry <br></br>
+                    not! Our bounty system makes  <br></br>
+                    sure to reward consistent     <br></br>
+                    fulfillers who help keep the  <br></br>
+                    system going.
                 </div>
             </div>
         </div>
@@ -102,9 +102,8 @@ function Home()
                 up sounding like a pretty great community connection project that would never work in real life due to the amount of<br></br> 
                 trust each individual would have to have towards every other individual. But hey, that's what dreams (and CS class<br></br> 
                 projects) are for right. With the amount of walking around you have to do everyday, why not help a fellow Bruin out<br></br> 
-                by picking up a couple of things along the way? Since you're still reading, here's a picture of a laptop and some<br></br> 
-                coffee I found off of google just like all of the other images above. Looks nice, doesn't it? Just like this webpage,<br></br> 
-                I'm sure.
+                by picking up a couple of things along the way? Since you're still reading, here's a picture of a laptop and some<br></br> 
+                coffee I found off of google Looks nice, doesn't it? Just like this webpage, I'm sure. #UAW STRIKE
             </div>
         </div>
         
@@ -120,9 +119,5 @@ function Home()
         </html>
     );
 }
-
-//<a href={'/requests'}>Requests</a>
-
-//<a href={'/'}>Home</a>
 
 export default Home
