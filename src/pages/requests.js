@@ -48,9 +48,6 @@ function onClickTakeReq(request) {
   //user.requests_taken.push(id);
 }
 
-function onClickFullfill(request) {
-
-}
 
 function formatRequest(request) {
     var data = request.data();

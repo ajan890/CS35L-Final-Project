@@ -4,7 +4,7 @@ import Login from "./login";
 import Dashboard from "./dashboard";
 import Requests from "./requests";
 import CreateRequest from "../createRequest";
-import Fullfill from "../fullfill"
+import Fullfill from "./fullfill";
 
 const router = createBrowserRouter([
     {
