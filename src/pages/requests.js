@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getDocs, getFirestore, updateDoc } from "firebase/firestore";
 import { doc, collection } from "firebase/firestore";
-import { useEffectOnce } from "./utilities.js";
+import { useEffectOnce } from "../utilities.js";
 import { getAuth } from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
