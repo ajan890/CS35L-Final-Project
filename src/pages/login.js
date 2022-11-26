@@ -14,7 +14,7 @@ var uiConfig = {
         uiShown: function() {
             // The widget is rendered.
             // Hide the loader.
-            document.getElementById('loader').style.display = 'none';
+            // document.getElementById('loader').style.display = 'none';
         }
     },
     signInSuccessUrl: '/dashboard',
@@ -70,8 +70,13 @@ onAuthStateChanged(auth, async (user) => {
 
 
 function startLogin() {
-    var ui = new firebaseui.auth.AuthUI(getAuth());
-    ui.start('#firebaseui-auth-container', uiConfig);
+    if(firebaseui.auth.AuthUI.getInstance()) {
+        const ui = firebaseui.auth.AuthUI.getInstance();
+        ui.start('#firebaseui-auth-container', uiConfig);
+    } else {
+        const ui = new firebaseui.auth.AuthUI(auth)
+        ui.start('#firebaseui-auth-container', uiConfig)
+    }
 }
 
 function Login()
