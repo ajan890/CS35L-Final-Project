@@ -1,16 +1,15 @@
 #navbar{
-    background: black;
-    height: fit-content;
+    background: #F37748;
+    height: 3em;
     display: flex;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    padding: 1em 2em;
+    align-items: center;
 }
 
-#leftNavBar{
-    margin-left: 0.5em;
+#centerNavBar{
+    margin:auto;
 }
 
-#rightNavBar{
-    margin-right: 0.5em;
-    margin-left: auto;
+.MuiButton-root{
+    margin-left: 10em;
 }
