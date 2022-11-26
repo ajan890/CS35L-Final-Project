@@ -53,6 +53,7 @@ async function addNewUser(user)
     phone: 6904206969,
     time_since_active: 0,
     requests_taken: [],
+    n_requests_finished: 0,
     UID: user.uid,
   });
 }
