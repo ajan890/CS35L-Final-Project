@@ -4,6 +4,7 @@ import 'firebaseui/dist/firebaseui.css'
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { doc, setDoc, getFirestore, collection, query, where, getCountFromServer, } from "firebase/firestore"; 
 import { initializeApp } from 'firebase/app';
+import { useEffectOnce } from "./utilities.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDhVImrXhCHZzckmpPC0N4ZPacZKjTc0xI",
@@ -90,10 +91,10 @@ function startLogin() {
 
 function Login()
 {
+  useEffectOnce(startLogin)
     return(
       <div>
           This is Login
-          <button onClick={startLogin}>Login</button>
           <div id="firebaseui-auth-container"></div>
       </div>
     );
