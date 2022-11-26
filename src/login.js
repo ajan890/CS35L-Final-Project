@@ -43,6 +43,7 @@ async function addNewUser(user)
     name: user.displayName,
     phone: 6904206969,
     time_since_active: 0,
+    requests_taken: [],
     UID: user.uid,
   });
 }

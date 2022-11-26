@@ -31,7 +31,8 @@ function saveTags(tagsArray) {
 
 function addRequest(name, desc, tagsArray, bounty1, userID, from, to) {
     //name, description = strings, tags = string[]
-    setDoc(doc(db, "Requests", (+new Date).toString(36)), {
+    const id1 = (+new Date).toString(36)
+    setDoc(doc(db, "Requests", id1), {
       status: "Not Taken", //can either be "Not Taken," "Taken," "Filled"
       time_submitted: Timestamp.now(),
       fulfill_pin: Math.floor((Math.random() * 9000) + 1000),
@@ -41,7 +42,8 @@ function addRequest(name, desc, tagsArray, bounty1, userID, from, to) {
       destination: to,
       bounty: bounty1,
       tags: tagsArray,
-      user: userID
+      user: userID,
+      id: id1
     });
   }
 
