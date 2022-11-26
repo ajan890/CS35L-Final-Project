@@ -1,30 +1,11 @@
-import { initializeApp } from "firebase/app";
-import { getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { getDocs, updateDoc } from "firebase/firestore";
 import { doc, collection } from "firebase/firestore";
 import { useEffectOnce } from "../utilities.js";
-import { getAuth } from "firebase/auth";
-
+import { db, auth } from "../firebase/initFirebase.js"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDhVImrXhCHZzckmpPC0N4ZPacZKjTc0xI",
-  authDomain: "cs35l-final-project-b0129.firebaseapp.com",
-  databaseURL: "https://cs35l-final-project-b0129-default-rtdb.firebaseio.com",
-  projectId: "cs35l-final-project-b0129",
-  storageBucket: "cs35l-final-project-b0129.appspot.com",
-  messagingSenderId: "265891179928",
-  appId: "1:265891179928:web:642ee13badcbbd6f300fed",
-  measurementId: "G-KBKX6H2ZL6"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 var user;
-
 //query
 async function getRequests() {
   const querySnapshot = await getDocs(collection(db, "Requests"));
@@ -39,7 +20,7 @@ async function getRequests() {
 
 async function getUser() {
   const users = await getDocs(collection(db, "Users"));
-  const authUID = getAuth().currentUser.uid;
+  const authUID = auth.currentUser.uid;
   console.log("AUTH ID: " + authUID);
   users.forEach((userIter) => {
     console.log(userIter.data().UID);
@@ -93,8 +74,8 @@ function printRequests(querySnapshot) {
   querySnapshot.forEach((request) => {
     document.getElementById('requests').appendChild(formatRequest(request));
     console.log("Request User: " + request.data().user);
-    console.log("Current User Login: " + getAuth().currentUser.uid);
-    if (request.data().user === getAuth().currentUser.uid) {
+    console.log("Current User Login: " + auth.currentUser.uid);
+    if (request.data().user === auth.currentUser.uid) {
       document.getElementById('myRequests').appendChild(formatRequest(request));
     }
   });

@@ -11,26 +11,8 @@ import { useState, useEffect, useRef } from "react";
 //import { React } from "react";
 import { collection } from "firebase/firestore";
 import { query, where } from "firebase/firestore";
-import { initializeApp } from "firebase/app";
-import { getFirestore, limit} from "firebase/firestore";
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDhVImrXhCHZzckmpPC0N4ZPacZKjTc0xI",
-  authDomain: "cs35l-final-project-b0129.firebaseapp.com",
-  databaseURL: "https://cs35l-final-project-b0129-default-rtdb.firebaseio.com",
-  projectId: "cs35l-final-project-b0129",
-  storageBucket: "cs35l-final-project-b0129.appspot.com",
-  messagingSenderId: "265891179928",
-  appId: "1:265891179928:web:642ee13badcbbd6f300fed",
-  measurementId: "G-KBKX6H2ZL6"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
+import { limit } from "firebase/firestore";
+import { db } from "./firebase/initFirebase.js"
 
 export const useEffectOnce = ( effect )=> {
 
