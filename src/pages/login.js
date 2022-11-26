@@ -58,7 +58,7 @@ async function addNewUser(user)
 onAuthStateChanged(auth, async (user) => {
   if(user) {
     const is = await isExistingUser(user.uid)
-    if(is === 0)
+    if(!is)
     {
       addNewUser(user);
     }
