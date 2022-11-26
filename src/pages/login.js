@@ -4,6 +4,7 @@ import 'firebaseui/dist/firebaseui.css'
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { doc, setDoc, getFirestore, collection, query, where, getCountFromServer, } from "firebase/firestore";
 import { db, auth } from "../firebase/initFirebase";
+import { useEffectOnce } from '../utilities';
 
 var uiConfig = {
     callbacks: {
@@ -74,10 +75,10 @@ function startLogin() {
 
 function Login()
 {
+  useEffectOnce(startLogin);
     return(
       <div>
           This is Login
-          <button onClick={startLogin}>Login</button>
           <div id="firebaseui-auth-container"></div>
       </div>
     );
