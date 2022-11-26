@@ -46,7 +46,6 @@ function onClickTakeReq(request) {
   });
 
   //user.requests_taken.push(id);
-
 }
 
 function formatRequest(request) {

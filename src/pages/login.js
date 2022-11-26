@@ -54,6 +54,7 @@ async function addNewUser(user)
     time_since_active: 0,
     requests_taken: [],
     n_requests_finished: 0,
+    rewards: 0, 
     UID: user.uid,
   });
 }
