@@ -1,0 +1,16 @@
+#navbar{
+    background: black;
+    height: fit-content;
+    display: flex;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+#leftNavBar{
+    margin-left: 0.5em;
+}
+
+#rightNavBar{
+    margin-right: 0.5em;
+    margin-left: auto;
+}

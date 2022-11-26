@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {signOut} from "firebase/auth";
+import "./navbar.css"
 
 import {auth} from "../firebase/initFirebase";
 
@@ -44,9 +45,9 @@ function NavbarUserWidget () {
 
 export default function Navbar () {
     return (
-        <div>
+        <div id="navbar">
             <div id="leftNavBar">
-                <a href={'/'}>Home</a>
+                <input type="image" src="https://placekitten.com/120/50"/>
             </div>
             <div id="rightNavBar">
                 <NavbarUserWidget/>
