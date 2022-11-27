@@ -37,7 +37,11 @@ function onClickTakeReq(request) {
   console.log(request);
   console.log("Request ID: " + id + " User: " + user.UID);
   var users_taken_this_new = request.users_taken_this;
-  users_taken_this_new.push(user.UID);
+  //avoid duplicate order taken
+  if (! users_taken_this_new.includes(user.UID)) {
+    users_taken_this_new.push(user.UID);
+  }
+  //update
   updateDoc(doc(db, "Requests", id), {
     status: "Taken",
     users_taken_this: users_taken_this_new,
@@ -55,19 +59,20 @@ function onClickTakeReq(request) {
 
 //update the request status
 function onClickFullfiled(request, form) {
-  console.log("Checking pin");
-  console.log(form.value);
   var id = request.id;
-  console.log(request);
-  console.log("Request ID: " + id + " User: " + user.UID);
-
   //TODO: Verify pin is correct
+  var pin = request.data().fulfill_pin; 
+  var form_val = Number(form.value);
+  console.log("request id is: " + id + 'request pin is: ' + pin);
+  //console.log("form value is:" + form.value);
+  //console.log("form casting number value is: " + form_val);
+  //console.log("pin comparison: " + (pin === form_val));
+  //console.log("pin entered is " + form)
+  if (pin === form_val) {
 
-  updateDoc(doc(db, "Requests", id), {
-    status: "Fullfilled"
-  });
   var newRequests = user.requests_taken;
-
+  console.log(newRequests);
+  console.log(newRequests.length);
   var remove_idx = -1;
   for (var i = 0; i < newRequests.length; ++i) {
     if (newRequests[i] === id) {
@@ -76,10 +81,17 @@ function onClickFullfiled(request, form) {
     }
   }
   console.log("remove idx is:" + remove_idx);
-  newRequests = newRequests.splice(remove_idx, remove_idx + 1);
+  newRequests.splice(remove_idx, remove_idx + 1);
+  console.log(newRequests);
   updateDoc(doc(db, "Users", user.UID), {
     requests_taken: newRequests
   });
+
+  updateDoc(doc(db, "Requests", id), {
+    status: "Fullfilled"
+  });
+  //also need to update the request 
+  } 
 }
 
 function formatRequest(request) {
@@ -162,7 +174,7 @@ function printRequests(querySnapshot) {
     } 
     
     try {
-      if ((request.data().users_taken_this).includes(auth.currentUser.uid)) {
+      if ((request.data().users_taken_this).includes(auth.currentUser.uid) && request.data().status !== "Fullfilled") {
         console.log("this user " + auth.currentUser.uid + " has taken the order: " + request.data().id);
         document.getElementById('myRequestTaken').appendChild(formatRequestTaken(request));
       }
