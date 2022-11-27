@@ -5,7 +5,7 @@
     padding: 1em 3em;
     align-items: center;
     color: white;
-    position: fixed;
+    position: relative;
     z-index: 5;
 }
 
