@@ -5,7 +5,7 @@ function Home()
 {
     return (
         
-        <html>
+        <html id="home_page">
 
         <img id="background_one" src={require("./images/pen_and_notebook.jpg")} alt="Something's Wrong!"></img> 
 

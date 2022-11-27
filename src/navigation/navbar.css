@@ -5,10 +5,12 @@
     padding: 1em 3em;
     align-items: center;
     color: white;
+    position: fixed;
+    z-index: 5;
 }
 
 #centerNavBar{
-    margin:auto;
+    margin: auto;
 }
 
 .MuiButton-root{

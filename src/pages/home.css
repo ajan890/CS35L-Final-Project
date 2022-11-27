@@ -2,14 +2,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Fahkwang:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400&display=swap');
 
+#home_page {
+    margin-top: -1.4%;
+}
+
 #background_one {
+    left: 0;
     width: 100%;
-    top: -15%;
     position: fixed;
     z-index: 1;
 }
 
 #top_overlay {
+    left: 0;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -42,7 +47,8 @@
 }
 
 #background_two {
-    width: 100%;
+    left: -2.7%;
+    width: 105.5%;
     height: auto;
     margin-top: 45%;
     position: relative;
@@ -120,13 +126,14 @@
 }
 
 #Features {
+    left: -2.7%;
+    width: 105.5%;
     background-color: lightgray;
     margin-top: 14%;
     padding-top: 2%;
     padding-bottom: 2.5%;
     position: relative;
     height: 100%;
-    width: 100%;
     text-align: center;
     font-size: 50px;
     font-family: 'Fahkwang', sans-serif;
@@ -134,11 +141,13 @@
 }
 
 #background_three {
+    left: -2.7%;
+    width: 105.5%;
     position: relative;
     margin-top: -10%;
-    width: 100%;
     height: auto;
     z-index: 2;
+    margin-bottom: -1.7%;
 }
 
 #features_container {
@@ -186,10 +195,11 @@
 .feature_text {
     font-size: 18px;
     line-height: 30px;
-    
 }
 
 #propoganda {
+    left: -2.7%;
+    width: 105.5%;
     position: relative;
     margin-top: -16%;
     padding-top: 5%;
@@ -217,11 +227,14 @@
 }   
 
 #footer {
+    left: -2.7%;
+    width: 105.5%;
     position: relative;
     z-index: 2;
     color: white;
     background-color: black;
     padding-bottom: 3%;
+    margin-bottom: -3%;
 }
 
 #footer_img {
