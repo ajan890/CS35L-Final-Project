@@ -1,9 +1,10 @@
 #navbar{
     background: #F37748;
-    height: 3em;
+    height: 2em;
     display: flex;
     padding: 1em 2em;
     align-items: center;
+    color: white;
 }
 
 #centerNavBar{
