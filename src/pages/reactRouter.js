@@ -17,18 +17,15 @@ const router = createBrowserRouter([
     {
         path: "/dashboard",
         element: <Dashboard />,
-        children: [
-            {
-                path: "/dashboard/requests",
-                element: <Requests />,
-            },
-            {
-                path: "/dashboard/newrequest",
-                element: <CreateRequest />,
-            }
-        ]
-
     },
+    {
+        path: "/dashboard/requests",
+        element: <Requests />,
+    },
+    {
+        path: "/dashboard/newrequest",
+        element: <CreateRequest />,
+    }
 ]);
 
 export {router}

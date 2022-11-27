@@ -130,7 +130,7 @@ class CreateRequest extends React.Component
                 </label>
                 <button type="submit">Submit</button> <label id="field"/>
                 <div>
-                  <a href="./pages/requests">Return to Requests</a>
+                  <a href="./requests">Return to Requests</a>
                 </div>
 
             </form>

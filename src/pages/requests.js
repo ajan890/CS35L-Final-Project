@@ -7,6 +7,7 @@ import { db, auth } from "../firebase/initFirebase.js"
 
 var user;
 //query
+
 async function getRequests() {
   const querySnapshot = await getDocs(collection(db, "Requests"));
   var count = 0;
@@ -54,7 +55,7 @@ function onClickTakeReq(request) {
 
 
 //update the request status
-function onClickFullfiled(request, form) {
+function onClickFulfilled(request, form) {
   console.log("Checking pin");
   console.log(form.value);
   var id = request.id;
@@ -139,7 +140,7 @@ function formatRequestTaken(request) {
     //start of button
     var btn = document.createElement("button");
     btn.textContent = "Fullfill Order"
-    btn.onclick = () => onClickFullfiled(request, form);
+    btn.onclick = () => onClickFulfilled(request, form);
     title.innerText = data.title;
     desc.innerText = data.description;
     tags.innerText = data.tags;
@@ -171,10 +172,7 @@ function printRequests(querySnapshot) {
     }
     
     //TODO
-
-
   });
-
 }
 
 function testform()
@@ -188,8 +186,9 @@ function testform()
         <a href="./newrequest">
           <button>Submit Request</button>
         </a>
-      <h1>Request Taken</h1>
-        <div id = "myRequestTaken" className="scrollmenu"></div>
+        <div>
+          <a href="../dashboard">Return to Dashboard</a>
+        </div>
     </div>
   )
 }
