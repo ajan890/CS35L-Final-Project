@@ -49,6 +49,36 @@ function onClickTakeReq(request) {
 
 }
 
+
+//update the request status
+function onClickFullfiled(request, form) {
+  console.log("Checking pin");
+  console.log(form.value);
+  var id = request.id;
+  console.log(request);
+  console.log("Request ID: " + id + " User: " + user.UID);
+
+  //TODO: Verify pin is correct
+
+  updateDoc(doc(db, "Requests", id), {
+    status: "Fullfilled"
+  });
+  var newRequests = user.requests_taken;
+
+  var remove_idx = -1;
+  for (var i = 0; i < newRequests.length; ++i) {
+    if (newRequests[i] === id) {
+        remove_idx = i;
+        break;
+    }
+  }
+  console.log("remove idx is:" + remove_idx);
+  newRequests = newRequests.splice(remove_idx, remove_idx + 1);
+  updateDoc(doc(db, "Users", user.UID), {
+    requests_taken: newRequests
+  });
+}
+
 function formatRequest(request) {
     var data = request.data();
     console.log("Format: " + data.description);
@@ -70,13 +100,60 @@ function formatRequest(request) {
   return temp;
 }
 
+//request without the taking button
+function formatMyRequest(request) {
+  var data = request.data();
+  console.log("Format: " + data.description);
+  var temp = document.createElement('a');
+  var title = document.createElement('h2');
+  var desc = document.createElement('p');
+  var tags = document.createElement('p');
+  //var btn = document.createElement("button");
+  //btn.style = {width:"125px", height:"25px"};
+  //btn.onclick = () => onClickTakeReq(data);
+  title.innerText = data.title;
+  desc.innerText = data.description;
+  tags.innerText = data.tags;
+  temp.appendChild(title);
+  temp.appendChild(desc);
+  temp.appendChild(tags);
+  //temp.appendChild(btn);
+
+return temp;
+}
+
+function formatRequestTaken(request) {
+    var data = request.data();
+    console.log("Format: " + data.description);
+    var temp = document.createElement('a');
+    var title = document.createElement('h2');
+    var desc = document.createElement('p');
+    var tags = document.createElement('p');
+    var form = document.createElement('input');
+    form.value = "Enter 4 digits pin";
+    
+    //start of button
+    var btn = document.createElement("button");
+    btn.textContent = "Fullfill Order"
+    btn.onclick = () => onClickFullfiled(request, form);
+    title.innerText = data.title;
+    desc.innerText = data.description;
+    tags.innerText = data.tags;
+    temp.appendChild(title);
+    temp.appendChild(desc);
+    temp.appendChild(tags);
+    temp.appendChild(form);
+    temp.appendChild(btn);
+  return temp;
+}
+
 function printRequests(querySnapshot) {
   querySnapshot.forEach((request) => {
     document.getElementById('requests').appendChild(formatRequest(request));
     console.log("Request User: " + request.data().user);
     console.log("Current User Login: " + auth.currentUser.uid);
     if (request.data().user === auth.currentUser.uid) {
-      document.getElementById('myRequests').appendChild(formatRequest(request));
+      document.getElementById('myRequests').appendChild(formatMyRequest(request));
     }
   });
 
