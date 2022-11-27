@@ -198,6 +198,7 @@ onAuthStateChanged(auth, (user) => {
 
 function Dashboard() {
     useEffectOnce(getRequests);
+    useEffectOnce(getUser); 
     return( 
         <div id = "wrapper">
             <div>
