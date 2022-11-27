@@ -37,23 +37,20 @@ function onClickTakeReq(request) {
   console.log(request);
   console.log("Request ID: " + id + " User: " + user.UID);
   var users_taken_this_new = request.users_taken_this;
-  //avoid duplicate order taken
-  if (! users_taken_this_new.includes(user.UID)) {
-    users_taken_this_new.push(user.UID);
+  //avoid duplicate order taken and take the request of their own
+  if (! users_taken_this_new.includes(user.UID) && (request.user !== user.id)) {
+    users_taken_this_new.push(user.UID); 
+    //update
+    updateDoc(doc(db, "Requests", id), {
+      status: "Taken",
+      users_taken_this: users_taken_this_new,
+    });
+    var newRequests = user.requests_taken;
+    newRequests.push(id);
+    updateDoc(doc(db, "Users", user.UID), {
+      requests_taken: newRequests
+    });
   }
-  //update
-  updateDoc(doc(db, "Requests", id), {
-    status: "Taken",
-    users_taken_this: users_taken_this_new,
-  });
-  var newRequests = user.requests_taken;
-  newRequests.push(id);
-  updateDoc(doc(db, "Users", user.UID), {
-    requests_taken: newRequests
-  });
-
-  //user.requests_taken.push(id);
-
 }
 
 
