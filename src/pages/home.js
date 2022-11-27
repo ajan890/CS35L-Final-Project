@@ -1,4 +1,5 @@
-import "./index.js"
+import "../index.js"
+import "./home.css"
 
 function Home()
 {
@@ -6,7 +7,7 @@ function Home()
         
         <html>
 
-        <img id="background_one" src={require("./pen_and_notebook.jpg")} alt="Something's Wrong!"></img> 
+        <img id="background_one" src={require("./images/pen_and_notebook.jpg")} alt="Something's Wrong!"></img> 
 
         <div id="top_overlay">
             <div id="title_text">A CS35L Project</div>
@@ -15,7 +16,7 @@ function Home()
         
 
 
-        <img id="background_two" src={require("./royce_hall.jpg")} alt="You done fucked up kid"></img>
+        <img id="background_two" src={require("./images/royce_hall.jpg")} alt="You done fucked up kid"></img>
 
         <div id="login_title">Join the Network</div>
         <div id="login_description">
@@ -32,7 +33,7 @@ function Home()
 
 
 
-        <img id="background_three" src={require("./snowy_mountain.jpg")} alt="Where the mountains at"></img>
+        <img id="background_three" src={require("./images/snowy_mountain.jpg")} alt="Where the mountains at"></img>
         
         <div id="features_container">
             <div class="feature_element">
@@ -110,7 +111,7 @@ function Home()
 
 
         <div id="footer">
-            <img id="footer_img" src={require("./coffee_laptop.jpg")} alt="Coffee's gone"></img>
+            <img id="footer_img" src={require("./images/coffee_laptop.jpg")} alt="Coffee's gone"></img>
             <div id="footer_text">
                 CS35L Final Project © 2022 No Showers | No Rights Reserved | Contact: Joe Mama
             </div>
