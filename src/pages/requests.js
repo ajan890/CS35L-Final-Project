@@ -87,6 +87,7 @@ function formatRequest(request) {
     var desc = document.createElement('p');
     var tags = document.createElement('p');
     var btn = document.createElement("button");
+    btn.textContent = "Take this order";
     //btn.style = {width:"125px", height:"25px"};
     btn.onclick = () => onClickTakeReq(data);
     title.innerText = data.title;
@@ -154,7 +155,13 @@ function printRequests(querySnapshot) {
     console.log("Current User Login: " + auth.currentUser.uid);
     if (request.data().user === auth.currentUser.uid) {
       document.getElementById('myRequests').appendChild(formatMyRequest(request));
+      //the following code needs to be modified
+      document.getElementById('myRequestTaken').appendChild(formatRequestTaken(request));
     }
+    //TODO
+    //FIND the requests taken from user
+    //FOR demonstration purpose -> use myrequests as requests taken
+
   });
 
 }
@@ -170,7 +177,8 @@ function testform()
         <a href="./newrequest">
           <button>Submit Request</button>
         </a>
-        
+      <h1>Request Taken</h1>
+        <div id = "myRequestTaken" className="scrollmenu"></div>
     </div>
   )
 }
