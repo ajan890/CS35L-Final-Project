@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efd249d8-7421-42ae-97cb-501622f243a0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/navigation/navbarUserWidget.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/navigation/navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/navbar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/navbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/navbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/navigation/navbarUserWidget.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/navbarUserWidget.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

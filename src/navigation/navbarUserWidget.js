@@ -87,9 +87,6 @@ export default function NavbarUserWidget () {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     useEffect(() => {
         const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
@@ -101,25 +98,29 @@ export default function NavbarUserWidget () {
         return (
             <div
                 style={{display : 'flex',
-                    columnGap : '0.5em',
+                    columnGap : '1.3em',
                     alignItems: 'center',
-                    fontSize: '1.3em'
                 }}
             >
-                <span style={{verticalAlign: 'top'}}> {user.displayName} </span>
+                <div style={{
+                    fontSize: '1.4em',
+                    lineHeight: '1em',
+                }}>
+                    {user.displayName}
+                </div>
                 <Avatar
                     {...stringAvatar(user.displayName)}
                     style={{
                         border: '0.1em solid white'
                     }}
                     onClick={handleClick}
-                    sx={{ height : "1.5em", width : "1.5em"}}
+                    sx={{ height : "1.5em", width : "1.5em", fontSize : '1.1em'}}
                 />
                 <Menu
                     id="basic-menu"
                     anchorEl={anchorEl}
                     open={open}
-                    onClose={handleClose}
+                    onClose={() => {setAnchorEl(null);}}
                     MenuListProps={{
                         'aria-labelledby': 'basic-button',
                     }}
@@ -131,8 +132,12 @@ export default function NavbarUserWidget () {
                         },
                     }}
                 >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>Dashboard</MenuItem>
+                    <MenuItem onClick={() => {
+                        setAnchorEl(null);
+                        document.location.href = '/dashboard'
+                    }}>
+                        Dashboard
+                    </MenuItem>
                     <MenuItem onClick={() => {
                             setAnchorEl(null);
                             signout();
