@@ -1,0 +1,14 @@
+#background {
+    margin-top: -2%;
+    position: absolute;
+    left: -2.7%;
+    width: 102.7%;
+    margin-bottom: -20%;
+}
+
+#firebaseui-auth-container {
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}

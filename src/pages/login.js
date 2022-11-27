@@ -5,6 +5,7 @@ import { onAuthStateChanged } from "firebase/auth"
 import { doc, setDoc, collection, query, where, getCountFromServer, } from "firebase/firestore";
 import { db, auth } from "../firebase/initFirebase";
 import { useEffectOnce } from '../utilities';
+import "./login.css"
 
 var uiConfig = {
     callbacks: {
@@ -83,10 +84,10 @@ function Login()
 {
   useEffectOnce(startLogin);
     return(
-      <div>
-          This is Login
+      <html>
+          <img id="background" src={require("./images/Blue_UCLA_bear.jpg")} alt="Where the bear at"></img>
           <div id="firebaseui-auth-container"></div>
-      </div>
+      </html>
     );
 }
 
