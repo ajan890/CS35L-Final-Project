@@ -36,11 +36,14 @@ function onClickTakeReq(request) {
   var id = request.id;
   console.log(request);
   console.log("Request ID: " + id + " User: " + user.UID);
+  var users_taken_this_new = request.users_taken_this;
+  users_taken_this_new.push(user.UID);
   updateDoc(doc(db, "Requests", id), {
-    status: "Taken"
+    status: "Taken",
+    users_taken_this: users_taken_this_new,
   });
   var newRequests = user.requests_taken;
-  newRequests.push(id)
+  newRequests.push(id);
   updateDoc(doc(db, "Users", user.UID), {
     requests_taken: newRequests
   });
@@ -155,12 +158,20 @@ function printRequests(querySnapshot) {
     console.log("Current User Login: " + auth.currentUser.uid);
     if (request.data().user === auth.currentUser.uid) {
       document.getElementById('myRequests').appendChild(formatMyRequest(request));
-      //the following code needs to be modified
-      document.getElementById('myRequestTaken').appendChild(formatRequestTaken(request));
+      
+    } 
+    
+    try {
+      if ((request.data().users_taken_this).includes(auth.currentUser.uid)) {
+        console.log("this user " + auth.currentUser.uid + " has taken the order: " + request.data().id);
+        document.getElementById('myRequestTaken').appendChild(formatRequestTaken(request));
+      }
+    } catch (e) {
+      console.log("error:" + e);
     }
+    
     //TODO
-    //FIND the requests taken from user
-    //FOR demonstration purpose -> use myrequests as requests taken
+
 
   });
 

@@ -28,7 +28,8 @@ function addRequest(name, desc, tagsArray, bounty1, userID, from, to) {
       bounty: bounty1,
       tags: tagsArray,
       user: userID,
-      id: id1
+      id: id1,
+      users_taken_this: [],
     });
   }
 
