@@ -23,6 +23,7 @@ const theme = createTheme({
 function signout()
 {
     signOut(auth).then(() => {
+        window.location = '/'
     }).catch((error) => {
         console.log("err")
     });
