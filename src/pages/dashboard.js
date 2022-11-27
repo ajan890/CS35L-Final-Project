@@ -1,13 +1,14 @@
 import { Outlet } from "react-router-dom";
-import { onAuthStateChanged} from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import React from "react";
 import {auth} from "../firebase/initFirebase";
 import { useEffectOnce } from "../utilities.js";
 import {db} from "../firebase/initFirebase.js";
-import {getDocs, collection, updateDoc, doc} from "firebase/firestore";
+import {getDocs, collection, updateDoc, doc, getDoc} from "firebase/firestore";
 var name = "";
 var user;
-
+var balance = null;
+var state = false;
 function onClickTakeReq(request) {
     console.log("Taking request");
     var id = request.id;
@@ -170,12 +171,24 @@ async function getRequests() {
   }
 
   
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     if(user) {
-        name = user.displayName;
-        document.getElementById("header").innerHTML = "Hello: " + name;
+        name = user.displayName
+        await getBalance(user);
+        document.getElementById("header").innerHTML = "Hello: " + user.displayName;
+        document.getElementById("balance").innerHTML = "You are this broke: $" + balance;
     }
 });
+
+async function getBalance(user)
+{
+    var uid = user.uid;
+    const docRef = doc(db, "Users", uid);
+    const docSnap = await getDoc(docRef);
+    balance = docSnap.data().balance;
+    return balance
+}
+
 
 function Dashboard() {
     useEffectOnce(getRequests);
@@ -185,10 +198,16 @@ function Dashboard() {
             <div>
                 <h1 id="header">Hello</h1>
             </div>
+                <div id="balance">You are this broke:</div>
+                <div id="add-balance">
+                    <a href="dashboard/addbalance">
+                        <button>Add balance</button>
+                    </a>
+                </div>
             <div>
                 <h2>My requests</h2>
                 <div id="myRequests" className="scrollmenu"></div>
-                <a href="./newrequest"> <button>Submit Request</button> </a>
+                <a href="./dashboard/newrequest"> <button>Submit Request</button> </a>
             </div>
             <div>
                 <h2>Requests Taken</h2>
