@@ -114,50 +114,67 @@ async function onClickCreateRequest() {
 
 class CreateRequest extends React.Component
 {
-    render(){
-        const handleSubmit = async event => {
-            event.preventDefault();
-            await onClickCreateRequest();
-          }
-        return(
-            <div className="wrapper">
-                <h1>Submit Request</h1>
-                <form onSubmit={handleSubmit}>
-                <label>
-                <div>
-                    <a>Name: </a>
-                    <input type="text" id="name_textbox"/> <label id="name_req_label" style={labelStyle}/>
-                </div>
-                <div>
-                    <a>Description: </a>
-                    <input type="text" id="desc_textbox"/> <label id="desc_req_label" style={labelStyle}/>
-                </div>
-                <div>
-                    <a>Tags (separate with commas): </a>
-                    <input type="text" id="tags_textbox"/> <label id="tags_req_label" style={labelStyle}/>
-                </div>
-                <div>
-                    <a>Bounty: </a>
-                    <input type="text" id="bounty_textbox"/> <label id="bounty_req_label" style={labelStyle}/>
-                </div>
-                <div>
-                    <a>From (Which store or location do you want your product from?): </a>
-                    <input type="text" id="from_textbox"/>
-                </div>
-                <div>
-                    <a>Destination: </a>
-                    <input type="text" id="to_textbox"/> <label id="dest_req_label" style={labelStyle}/>
-                </div>
-                </label>
-                <button type="submit">Submit</button> <label id="field"/>
-                <div>
-                  <a href="./requests">Return to Requests</a>
-                </div>
-
-            </form>
-            </div>
-        );
+  constructor(props){
+    super(props);
+    this.state = {
+      value: "",
+      balance: null,
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleChange(event) {
+    const amount = event.target.value;
+    console.log("here");
+    if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
+      this.setState(() => ({ value: amount }));
     }
+  }
+
+  async handleSubmit(event){
+    event.preventDefault();
+    await onClickCreateRequest();
+  }
+  render(){
+    return(
+        <div className="wrapper">
+            <h1>Submit Request</h1>
+            <form onSubmit={this.handleSubmit}>
+            <label>
+            <div>
+                <a>Name: </a>
+                <input type="text" id="name_textbox"/> <label id="name_req_label" style={labelStyle}/>
+            </div>
+            <div>
+                <a>Description: </a>
+                <input type="text" id="desc_textbox"/> <label id="desc_req_label" style={labelStyle}/>
+            </div>
+            <div>
+                <a>Tags (separate with commas): </a>
+                <input type="text" id="tags_textbox"/> <label id="tags_req_label" style={labelStyle}/>
+            </div>
+            <div>
+                <a>Bounty: </a>
+                <input type="text" id="bounty_textbox" value={this.state.value} onChange={this.handleChange}/> <label id="bounty_req_label" style={labelStyle}/>
+            </div>
+            <div>
+                <a>From (Which store or location do you want your product from?): </a>
+                <input type="text" id="from_textbox"/>
+            </div>
+            <div>
+                <a>Destination: </a>
+                <input type="text" id="to_textbox"/> <label id="dest_req_label" style={labelStyle}/>
+            </div>
+            </label>
+            <button type="submit">Submit</button> <label id="field"/>
+            <div>
+              <a href="./requests">Return to Requests</a>
+            </div>
+
+        </form>
+        </div>
+    );
+  }
 }
 
 export default CreateRequest
