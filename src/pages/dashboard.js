@@ -122,10 +122,8 @@ function onClickFullfiled(request, form) {
     console.log("remove idx is:" + remove_idx);
     newRequests.splice(remove_idx, remove_idx + 1);
     console.log(newRequests);
-    updateDoc(doc(db, "Users", user.UID), {
-      balance: userbal + bounty,
-      requests_taken: newRequests
-    });
+    user.n_orders_fullfilled = user.n_orders_fullfilled + 1
+
 
     //update the local and remote data at the same time
     request.data().status = "Fullfilled";
@@ -142,19 +140,31 @@ function onClickFullfiled(request, form) {
       }
     }
     allrequestsTaken.removeChild(desire_child)
-    //update the balance for the bounty
-    document.getElementById("balance").innerHTML = "You are this broke: $" + Number(userbal + bounty);
-
     //FR2: calcualte the active bonus and update in server and page
-
+    let bonus_active = active_bonus(user);
+    console.log("active bonus is " + bonus_active);
+    //update the balance for the bounty
+    user.balance = Number(userbal + bounty + bonus_active); 
+    user.balance = Math.round(user.balance * 100) / 100;
+    document.getElementById("balance").innerHTML = "You are this broke: $" + user.balance;
+    updateDoc(doc(db, "Users", user.UID), {
+      balance: user.balance,
+      requests_taken: newRequests,
+      n_orders_fullfilled : user.n_orders_fullfilled,
+    });
+    
   } 
 }
 
 function active_bonus(user) {
-  getUser();
   console.log("The number of order this user has taken is: " + user.n_orders_taken + "\n" +
-  "the number of order this user has fullfilled is: " + user.n_orders_fullfilled);
-
+    "the number of order this user has fullfilled is: " + user.n_orders_fullfilled);
+  if (user.n_orders_fullfilled > 0 && user.n_orders_taken > 0 
+    && user.n_orders_fullfilled % 5 == 0) {
+      let fullfill_rate = user.n_orders_fullfilled / user.n_orders_taken;
+      return (fullfill_rate + 1) * 0.015;
+    }
+  return 0;  
 } 
 
 function formatRequestTaken(request) {

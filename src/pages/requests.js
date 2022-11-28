@@ -52,8 +52,10 @@ function onClickTakeReq(request) {
     var newRequests = user.requests_taken;
     newRequests.push(id);
     user.requests_taken.push(id);
+    user.n_orders_taken = user.n_orders_taken + 1;
     updateDoc(doc(db, "Users", user.UID), {
-      requests_taken: newRequests
+      requests_taken: newRequests,
+      n_orders_taken: user.n_orders_taken,
     })
   }
 }
