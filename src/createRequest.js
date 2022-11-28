@@ -1,5 +1,5 @@
 import React from "react"
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 import { db, auth } from "./firebase/initFirebase.js"
 
@@ -33,7 +33,24 @@ function addRequest(name, desc, tagsArray, bounty1, userID, from, to) {
     });
   }
 
-function onClickCreateRequest() {
+async function balcheck(bounty)
+{
+  var uid = auth.currentUser.uid;
+  const docRef = doc(db, "Users", uid);
+  const docSnap = await getDoc(docRef);
+  var balance = docSnap.data().balance;
+  if(bounty > balance)
+  {
+    alert("YOU'RE BROKE B!TCH");
+    return false;
+  }
+  else{
+    await setDoc(docRef, {balance: balance - bounty}, {merge: true});
+    return true;
+  }
+}
+
+async function onClickCreateRequest() {
     var sendRequest = true;
     var name = document.getElementById('name_textbox').value
     if (name == "") {
@@ -66,6 +83,10 @@ function onClickCreateRequest() {
     }
   
     if (sendRequest) {
+      if(!(await balcheck(bounty)))
+      {
+        return false;
+      }
       addRequest(name, desc, tags, bounty, auth.currentUser.uid, loc, dest);
       saveTags(tags);
       console.log(name);
@@ -94,9 +115,9 @@ function onClickCreateRequest() {
 class CreateRequest extends React.Component
 {
     render(){
-        const handleSubmit = event => {
+        const handleSubmit = async event => {
             event.preventDefault();
-            onClickCreateRequest();
+            await onClickCreateRequest();
           }
         return(
             <div className="wrapper">

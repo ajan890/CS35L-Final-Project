@@ -6,7 +6,7 @@ import { useEffectOnce } from "../utilities.js";
 import {db} from "../firebase/initFirebase.js";
 import {getDocs, collection, updateDoc, doc, getDoc} from "firebase/firestore";
 var name = "";
-var user;
+var user = null;
 var balance = null;
 var state = false;
 var fullfill_button_idx = 0; //use to remember idx of fullfill button
@@ -94,14 +94,19 @@ async function getUser() {
 //update the request status
 function onClickFullfiled(request, form) {
   var id = request.id;
+  var bounty = parseInt(request.data().bounty);
   //TODO: Verify pin is correct
   var pin = request.data().fulfill_pin; 
   var form_val = Number(form.value);
-  console.log("request id is: " + id + 'request pin is: ' + pin);
+  console.log("request id is: " + id + '\nrequest pin is: ' + pin);
   //console.log("form value is:" + form.value);
   //console.log("form casting number value is: " + form_val);
   //console.log("pin comparison: " + (pin === form_val));
   //console.log("pin entered is " + form)
+  var userbal = user.balance;
+  console.log("this is userbal: " + userbal);
+  console.log("this is the bounty: " + bounty);
+  console.log("Logged in user: " + user.UID);
   if (pin === form_val) {
 
     var newRequests = user.requests_taken;
@@ -118,6 +123,7 @@ function onClickFullfiled(request, form) {
     newRequests.splice(remove_idx, remove_idx + 1);
     console.log(newRequests);
     updateDoc(doc(db, "Users", user.UID), {
+      balance: userbal + bounty,
       requests_taken: newRequests
     });
 
@@ -166,6 +172,7 @@ function formatRequestTaken(request) {
 }
 
 async function getRequests() { 
+  await getUser();
   fullfill_button_idx = 0;
     const querySnapshot = await getDocs(collection(db, "Requests"));
     querySnapshot.forEach((request) => {
@@ -192,6 +199,7 @@ onAuthStateChanged(auth, async (user) => {
     if(user) {
         name = user.displayName
         await getBalance(user);
+        user = user;
         document.getElementById("header").innerHTML = "Hello: " + user.displayName;
         document.getElementById("balance").innerHTML = "You are this broke: $" + Number(balance);
     }
