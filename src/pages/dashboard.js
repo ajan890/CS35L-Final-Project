@@ -9,48 +9,52 @@ var name = "";
 var user;
 var balance = null;
 var state = false;
-function onClickTakeReq(request) {
-    console.log("Taking request");
-    var id = request.id;
-    console.log(request);
-    console.log("Request ID: " + id + " User: " + user.UID);
-    var users_taken_this_new = request.users_taken_this;
-    users_taken_this_new.push(user.UID);
-    updateDoc(doc(db, "Requests", id), {
-      status: "Taken",
-      users_taken_this: users_taken_this_new,
-    });
-    var newRequests = user.requests_taken;
-    newRequests.push(id);
-    updateDoc(doc(db, "Users", user.UID), {
-      requests_taken: newRequests
-    });
-  
-    //user.requests_taken.push(id);
-  
-  }
+var fullfill_button_idx = 0; //use to remember idx of fullfill button
 
-function formatRequest(request) {
-    var data = request.data();
-    console.log("Format: " + data.description);
-    var temp = document.createElement('a');
-    var title = document.createElement('h2');
-    var desc = document.createElement('p');
-    var tags = document.createElement('p');
-    var btn = document.createElement("button");
-    btn.textContent = "Take this order";
-    //btn.style = {width:"125px", height:"25px"};
-    btn.onclick = () => onClickTakeReq(data);
-    title.innerText = data.title;
-    desc.innerText = data.description;
-    tags.innerText = data.tags;
-    temp.appendChild(title);
-    temp.appendChild(desc);
-    temp.appendChild(tags);
-    temp.appendChild(btn);
+// User will not take order at dashboard
+// function onClickTakeReq(request) {
+//     console.log("Taking request");
+//     var id = request.id;
+//     console.log(request);
+//     console.log("Request ID: " + id + " User: " + user.UID);
+//     var users_taken_this_new = request.users_taken_this;
+//     users_taken_this_new.push(user.UID);
+//     updateDoc(doc(db, "Requests", id), {
+//       status: "Taken",
+//       users_taken_this: users_taken_this_new,
+//     });
+//     var newRequests = user.requests_taken;
+//     newRequests.push(id);
+//     updateDoc(doc(db, "Users", user.UID), {
+//       requests_taken: newRequests
+//     });
+  
+//     //user.requests_taken.push(id);
+  
+//   }
 
-  return temp;
-}
+// No longer needs this function on dashboard
+// function formatRequest(request) {
+//     var data = request.data();
+//     console.log("Format: " + data.description);
+//     var temp = document.createElement('a');
+//     var title = document.createElement('h2');
+//     var desc = document.createElement('p');
+//     var tags = document.createElement('p');
+//     var btn = document.createElement("button");
+//     btn.textContent = "Take this order";
+//     //btn.style = {width:"125px", height:"25px"};
+//     btn.onclick = () => onClickTakeReq(data);
+//     title.innerText = data.title;
+//     desc.innerText = data.description;
+//     tags.innerText = data.tags;
+//     temp.appendChild(title);
+//     temp.appendChild(desc);
+//     temp.appendChild(tags);
+//     temp.appendChild(btn);
+
+//   return temp;
+// }
 
 //request without the taking button
 function formatMyRequest(request) {
@@ -100,27 +104,38 @@ function onClickFullfiled(request, form) {
   //console.log("pin entered is " + form)
   if (pin === form_val) {
 
-  var newRequests = user.requests_taken;
-  console.log(newRequests);
-  console.log(newRequests.length);
-  var remove_idx = -1;
-  for (var i = 0; i < newRequests.length; ++i) {
-    if (newRequests[i] === id) {
-        remove_idx = i;
-        break;
+    var newRequests = user.requests_taken;
+    console.log(newRequests);
+    console.log(newRequests.length);
+    var remove_idx = -1;
+    for (var i = 0; i < newRequests.length; ++i) {
+      if (newRequests[i] === id) {
+          remove_idx = i;
+          break;
+      }
     }
-  }
-  console.log("remove idx is:" + remove_idx);
-  newRequests.splice(remove_idx, remove_idx + 1);
-  console.log(newRequests);
-  updateDoc(doc(db, "Users", user.UID), {
-    requests_taken: newRequests
-  });
+    console.log("remove idx is:" + remove_idx);
+    newRequests.splice(remove_idx, remove_idx + 1);
+    console.log(newRequests);
+    updateDoc(doc(db, "Users", user.UID), {
+      requests_taken: newRequests
+    });
 
-  updateDoc(doc(db, "Requests", id), {
-    status: "Fullfilled"
-  });
-  //also need to update the request 
+    //update the local and remote data at the same time
+    request.data().status = "Fullfilled";
+    updateDoc(doc(db, "Requests", id), {
+      status: "Fullfilled"
+    });
+    var allrequestsTaken = document.getElementById("requestsTaken");
+    var children = allrequestsTaken.childNodes;
+    var desire_child;
+    for (var child in children) {
+      if (children[child].id == request.id) {
+        console.log("found the child");
+        desire_child = children[child];
+      }
+    }
+    allrequestsTaken.removeChild(desire_child)
   } 
 }
 
@@ -146,18 +161,20 @@ function formatRequestTaken(request) {
     temp.appendChild(tags);
     temp.appendChild(form);
     temp.appendChild(btn);
+    temp.id = request.id; 
   return temp;
 }
 
-async function getRequests() {
+async function getRequests() { 
+  fullfill_button_idx = 0;
     const querySnapshot = await getDocs(collection(db, "Requests"));
     querySnapshot.forEach((request) => {
         var request_data = request.data();
         if (!(request_data.status === "Fullfilled")) {
           if (request_data.user === auth.currentUser.uid) {
             document.getElementById('myRequests').appendChild(formatMyRequest(request));
-            
-          } 
+          }
+          //TODO: REMOVE TRY WHEN FINISHING THE PROJECT
           try {
             if ((request_data.users_taken_this).includes(auth.currentUser.uid)) {
               console.log("order status is: ", request_data.status);
@@ -167,8 +184,6 @@ async function getRequests() {
           } catch (e) {
             console.log("error:" + e);
           }
-          
-          //TODO
       }});
   }
 
@@ -178,7 +193,7 @@ onAuthStateChanged(auth, async (user) => {
         name = user.displayName
         await getBalance(user);
         document.getElementById("header").innerHTML = "Hello: " + user.displayName;
-        document.getElementById("balance").innerHTML = "You are this broke: $" + balance;
+        document.getElementById("balance").innerHTML = "You are this broke: $" + Number(balance);
     }
 });
 

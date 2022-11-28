@@ -39,18 +39,22 @@ function onClickTakeReq(request) {
   console.log("Request ID: " + id + " User: " + user.UID);
   var users_taken_this_new = request.users_taken_this;
   //avoid duplicate order taken and take the request of their own
-  if (! users_taken_this_new.includes(user.UID) && (request.user !== user.id)) {
-    users_taken_this_new.push(user.UID); 
-    //update
+  if (! users_taken_this_new.includes(user.UID) && !(request.user === user.UID)) {
+    console.log("Taking request requirement is fullfilled");
+    users_taken_this_new.push(user.UID);
+    request.users_taken_this.push(user.UID);
+    //update status and array
     updateDoc(doc(db, "Requests", id), {
       status: "Taken",
       users_taken_this: users_taken_this_new,
     });
+    request.status = "Taken";
     var newRequests = user.requests_taken;
     newRequests.push(id);
+    user.requests_taken.push(id);
     updateDoc(doc(db, "Users", user.UID), {
       requests_taken: newRequests
-    });
+    })
   }
 }
 
@@ -88,7 +92,8 @@ function onClickFullfiled(request, form) {
   updateDoc(doc(db, "Requests", id), {
     status: "Fullfilled"
   });
-  //also need to update the request 
+  //also need to update the request taken
+
   } 
 }
 
