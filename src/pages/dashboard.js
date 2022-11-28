@@ -96,7 +96,6 @@ async function getUser() {
 function onClickFullfiled(request, form) {
   var id = request.id;
   var bounty = parseInt(request.data().bounty);
-  //TODO: Verify pin is correct
   var pin = request.data().fulfill_pin; 
   var form_val = Number(form.value);
   console.log("request id is: " + id + '\nrequest pin is: ' + pin);
@@ -143,6 +142,8 @@ function onClickFullfiled(request, form) {
       }
     }
     allrequestsTaken.removeChild(desire_child)
+    //update the balance for the bounty
+    document.getElementById("balance").innerHTML = "You are this broke: $" + Number(userbal + bounty);
   } 
 }
 
