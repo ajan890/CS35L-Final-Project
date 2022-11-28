@@ -1,7 +1,7 @@
 import React from "react"
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
-import { db, auth } from "./firebase/initFirebase.js"
+import { db, auth } from "../firebase/initFirebase.js"
 
 const labelStyle = { color: 'red', };  
 
