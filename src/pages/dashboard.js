@@ -144,8 +144,18 @@ function onClickFullfiled(request, form) {
     allrequestsTaken.removeChild(desire_child)
     //update the balance for the bounty
     document.getElementById("balance").innerHTML = "You are this broke: $" + Number(userbal + bounty);
+
+    //FR2: calcualte the active bonus and update in server and page
+
   } 
 }
+
+function active_bonus(user) {
+  getUser();
+  console.log("The number of order this user has taken is: " + user.n_orders_taken + "\n" +
+  "the number of order this user has fullfilled is: " + user.n_orders_fullfilled);
+
+} 
 
 function formatRequestTaken(request) {
     var data = request.data();
