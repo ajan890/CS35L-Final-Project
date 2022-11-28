@@ -152,14 +152,16 @@ function formatRequestTaken(request) {
 async function getRequests() {
     const querySnapshot = await getDocs(collection(db, "Requests"));
     querySnapshot.forEach((request) => {
-        if (request.data().user === auth.currentUser.uid) {
+        var request_data = request.data(); 
+        if (request_data.user === auth.currentUser.uid) {
           document.getElementById('myRequests').appendChild(formatMyRequest(request));
           
         } 
         
         try {
-          if ((request.data().users_taken_this).includes(auth.currentUser.uid)) {
-            console.log("this user " + auth.currentUser.uid + " has taken the order: " + request.data().id);
+          if ((request_data.users_taken_this).includes(auth.currentUser.uid) && !(request_data.status === "Fullfilled")) {
+            console.log("order status is: ", request_data.status);
+            console.log("this user " + auth.currentUser.uid + " has taken the order: " + request_data.id);
             document.getElementById('requestsTaken').appendChild(formatRequestTaken(request));
           }
         } catch (e) {
