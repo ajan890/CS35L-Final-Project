@@ -191,16 +191,17 @@ function formatRequestTaken(request) {
 
 function printRequests(querySnapshot) {
   querySnapshot.forEach((request) => {
+    var request_data = request.data(); 
+    if (!(request_data.status === "Fullfilled")) { //Do not display fullfilled orders
     document.getElementById('requests').appendChild(formatRequest(request));
-    console.log("Request User: " + request.data().user);
+    console.log("Request User: " + request_data.user);
     console.log("Current User Login: " + auth.currentUser.uid);
-    if (request.data().user === auth.currentUser.uid) {
+    if (request_data.user === auth.currentUser.uid) {
       document.getElementById('myRequests').appendChild(formatMyRequest(request));
       
-    } 
-    
+    }  
     try {
-      if ((request.data().users_taken_this).includes(auth.currentUser.uid) && request.data().status !== "Fullfilled") {
+      if ((request_data.users_taken_this).includes(auth.currentUser.uid)) {
         console.log("this user " + auth.currentUser.uid + " has taken the order: " + request.data().id);
         document.getElementById('myRequestTaken').appendChild(formatRequestTaken(request));
       }
@@ -209,7 +210,7 @@ function printRequests(querySnapshot) {
     }
     
     //TODO
-  });
+  }});
 }
 
 function testform()

@@ -152,24 +152,24 @@ function formatRequestTaken(request) {
 async function getRequests() {
     const querySnapshot = await getDocs(collection(db, "Requests"));
     querySnapshot.forEach((request) => {
-        var request_data = request.data(); 
-        if (request_data.user === auth.currentUser.uid) {
-          document.getElementById('myRequests').appendChild(formatMyRequest(request));
-          
-        } 
-        
-        try {
-          if ((request_data.users_taken_this).includes(auth.currentUser.uid) && !(request_data.status === "Fullfilled")) {
-            console.log("order status is: ", request_data.status);
-            console.log("this user " + auth.currentUser.uid + " has taken the order: " + request_data.id);
-            document.getElementById('requestsTaken').appendChild(formatRequestTaken(request));
+        var request_data = request.data();
+        if (!(request_data.status === "Fullfilled")) {
+          if (request_data.user === auth.currentUser.uid) {
+            document.getElementById('myRequests').appendChild(formatMyRequest(request));
+            
+          } 
+          try {
+            if ((request_data.users_taken_this).includes(auth.currentUser.uid)) {
+              console.log("order status is: ", request_data.status);
+              console.log("this user " + auth.currentUser.uid + " has taken the order: " + request_data.id);
+              document.getElementById('requestsTaken').appendChild(formatRequestTaken(request));
+            }
+          } catch (e) {
+            console.log("error:" + e);
           }
-        } catch (e) {
-          console.log("error:" + e);
-        }
-        
-        //TODO
-      });
+          
+          //TODO
+      }});
   }
 
   
@@ -214,7 +214,7 @@ function Dashboard() {
             <div>
                 <h2>Requests Taken</h2>
                 <div id="requestsTaken" className="scrollmenu"></div>
-                <a href="./requests">
+                <a href="./dashboard/requests">
                   <button>Go to Requests</button>
                 </a>
             </div>
