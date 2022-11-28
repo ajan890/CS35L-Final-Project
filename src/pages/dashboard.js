@@ -5,6 +5,7 @@ import {auth} from "../firebase/initFirebase";
 import { useEffectOnce } from "../utilities.js";
 import {db} from "../firebase/initFirebase.js";
 import {getDocs, collection, updateDoc, doc, getDoc} from "firebase/firestore";
+import "./dashboard.css";
 var name = "";
 var user = null;
 var balance = null;
@@ -219,26 +220,26 @@ function Dashboard() {
     useEffectOnce(getRequests);
     useEffectOnce(getUser); 
     return( 
-        <div id = "wrapper">
+        <div>
             <div>
                 <h1 id="header">Hello</h1>
             </div>
                 <div id="balance">You are this broke:</div>
                 <div id="add-balance">
                     <a href="dashboard/addbalance">
-                        <button>Add balance</button>
+                        <button className="button">Add balance</button>
                     </a>
                 </div>
             <div>
                 <h2>My requests</h2>
                 <div id="myRequests" className="scrollmenu"></div>
-                <a href="./dashboard/newrequest"> <button>Submit Request</button> </a>
+                <a href="./dashboard/newrequest"> <button className="button">Submit Request</button> </a>
             </div>
             <div>
                 <h2>Requests Taken</h2>
                 <div id="requestsTaken" className="scrollmenu"></div>
                 <a href="./dashboard/requests">
-                  <button>Go to Requests</button>
+                  <button className="button">Go to Requests</button>
                 </a>
             </div>
         </div>

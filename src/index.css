@@ -18,11 +18,14 @@ code {
 
 /*used on requests page*/
 div.scrollmenu {
-  overflow: auto;
+  overflow-y: hidden;
+  overflow-x: scroll;
   white-space: nowrap;
-  height: 25vh;
+  height: 260px;
   width: 90%;
   padding: 10px;
+  background-color: gainsboro;
+  border-radius: 20px;
 }
 
 /*used on requests page*/
