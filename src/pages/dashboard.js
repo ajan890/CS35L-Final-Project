@@ -195,6 +195,7 @@ function formatRequestTaken(request) {
     temp.appendChild(title);
     temp.appendChild(desc);
     temp.appendChild(tags);
+    temp.appendChild(bounty);
     temp.appendChild(form);
     temp.appendChild(btn);
     temp.id = request.id; 
