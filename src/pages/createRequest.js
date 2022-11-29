@@ -1,13 +1,17 @@
 import React from "react"
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, getDocs } from "firebase/firestore";
+import { collection, query, where, limit } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 import { db, auth } from "../firebase/initFirebase.js"
+import { listClasses, ListItemSecondaryAction } from "@mui/material";
+import { render } from "@testing-library/react";
 
 const labelStyle = { color: 'red', };  
 
 function saveTags(tagsArray) {
     tagsArray.forEach(tag => {
         var toSave = tag.toLowerCase();
+        toSave = toSave.trim();
         setDoc(doc(db, "Tags", toSave), {
           name: toSave
         });
@@ -112,6 +116,25 @@ async function onClickCreateRequest() {
     }  
   }
 
+//input1 is a str. Function returns first (up to) 10 tags that begin with input1 in an array.
+async function getRecommendations(input1) {
+  var input = input1.toLowerCase();
+  const tagQuery = query(collection(db, "Tags"), where("name", ">=", input), limit(10));
+  const snapshot = await getDocs(tagQuery);
+  var tagArray = [];
+  snapshot.forEach((item) => {
+    tagArray.push(item.data().name);
+  });
+
+  for (var i = tagArray.length - 1; i >= 0; i--) {
+    if (tagArray[i].indexOf(input) != 0) {
+      tagArray.splice(i, 1);
+    }
+  }
+  console.log("Array: " + tagArray);
+  return tagArray;
+}
+
 class CreateRequest extends React.Component
 {
   constructor(props){
@@ -123,6 +146,15 @@ class CreateRequest extends React.Component
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  tagsChange(event) {
+    const value = event.target.value;
+    if (value !== '') {
+      var recs = getRecommendations(value);
+      console.log(recs);
+    } else console.log("Tag is empty"); 
+  }
+
   handleChange(event) {
     const amount = event.target.value;
     console.log("here");
@@ -150,8 +182,8 @@ class CreateRequest extends React.Component
                 <input type="text" id="desc_textbox"/> <label id="desc_req_label" style={labelStyle}/>
             </div>
             <div>
-                <a>Tags (separate with commas): </a>
-                <input type="text" id="tags_textbox"/> <label id="tags_req_label" style={labelStyle}/>
+                <a>Tags: </a> 
+                <input type="text" id="tags_textbox" onChange={this.tagsChange}/> <label id="tags_req_label" style={labelStyle}/>     
             </div>
             <div>
                 <a>Bounty: </a>

@@ -45,10 +45,4 @@ export const useEffectOnce = ( effect )=> {
     }, []);
   };
 
-//input1 is a str. Function returns first (up to) 10 tags that begin with input1 in an array.
-export function getRecommendations(input1) {
-  var input = input1.toLowerCase();
-  const tagsRef = collection(db, "Tags");
-  const tagArray = query(tagsRef, where("name" >= input), limit(10));
-  return tagArray;
-}
+
