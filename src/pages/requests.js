@@ -2,6 +2,7 @@ import { getDocs, updateDoc } from "firebase/firestore";
 import { doc, collection } from "firebase/firestore";
 import { useEffectOnce } from "../utilities.js";
 import { db, auth } from "../firebase/initFirebase.js"
+import { buttonGroupClasses } from "@mui/material";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -117,7 +118,7 @@ function formatRequest(request) {
     title.innerText = data.title;
     desc.innerText = "Description: " + data.description;
     tags.innerText = "Tags: " + data.tags;
-    bounty.innerText = "Bounty: " + data.bounty;
+    bounty.innerText = "Bounty: $" + data.bounty;
     temp.appendChild(title);
     temp.appendChild(desc);
     temp.appendChild(tags);
@@ -142,7 +143,7 @@ function formatMyRequest(request) {
   title.innerText = data.title;
   desc.innerText = "Description: " + data.description;
   tags.innerText = "Tags: " + data.tags;
-  bounty.innerText = "Bounty: " + data.bounty;
+  bounty.innerText = "Bounty: $" + data.bounty;
   temp.appendChild(title);
   temp.appendChild(desc);
   temp.appendChild(tags);
@@ -211,6 +212,7 @@ function formatRequestTaken(request) {
   var title = document.createElement('h2');
   var desc = document.createElement('p');
   var tags = document.createElement('p');
+  var bounty = document.createElement('p');
   var form = document.createElement('input');
   form.value = "Enter 4 digits pin";
 
@@ -221,9 +223,11 @@ function formatRequestTaken(request) {
   title.innerText = data.title;
   desc.innerText = data.description;
   tags.innerText = data.tags;
+  bounty.innerText = "Bounty: $" + data.bounty;
   temp.appendChild(title);
   temp.appendChild(desc);
   temp.appendChild(tags);
+  temp.appendChild(bounty);
   temp.appendChild(form);
   temp.appendChild(btn);
 return temp;

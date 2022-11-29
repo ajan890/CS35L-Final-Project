@@ -41,7 +41,7 @@ async function balcheck(bounty)
   var balance = docSnap.data().balance;
   if(bounty > balance)
   {
-    alert("YOU'RE BROKE B!TCH");
+    alert("YOU'RE BROKE");
     return false;
   }
   else{

@@ -73,7 +73,7 @@ function formatMyRequest(request) {
   title.innerText = data.title;
   desc.innerText = "Description: " + data.description;
   tags.innerText = "Tags: " + data.tags;
-  bounty.innerText = "Bounty: " + data.bounty;
+  bounty.innerText = "Bounty: $" + data.bounty;
   fulfill_pin.innerText = "Secret Pin: " + data.fulfill_pin;
   temp.appendChild(title);
   temp.appendChild(desc);
@@ -191,7 +191,7 @@ function formatRequestTaken(request) {
     title.innerText = data.title;
     desc.innerText = "Description: " + data.description;
     tags.innerText = "Tags: " + data.tags;
-    bounty.innerText = "Bounty: " + data.bounty;
+    bounty.innerText = "Bounty: $" + data.bounty;
     temp.appendChild(title);
     temp.appendChild(desc);
     temp.appendChild(tags);
