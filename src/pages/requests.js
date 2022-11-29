@@ -204,6 +204,31 @@ function printRequests(querySnapshot) {
   }});
 }
 
+function formatRequestTaken(request) {
+  var data = request.data();
+  console.log("Format: " + data.description);
+  var temp = document.createElement('a');
+  var title = document.createElement('h2');
+  var desc = document.createElement('p');
+  var tags = document.createElement('p');
+  var form = document.createElement('input');
+  form.value = "Enter 4 digits pin";
+
+  //start of button
+  var btn = document.createElement("button");
+  btn.textContent = "Fullfill Order"
+  btn.onclick = () => onClickFulfilled(request, form);
+  title.innerText = data.title;
+  desc.innerText = data.description;
+  tags.innerText = data.tags;
+  temp.appendChild(title);
+  temp.appendChild(desc);
+  temp.appendChild(tags);
+  temp.appendChild(form);
+  temp.appendChild(btn);
+return temp;
+}
+
 function testform()
 {
   return(
