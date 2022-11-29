@@ -1,18 +1,19 @@
-html {
-    background-image: url("./images/sakura_trees.jpg");
-    background-size: cover;
-}
-
-#header {
+#request_form {
+    background-color: rgba(220, 220, 220, 0.635);
+    border-radius: 20px;
+    padding: 10px;
     width: fit-content;
-    text-shadow: 0.8px 0.8px rgb(106, 106, 106);
+    margin-bottom: 10px;
+    box-shadow: rgb(0, 0, 0) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
 }
 
-#second_title {
-    margin-top: 48px;
+.request_text {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 18px;
+    line-height: 30px;
 }
 
-.button {
+#button {
     margin-top: 1%;
     margin-bottom: 0.5%;
     background-color: #fff;
@@ -37,12 +38,12 @@ html {
     width: fit-content;
 }
 
-.button:hover {
+#button:hover {
     background: #F6F9FE;
     color: #a73fa8;
 }
 
-.button:active {
+#button:active {
     box-shadow: 0 2px 1px 0 rgb(75, 77, 79), 0 1px 2px 1px rgb(68, 70, 72);
     outline: none;
 }

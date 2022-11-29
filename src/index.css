@@ -21,18 +21,25 @@ div.scrollmenu {
   overflow-y: hidden;
   overflow-x: scroll;
   white-space: nowrap;
-  height: 260px;
+  height: fit-content;
+  min-height: 260px;
   width: 90%;
   padding: 10px;
-  background-color: gainsboro;
+  margin-top: -10px;
+  background-color: rgba(220, 220, 220, 0.800);
   border-radius: 20px;
+  box-shadow: rgb(0, 0, 0) 0 2px 2px -1px,rgba(0, 0, 0, .14) 0 2px 2px 0,rgba(0, 0, 0, .12) 0 1px 2px 0;
 }
 
 /*used on requests page*/
 div.scrollmenu a {
   display: inline-block;
   text-align: left;
-  padding: 30px;
+  margin: 15px;
+  padding: 15px;
   text-decoration: none;
-  width: 20%;
+  width: fit-content;
+  background-color: aliceblue;
+  border-radius: 30px;
+  box-shadow: rgb(0, 0, 0) 0 2px 2px -1px,rgba(0, 0, 0, .14) 0 2px 2px 0,rgba(0, 0, 0, .12) 0 1px 2px 0;
 }

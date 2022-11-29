@@ -2,6 +2,7 @@ import React from "react"
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 import { db, auth } from "../firebase/initFirebase.js"
+import "./createRequest.css";
 
 const labelStyle = { color: 'red', };  
 
@@ -140,33 +141,34 @@ class CreateRequest extends React.Component
         <div className="wrapper">
             <h1>Submit Request</h1>
             <form onSubmit={this.handleSubmit}>
-            <label>
+            
+            <div id="request_form">
             <div>
-                <a>Name: </a>
+                <a className="request_text">Name: </a>
                 <input type="text" id="name_textbox"/> <label id="name_req_label" style={labelStyle}/>
             </div>
             <div>
-                <a>Description: </a>
+                <a className="request_text">Description: </a>
                 <input type="text" id="desc_textbox"/> <label id="desc_req_label" style={labelStyle}/>
             </div>
             <div>
-                <a>Tags (separate with commas): </a>
+                <a className="request_text">Tags (separate with commas): </a>
                 <input type="text" id="tags_textbox"/> <label id="tags_req_label" style={labelStyle}/>
             </div>
             <div>
-                <a>Bounty: </a>
+                <a className="request_text">Bounty: </a>
                 <input type="text" id="bounty_textbox" value={this.state.value} onChange={this.handleChange}/> <label id="bounty_req_label" style={labelStyle}/>
             </div>
             <div>
-                <a>From (Which store or location do you want your product from?): </a>
+                <a className="request_text">From (Which store or location do you want your product from?): </a>
                 <input type="text" id="from_textbox"/>
             </div>
             <div>
-                <a>Destination: </a>
+                <a className="request_text">Destination: </a>
                 <input type="text" id="to_textbox"/> <label id="dest_req_label" style={labelStyle}/>
             </div>
-            </label>
-            <button type="submit">Submit</button> <label id="field"/>
+            </div>
+            <button id="button" type="submit">Submit</button> <label id="field"/>
             <div>
               <a href="./requests">Return to Requests</a>
             </div>

@@ -3,6 +3,7 @@ import { doc, collection } from "firebase/firestore";
 import { useEffectOnce } from "../utilities.js";
 import { db, auth } from "../firebase/initFirebase.js"
 import { buttonGroupClasses } from "@mui/material";
+import "./requests.css";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -242,7 +243,7 @@ function testform()
       <h1>My Requests</h1>
         <div id="myRequests" className="scrollmenu"></div>
         <a href="./newrequest">
-          <button>Submit Request</button>
+          <button id="button">Submit Request</button>
         </a>
         <div>
           <a href="../dashboard">Return to Dashboard</a>
