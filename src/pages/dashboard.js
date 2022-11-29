@@ -266,7 +266,7 @@ function Dashboard() {
                 <a href="./dashboard/newrequest"> <button className="button">Submit Request</button> </a>
             </div>
             <div>
-                <h2>Requests Taken</h2>
+                <h2 id="second_title">Requests Taken</h2>
                 <div id="requestsTaken" className="scrollmenu"></div>
                 <a href="./dashboard/requests">
                   <button className="button">Go to Requests</button>
