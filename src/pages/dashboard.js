@@ -10,7 +10,7 @@ var name = "";
 var user = null;
 var balance = null;
 var state = false;
-var fullfill_button_idx = 0; //use to remember idx of fullfill button
+//var fullfill_button_idx = 0; //use to remember idx of fullfill button
 
 // User will not take order at dashboard
 // function onClickTakeReq(request) {
@@ -140,7 +140,7 @@ function onClickFullfiled(request, form) {
     var children = allrequestsTaken.childNodes;
     var desire_child;
     for (var child in children) {
-      if (children[child].id == request.id) {
+      if (children[child].id === request.id) {
         console.log("found the child");
         desire_child = children[child];
       }
@@ -149,6 +149,9 @@ function onClickFullfiled(request, form) {
     //FR2: calcualte the active bonus and update in server and page
     let bonus_active = active_bonus(user);
     console.log("active bonus is " + bonus_active);
+    if (bonus_active > 0) {
+      alert("Thank you for being active in the network. You are rewarded with $" + bonus_active + " in you balance.");
+    }
     //update the balance for the bounty
     user.balance = Number(userbal + bounty + bonus_active); 
     user.balance = Math.round(user.balance * 100) / 100;
@@ -166,7 +169,7 @@ function active_bonus(user) {
   console.log("The number of order this user has taken is: " + user.n_orders_taken + "\n" +
     "the number of order this user has fullfilled is: " + user.n_orders_fullfilled);
   if (user.n_orders_fullfilled > 0 && user.n_orders_taken > 0 
-    && user.n_orders_fullfilled % 5 == 0) {
+    && user.n_orders_fullfilled % 3 === 0) {
       let fullfill_rate = user.n_orders_fullfilled / user.n_orders_taken;
       return (fullfill_rate + 1) * 0.015;
     }
@@ -204,7 +207,6 @@ function formatRequestTaken(request) {
 
 async function getRequests() { 
   await getUser();
-  fullfill_button_idx = 0;
     const querySnapshot = await getDocs(collection(db, "Requests"));
     querySnapshot.forEach((request) => {
         var request_data = request.data();

@@ -51,12 +51,10 @@ function onClickTakeReq(request) {
       users_taken_this: users_taken_this_new,
     });
     request.status = "Taken";
-    var newRequests = user.requests_taken;
-    newRequests.push(id);
     user.requests_taken.push(id);
     user.n_orders_taken = user.n_orders_taken + 1;
     updateDoc(doc(db, "Users", user.UID), {
-      requests_taken: newRequests,
+      requests_taken: user.requests_taken,
       n_orders_taken: user.n_orders_taken,
     });
     //window.location = "/dashboard/requests";
@@ -66,42 +64,42 @@ function onClickTakeReq(request) {
 
 
 //update the request status
-function onClickFullfiled(request, form) {
-  var id = request.id;
-  //TODO: Verify pin is correct
-  var pin = request.data().fulfill_pin; 
-  var form_val = Number(form.value);
-  console.log("request id is: " + id + 'request pin is: ' + pin);
-  //console.log("form value is:" + form.value);
-  //console.log("form casting number value is: " + form_val);
-  //console.log("pin comparison: " + (pin === form_val));
-  //console.log("pin entered is " + form)
-  if (pin === form_val) {
+// function onClickFullfiled(request, form) {
+//   var id = request.id;
+//   //TODO: Verify pin is correct
+//   var pin = request.data().fulfill_pin; 
+//   var form_val = Number(form.value);
+//   console.log("request id is: " + id + 'request pin is: ' + pin);
+//   //console.log("form value is:" + form.value);
+//   //console.log("form casting number value is: " + form_val);
+//   //console.log("pin comparison: " + (pin === form_val));
+//   //console.log("pin entered is " + form)
+//   if (pin === form_val) {
 
-  var newRequests = user.requests_taken;
-  console.log(newRequests);
-  console.log(newRequests.length);
-  var remove_idx = -1;
-  for (var i = 0; i < newRequests.length; ++i) {
-    if (newRequests[i] === id) {
-        remove_idx = i;
-        break;
-    }
-  }
-  console.log("remove idx is:" + remove_idx);
-  newRequests.splice(remove_idx, remove_idx + 1);
-  console.log(newRequests);
-  updateDoc(doc(db, "Users", user.UID), {
-    requests_taken: newRequests
-  });
+//   var newRequests = user.requests_taken;
+//   console.log(newRequests);
+//   console.log(newRequests.length);
+//   var remove_idx = -1;
+//   for (var i = 0; i < newRequests.length; ++i) {
+//     if (newRequests[i] === id) {
+//         remove_idx = i;
+//         break;
+//     }
+//   }
+//   console.log("remove idx is:" + remove_idx);
+//   newRequests.splice(remove_idx, remove_idx + 1);
+//   console.log(newRequests);
+//   updateDoc(doc(db, "Users", user.UID), {
+//     requests_taken: newRequests
+//   });
 
-  updateDoc(doc(db, "Requests", id), {
-    status: "Fullfilled"
-  });
-  //also need to update the request taken
+//   updateDoc(doc(db, "Requests", id), {
+//     status: "Fullfilled"
+//   });
+//   //also need to update the request taken
 
-  } 
-}
+//   } 
+// }
 
 function formatRequest(request) {
     var data = request.data();
