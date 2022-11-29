@@ -158,7 +158,7 @@ function onClickFullfiled(request, form) {
       requests_taken: newRequests,
       n_orders_fullfilled : user.n_orders_fullfilled,
     });
-    
+    alert("Sucessfully Fulfilled!");
   } 
 }
 

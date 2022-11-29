@@ -43,7 +43,7 @@ function onClickTakeReq(request) {
   if (! users_taken_this_new.includes(user.UID) && !(request.user === user.UID)) {
     console.log("Taking request requirement is fulfilled");
     users_taken_this_new.push(user.UID);
-    request.users_taken_this.push(user.UID);
+    //request.users_taken_this.push(user.UID);
     //update status and array
     updateDoc(doc(db, "Requests", id), {
       status: "Taken",

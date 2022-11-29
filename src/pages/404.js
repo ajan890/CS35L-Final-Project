@@ -4,10 +4,13 @@ class ErrorPage extends React.Component
 {
     render(){
         return(
-            <h1>
+            <div>
+                <h1>
                 Achievement Get: <br></br>
                 How did we get here?
-            </h1>
+                </h1>
+                <a href="/">Return to Home</a>
+            </div>
         );
     }
 }
