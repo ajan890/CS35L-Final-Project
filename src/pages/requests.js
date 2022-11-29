@@ -40,7 +40,7 @@ function onClickTakeReq(request) {
   var users_taken_this_new = request.users_taken_this;
   //avoid duplicate order taken and take the request of their own
   if (! users_taken_this_new.includes(user.UID) && !(request.user === user.UID)) {
-    console.log("Taking request requirement is fullfilled");
+    console.log("Taking request requirement is fulfilled");
     users_taken_this_new.push(user.UID);
     request.users_taken_this.push(user.UID);
     //update status and array
@@ -56,7 +56,9 @@ function onClickTakeReq(request) {
     updateDoc(doc(db, "Users", user.UID), {
       requests_taken: newRequests,
       n_orders_taken: user.n_orders_taken,
-    })
+    });
+    //window.location = "/dashboard/requests";
+    alert("Request Taken!");
   }
 }
 
@@ -106,16 +108,20 @@ function formatRequest(request) {
     var title = document.createElement('h2');
     var desc = document.createElement('p');
     var tags = document.createElement('p');
+    var bounty = document.createElement('p');
     var btn = document.createElement("button");
+
     btn.textContent = "Take this order";
     //btn.style = {width:"125px", height:"25px"};
     btn.onclick = () => onClickTakeReq(data);
     title.innerText = data.title;
-    desc.innerText = data.description;
-    tags.innerText = data.tags;
+    desc.innerText = "Description: " + data.description;
+    tags.innerText = "Tags: " + data.tags;
+    bounty.innerText = "Bounty: " + data.bounty;
     temp.appendChild(title);
     temp.appendChild(desc);
     temp.appendChild(tags);
+    temp.appendChild(bounty);
     temp.appendChild(btn);
 
   return temp;
@@ -129,15 +135,18 @@ function formatMyRequest(request) {
   var title = document.createElement('h2');
   var desc = document.createElement('p');
   var tags = document.createElement('p');
+  var bounty = document.createElement('p');
   //var btn = document.createElement("button");
   //btn.style = {width:"125px", height:"25px"};
   //btn.onclick = () => onClickTakeReq(data);
   title.innerText = data.title;
-  desc.innerText = data.description;
-  tags.innerText = data.tags;
+  desc.innerText = "Description: " + data.description;
+  tags.innerText = "Tags: " + data.tags;
+  bounty.innerText = "Bounty: " + data.bounty;
   temp.appendChild(title);
   temp.appendChild(desc);
   temp.appendChild(tags);
+  temp.appendChild(bounty);
   //temp.appendChild(btn);
 
 return temp;
@@ -169,31 +178,6 @@ function onClickFulfilled(request, form) {
   updateDoc(doc(db, "Users", user.UID), {
     requests_taken: newRequests
   });
-}
-
-function formatRequestTaken(request) {
-    var data = request.data();
-    console.log("Format: " + data.description);
-    var temp = document.createElement('a');
-    var title = document.createElement('h2');
-    var desc = document.createElement('p');
-    var tags = document.createElement('p');
-    var form = document.createElement('input');
-    form.value = "Enter 4 digits pin";
-    
-    //start of button
-    var btn = document.createElement("button");
-    btn.textContent = "Fullfill Order"
-    btn.onclick = () => onClickFulfilled(request, form);
-    title.innerText = data.title;
-    desc.innerText = data.description;
-    tags.innerText = data.tags;
-    temp.appendChild(title);
-    temp.appendChild(desc);
-    temp.appendChild(tags);
-    temp.appendChild(form);
-    temp.appendChild(btn);
-  return temp;
 }
 
 function printRequests(querySnapshot) {

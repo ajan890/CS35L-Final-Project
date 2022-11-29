@@ -65,15 +65,21 @@ function formatMyRequest(request) {
   var title = document.createElement('h2');
   var desc = document.createElement('p');
   var tags = document.createElement('p');
+  var bounty = document.createElement('p');
+  var fulfill_pin = document.createElement('h5');
   //var btn = document.createElement("button");
   //btn.style = {width:"125px", height:"25px"};
   //btn.onclick = () => onClickTakeReq(data);
   title.innerText = data.title;
-  desc.innerText = data.description;
-  tags.innerText = data.tags;
+  desc.innerText = "Description: " + data.description;
+  tags.innerText = "Tags: " + data.tags;
+  bounty.innerText = "Bounty: " + data.bounty;
+  fulfill_pin.innerText = "Secret Pin: " + data.fulfill_pin;
   temp.appendChild(title);
   temp.appendChild(desc);
   temp.appendChild(tags);
+  temp.appendChild(bounty);
+  temp.appendChild(fulfill_pin);
   //temp.appendChild(btn);
 
 return temp;
@@ -174,6 +180,7 @@ function formatRequestTaken(request) {
     var title = document.createElement('h2');
     var desc = document.createElement('p');
     var tags = document.createElement('p');
+    var bounty = document.createElement('p');
     var form = document.createElement('input');
     form.value = "Enter 4 digits pin";
     
@@ -182,8 +189,9 @@ function formatRequestTaken(request) {
     btn.textContent = "Fulfill Order";
     btn.onclick = () => onClickFullfiled(request, form);
     title.innerText = data.title;
-    desc.innerText = data.description;
-    tags.innerText = data.tags;
+    desc.innerText = "Description: " + data.description;
+    tags.innerText = "Tags: " + data.tags;
+    bounty.innerText = "Bounty: " + data.bounty;
     temp.appendChild(title);
     temp.appendChild(desc);
     temp.appendChild(tags);
