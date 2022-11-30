@@ -1,9 +1,8 @@
 #background {
-    margin-top: -2%;
-    position: absolute;
-    left: -2.7%;
-    width: 102.7%;
-    margin-bottom: -20%;
+    background-image: url("./images/Blue_UCLA_bear.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    height: 100%;
 }
 
 #firebaseui-auth-container {

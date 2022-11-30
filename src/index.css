@@ -1,5 +1,13 @@
+html {
+  height: 100%;
+  background: #0083FF;
+}
+
 body {
   margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -8,7 +16,7 @@ body {
 }
 
 #root{
-  padding: 1em 2em;
+  flex-grow: 1;
 }
 
 code {

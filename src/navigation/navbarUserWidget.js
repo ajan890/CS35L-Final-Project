@@ -12,7 +12,7 @@ import {ThemeProvider} from "@mui/material/styles";
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#ffffff',
+            main: '#000000',
         },
         secondary: {
             main: '#11cb5f',
@@ -99,23 +99,23 @@ export default function NavbarUserWidget () {
         return (
             <div
                 style={{display : 'flex',
-                    columnGap : '1.3em',
+                    columnGap : '0.7em',
                     alignItems: 'center',
                 }}
             >
-                <div style={{
-                    fontSize: '1.4em',
+                <b style={{
+                    fontSize: '1.5em',
                     lineHeight: '1em',
                 }}>
                     {user.displayName}
-                </div>
+                </b>
                 <Avatar
                     {...stringAvatar(user.displayName)}
                     style={{
-                        border: '0.1em solid white'
+                        border: '0.2em solid black'
                     }}
                     onClick={handleClick}
-                    sx={{ height : "1.5em", width : "1.5em", fontSize : '1.1em'}}
+                    sx={{ height : "2em", width : "2em", fontSize : '1.1em'}}
                 />
                 <Menu
                     id="basic-menu"

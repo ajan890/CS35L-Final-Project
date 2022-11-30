@@ -25,10 +25,6 @@ var uiConfig = {
             requireDisplayName: true,
         }
     ],
-    // Terms of service url.
-    tosUrl: '<your-tos-url>',
-    // Privacy policy url.
-    privacyPolicyUrl: '<your-privacy-policy-url>'
 };
 
 async function isExistingUser(uid)
@@ -86,10 +82,9 @@ function Login()
 {
   useEffectOnce(startLogin);
     return(
-      <html>
-          <img id="background" src={require("./images/Blue_UCLA_bear.jpg")} alt="Where the bear at"></img>
+      <div id="background">
           <div id="firebaseui-auth-container"></div>
-      </html>
+      </div>
     );
 }
 
