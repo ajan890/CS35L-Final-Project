@@ -66,8 +66,56 @@ function formatMyRequest(request) {
   var pin = document.createElement('h5');
   pin.innerText = "Secret Pin: " + data.fulfill_pin;
   toReturn.appendChild(pin);
+  //show the status of the order
+  var req_stat = document.createElement('h5');
+  req_stat.innerText = "Order status: " + data.status;
+  toReturn.appendChild(req_stat);
+  //delete button
+  var delete_button = document.createElement("button");
+  delete_button.textContent = "Delete this order";
+  delete_button.onclick = () => onClickDelete(request);
+  toReturn.appendChild(delete_button);
   return(toReturn);
 }
+
+function onClickDelete(request) {
+  //fetch data from the server
+  var request_data;
+  getServerRequest(request).then(function(result) {
+    request_data = (result);
+    console.log(request_data);
+    if (request.status === "Taken" || request.status === "Fulfilled") {
+      alert("you cannot delete a order that has been taken or fulfilled!");
+    }
+    //update the request status
+    request.status = "Deleted";
+    updateDoc(doc(db, "Requests", request.id), {
+      status: "Deleted",
+    });
+    //delete element at html myRequest
+    var myRequests = document.getElementById("myRequests");
+    console.log("myRequests are: ", myRequests);
+    var children = myRequests.childNodes;
+    var desire_child;
+    for (var child in children) {
+      if (children[child].id === request.id) {
+        console.log("found the child");
+        desire_child = children[child];
+      }
+    }
+    myRequests.removeChild(desire_child);
+  });
+}
+
+async function getServerRequest(request)
+{
+    var request_id = request.id;
+    const docRef = doc(db, "Requests", request_id);
+    const docSnap = await getDoc(docRef);
+    var request_data = docSnap.data();
+    return request_data;
+}
+
 
 function formatRequestTaken(request) {
   var toReturn = formatRequestSub(request);
@@ -96,6 +144,7 @@ function formatRequestSub(request) {
   temp.appendChild(desc);
   temp.appendChild(tags);
   temp.appendChild(bounty);
+  temp.id = request.id;
   return temp;
 }
 
@@ -177,7 +226,7 @@ async function getRequests() {
     const querySnapshot = await getDocs(collection(db, "Requests"));
     querySnapshot.forEach((request) => {
         var request_data = request.data();
-        if (!(request_data.status === "Fulfilled")) {
+        if (!(request_data.status === "Fulfilled") && !(request_data.status === "Deleted")) {
           if (request_data.user === auth.currentUser.uid) {
             document.getElementById('myRequests').appendChild(formatMyRequest(request));
           }
@@ -233,12 +282,12 @@ function Dashboard() {
             <div>
                 <h2>My requests</h2>
                 <div id="myRequests" className="scrollmenu"></div>
-                <a href="./dashboard/newrequest"> <button className="button">Submit Request</button> </a>
+                <a href="dashboard/newrequest"> <button className="button">Submit Request</button> </a>
             </div>
             <div>
                 <h2 id="second_title">Requests Taken</h2>
                 <div id="requestsTaken" className="scrollmenu"></div>
-                <a href="./dashboard/requests">
+                <a href="/dashboard/requests">
                   <button className="button">Go to Requests</button>
                 </a>
             </div>

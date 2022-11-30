@@ -1,5 +1,4 @@
-import { getDocs, updateDoc } from "firebase/firestore";
-import { doc, collection } from "firebase/firestore";
+import {getDocs, collection, updateDoc, doc, getDoc} from "firebase/firestore";
 import { useEffectOnce } from "../utilities.js";
 import { db, auth } from "../firebase/initFirebase.js"
 import "./requests.css";
@@ -113,7 +112,65 @@ function formatMyRequest(request) {
   var pin = document.createElement('h5');
   pin.innerText = "Secret Pin: " + data.fulfill_pin;
   toReturn.appendChild(pin);
+  //show the status of the order
+  var req_stat = document.createElement('h5');
+  req_stat.innerText = "Order status: " + data.status;
+  toReturn.appendChild(req_stat);
+  //delete button
+  var delete_button = document.createElement("button");
+  delete_button.textContent = "Delete this order";
+  delete_button.onclick = () => onClickDelete(request);
+  toReturn.appendChild(delete_button);
   return(toReturn);
+}
+
+function onClickDelete(request) {
+  //fetch data from the server
+  var request_data;
+  getServerRequest(request).then(function(result) {
+    request_data = (result);
+    console.log(request_data);
+    if (request.status === "Taken" || request.status === "Fulfilled") {
+      alert("you cannot delete a order that has been taken or fulfilled!");
+    }
+    //update the request status
+    request.status = "Deleted";
+    updateDoc(doc(db, "Requests", request.id), {
+      status: "Deleted",
+    });
+    //delete element at html myRequest
+    var myRequests = document.getElementById("myRequests");
+    console.log("myRequests are: ", myRequests);
+    var children = myRequests.childNodes;
+    var desire_child;
+    for (var child in children) {
+      if (children[child].id === request.id) {
+        console.log("found the child");
+        desire_child = children[child];
+      }
+    }
+    myRequests.removeChild(desire_child);
+    //delete element at html request
+    var requests = document.getElementById("requests");
+    console.log("Requests are: ", requests);
+    children = requests.childNodes;
+    for (var child in children) {
+      if (children[child].id === request.id) {
+        console.log("found the child");
+        desire_child = children[child];
+      }
+    }
+    requests.removeChild(desire_child); 
+  });
+}
+
+async function getServerRequest(request)
+{
+    var request_id = request.id;
+    const docRef = doc(db, "Requests", request_id);
+    const docSnap = await getDoc(docRef);
+    var request_data = docSnap.data();
+    return request_data;
 }
 
 function formatRequestTaken(request) {
@@ -143,6 +200,7 @@ function formatRequestSub(request) {
   temp.appendChild(desc);
   temp.appendChild(tags);
   temp.appendChild(bounty);
+  temp.id = request.id;
   return temp;
 }
 
@@ -150,7 +208,7 @@ function formatRequestSub(request) {
 function printRequests(querySnapshot) {
   querySnapshot.forEach((request) => {
     var request_data = request.data(); 
-    if (!(request_data.status === "Fulfilled")) { //Do not display fulfilled orders
+    if (!(request_data.status === "Fulfilled") && !(request_data.status === "Deleted")) { //Do not display fulfilled orders
     document.getElementById('requests').appendChild(formatRequest(request));
     console.log("Request User: " + request_data.user);
     console.log("Current User Login: " + auth.currentUser.uid);
