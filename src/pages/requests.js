@@ -97,66 +97,71 @@ function onClickFulfilled(request, form) {
 
   } 
 }
+function formatRequest(request) {
+  var data = request.data();
+  var toReturn = formatRequestSub(request);
+  var btn = document.createElement("button");
+  btn.textContent = "Take this order";
+  btn.onclick = () => onClickTakeReq(data);
+  toReturn.appendChild(btn);
+  return (toReturn);
+}
 
-//display is an int that specifies which bar it is in.  0 = Requests, 1 = My Requests, 2 = Requests Taken
-//if in Requests, show button to accept request.
-//if in My Requests, show secret pin.
-//if in Requests Taken, show input bar for pin.
-function formatRequest(request, display) {
-    var data = request.data();
-    console.log("Format: " + data.description);
-    var temp = document.createElement('a');
-    var title = document.createElement('h2');
-    var desc = document.createElement('p');
-    var tags = document.createElement('p');
-    var bounty = document.createElement('p');
-    title.innerText = data.title;
-    desc.innerText = "Description: " + data.description;
-    tags.innerText = "Tags: " + data.tags;
-    bounty.innerText = "Bounty: $" + data.bounty;
-    temp.appendChild(title);
-    temp.appendChild(desc);
-    temp.appendChild(tags);
-    temp.appendChild(bounty);
+function formatMyRequest(request) {
+  var data = request.data();
+  var toReturn = formatRequestSub(request);
+  var pin = document.createElement('h5');
+  pin.innerText = "Secret Pin: " + data.fulfill_pin;
+  toReturn.appendChild(pin);
+  return(toReturn);
+}
 
-    if (display == 0) {
-      var btn = document.createElement("button");
-      btn.textContent = "Take this order";
-      btn.onclick = () => onClickTakeReq(data);
-      temp.appendChild(btn);
-    }
-    if (display == 1) {
-      var pin = document.createElement('h5');
-      pin.innerText = "Secret Pin: " + data.fulfill_pin;
-      temp.appendChild(pin);
-    }
-    if (display == 2) {
-      var form = document.createElement('input');
-      form.value = "Enter 4 digits pin";
-      var btn = document.createElement("button");
-      btn.textContent = "Fulfill Order";
-      btn.onclick = () => onClickFulfilled(request, form);
-      temp.appendChild(form);
-      temp.appendChild(btn);
-    }
+function formatRequestTaken(request) {
+  var toReturn = formatRequestSub(request);
+  var form = document.createElement('input');
+  form.value = "Enter 4 digits pin";
+  var btn = document.createElement("button");
+  btn.textContent = "Fulfill Order";
+  btn.onclick = () => onClickFulfilled(request, form);
+  toReturn.appendChild(form);
+  toReturn.appendChild(btn);
+
+}
+function formatRequestSub(request) {
+  var data = request.data();
+  console.log("Format: " + data.description);
+  var temp = document.createElement('a');
+  var title = document.createElement('h2');
+  var desc = document.createElement('p');
+  var tags = document.createElement('p');
+  var bounty = document.createElement('p');
+  title.innerText = data.title;
+  desc.innerText = "Description: " + data.description;
+  tags.innerText = "Tags: " + data.tags;
+  bounty.innerText = "Bounty: $" + data.bounty;
+  temp.appendChild(title);
+  temp.appendChild(desc);
+  temp.appendChild(tags);
+  temp.appendChild(bounty);
   return temp;
 }
+
 
 function printRequests(querySnapshot) {
   querySnapshot.forEach((request) => {
     var request_data = request.data(); 
     if (!(request_data.status === "Fulfilled")) { //Do not display fulfilled orders
-    document.getElementById('requests').appendChild(formatRequest(request, 0));
+    document.getElementById('requests').appendChild(formatRequest(request));
     console.log("Request User: " + request_data.user);
     console.log("Current User Login: " + auth.currentUser.uid);
     if (request_data.user === auth.currentUser.uid) {
-      document.getElementById('myRequests').appendChild(formatRequest(request, 1));
+      document.getElementById('myRequests').appendChild(formatMyRequest(request));
       
     }  
     try {
       if ((request_data.users_taken_this).includes(auth.currentUser.uid)) {
         console.log("this user " + auth.currentUser.uid + " has taken the order: " + request.data().id);
-        document.getElementById('myRequestTaken').appendChild(formatRequest(request, 2));
+        document.getElementById('myRequestTaken').appendChild(formatRequestTaken(request));
       }
     } catch (e) {
       console.log("error:" + e);

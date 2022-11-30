@@ -50,7 +50,37 @@ function onClickTakeReq(request) {
   }
 }
 
-function formatRequest(request, display) {
+function formatRequest(request) {
+  var data = request.data();
+  var toReturn = formatRequestSub(request);
+  var btn = document.createElement("button");
+  btn.textContent = "Take this order";
+  btn.onclick = () => onClickTakeReq(data);
+  toReturn.appendChild(btn);
+  return (toReturn);
+}
+
+function formatMyRequest(request) {
+  var data = request.data();
+  var toReturn = formatRequestSub(request);
+  var pin = document.createElement('h5');
+  pin.innerText = "Secret Pin: " + data.fulfill_pin;
+  toReturn.appendChild(pin);
+  return(toReturn);
+}
+
+function formatRequestTaken(request) {
+  var toReturn = formatRequestSub(request);
+  var form = document.createElement('input');
+  form.value = "Enter 4 digits pin";
+  var btn = document.createElement("button");
+  btn.textContent = "Fulfill Order";
+  btn.onclick = () => onClickFulfilled(request, form);
+  toReturn.appendChild(form);
+  toReturn.appendChild(btn);
+
+}
+function formatRequestSub(request) {
   var data = request.data();
   console.log("Format: " + data.description);
   var temp = document.createElement('a');
@@ -66,29 +96,7 @@ function formatRequest(request, display) {
   temp.appendChild(desc);
   temp.appendChild(tags);
   temp.appendChild(bounty);
-
-  if (display == 0) {
-    var btn = document.createElement("button");
-    btn.textContent = "Take this order";
-    btn.onclick = () => onClickTakeReq(data);
-    temp.appendChild(btn);
-  }
-  if (display == 1) {
-    var pin = document.createElement('h5');
-    pin.innerText = "Secret Pin: " + data.fulfill_pin;
-    temp.appendChild(pin);
-  }
-  if (display == 2) {
-    console.log("Formatting...");
-    var form = document.createElement('input');
-    form.value = "Enter 4 digits pin";
-    var btn = document.createElement("button");
-    btn.textContent = "Fulfill Order";
-    btn.onclick = () => onClickFulfilled(request, form);
-    temp.appendChild(form);
-    temp.appendChild(btn);
-  }
-return temp;
+  return temp;
 }
 
 //update the request status
@@ -172,14 +180,14 @@ async function getRequests() {
         var request_data = request.data();
         if (!(request_data.status === "Fulfilled")) {
           if (request_data.user === auth.currentUser.uid) {
-            document.getElementById('myRequests').appendChild(formatRequest(request, 1));
+            document.getElementById('myRequests').appendChild(formatMyRequest(request));
           }
           //TODO: REMOVE TRY WHEN FINISHING THE PROJECT
           try {
             if ((request_data.users_taken_this).includes(auth.currentUser.uid)) {
               console.log("order status is: ", request_data.status);
               console.log("this user " + auth.currentUser.uid + " has taken the order: " + request_data.id);
-              document.getElementById('requestsTaken').appendChild(formatRequest(request, 2));
+              document.getElementById('requestsTaken').appendChild(formatRequestTaken(request));
             }
           } catch (e) {
             console.log("error:" + e);
