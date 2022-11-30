@@ -5,6 +5,10 @@ import {useEffect, useState} from "react";
 
 export default function Navbar () {
 
+    // Show navbar
+
+    const [show, setShow] = useState(true);
+
     // Check if logged in
 
     const [user, setUser] = useState();
@@ -20,6 +24,14 @@ export default function Navbar () {
 
     let homeHref = user ? "/dashboard" : "/"
 
+    console.log(window.location.host + "/login")
+    console.log(window.location.href)
+
+    let loginUrl = window.location.protocol + "//" + window.location.host + "/login"
+
+    if(window.location.href === loginUrl){
+        return <div/>
+    }
     return (
         <div id="navbar">
             <div id="leftNavBar">
