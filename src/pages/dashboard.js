@@ -78,7 +78,7 @@ function formatRequestTaken(request) {
   btn.onclick = () => onClickFulfilled(request, form);
   toReturn.appendChild(form);
   toReturn.appendChild(btn);
-
+  return toReturn;
 }
 function formatRequestSub(request) {
   var data = request.data();
@@ -112,20 +112,19 @@ function onClickFulfilled(request, form) {
   console.log("Logged in user: " + user.UID);
   if (pin === form_val) {
 
-    var newRequests = user.requests_taken;
-    console.log(newRequests);
-    console.log(newRequests.length);
+    console.log(user.requests_taken);
+    console.log(user.requests_taken.length);
     var remove_idx = -1;
-    for (var i = 0; i < newRequests.length; ++i) {
-      if (newRequests[i] === id) {
+    for (var i = 0; i < user.requests_taken; ++i) {
+      if (user.requests_taken[i] === id) {
           remove_idx = i;
           break;
       }
     }
     console.log("remove idx is:" + remove_idx);
-    newRequests.splice(remove_idx, remove_idx + 1);
-    console.log(newRequests);
-    user.n_orders_fulfilled = user.n_orders_fUlfilled + 1
+    user.requests_taken.splice(remove_idx, remove_idx + 1);
+    console.log(user.requests_taken);
+    user.n_orders_fulfilled = user.n_orders_fulfilled + 1;
 
 
     //update the local and remote data at the same time
@@ -155,7 +154,7 @@ function onClickFulfilled(request, form) {
     document.getElementById("balance").innerHTML = "You are this broke: $" + user.balance;
     updateDoc(doc(db, "Users", user.UID), {
       balance: user.balance,
-      requests_taken: newRequests,
+      requests_taken: user.requests_taken,
       n_orders_fulfilled : user.n_orders_fulfilled,
     });
     alert("Sucessfully Fulfilled!");
