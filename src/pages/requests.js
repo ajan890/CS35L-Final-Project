@@ -2,13 +2,11 @@ import { getDocs, updateDoc } from "firebase/firestore";
 import { doc, collection } from "firebase/firestore";
 import { useEffectOnce } from "../utilities.js";
 import { db, auth } from "../firebase/initFirebase.js"
-import { buttonGroupClasses } from "@mui/material";
 import "./requests.css";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 var user;
-//query
 
 async function getRequests() {
   const querySnapshot = await getDocs(collection(db, "Requests"));
@@ -62,110 +60,22 @@ function onClickTakeReq(request) {
   }
 }
 
-
 //update the request status
-// function onClickFullfiled(request, form) {
-//   var id = request.id;
-//   //TODO: Verify pin is correct
-//   var pin = request.data().fulfill_pin; 
-//   var form_val = Number(form.value);
-//   console.log("request id is: " + id + 'request pin is: ' + pin);
-//   //console.log("form value is:" + form.value);
-//   //console.log("form casting number value is: " + form_val);
-//   //console.log("pin comparison: " + (pin === form_val));
-//   //console.log("pin entered is " + form)
-//   if (pin === form_val) {
-
-//   var newRequests = user.requests_taken;
-//   console.log(newRequests);
-//   console.log(newRequests.length);
-//   var remove_idx = -1;
-//   for (var i = 0; i < newRequests.length; ++i) {
-//     if (newRequests[i] === id) {
-//         remove_idx = i;
-//         break;
-//     }
-//   }
-//   console.log("remove idx is:" + remove_idx);
-//   newRequests.splice(remove_idx, remove_idx + 1);
-//   console.log(newRequests);
-//   updateDoc(doc(db, "Users", user.UID), {
-//     requests_taken: newRequests
-//   });
-
-//   updateDoc(doc(db, "Requests", id), {
-//     status: "Fullfilled"
-//   });
-//   //also need to update the request taken
-
-//   } 
-// }
-
-function formatRequest(request) {
-    var data = request.data();
-    console.log("Format: " + data.description);
-    var temp = document.createElement('a');
-    var title = document.createElement('h2');
-    var desc = document.createElement('p');
-    var tags = document.createElement('p');
-    var bounty = document.createElement('p');
-    var btn = document.createElement("button");
-
-    btn.textContent = "Take this order";
-    //btn.style = {width:"125px", height:"25px"};
-    btn.onclick = () => onClickTakeReq(data);
-    title.innerText = data.title;
-    desc.innerText = "Description: " + data.description;
-    tags.innerText = "Tags: " + data.tags;
-    bounty.innerText = "Bounty: $" + data.bounty;
-    temp.appendChild(title);
-    temp.appendChild(desc);
-    temp.appendChild(tags);
-    temp.appendChild(bounty);
-    temp.appendChild(btn);
-
-  return temp;
-}
-
-//request without the taking button
-function formatMyRequest(request) {
-  var data = request.data();
-  console.log("Format: " + data.description);
-  var temp = document.createElement('a');
-  var title = document.createElement('h2');
-  var desc = document.createElement('p');
-  var tags = document.createElement('p');
-  var bounty = document.createElement('p');
-  //var btn = document.createElement("button");
-  //btn.style = {width:"125px", height:"25px"};
-  //btn.onclick = () => onClickTakeReq(data);
-  title.innerText = data.title;
-  desc.innerText = "Description: " + data.description;
-  tags.innerText = "Tags: " + data.tags;
-  bounty.innerText = "Bounty: $" + data.bounty;
-  temp.appendChild(title);
-  temp.appendChild(desc);
-  temp.appendChild(tags);
-  temp.appendChild(bounty);
-  //temp.appendChild(btn);
-
-return temp;
-}
-
 function onClickFulfilled(request, form) {
-  console.log("Checking pin");
-  console.log(form.value);
   var id = request.id;
-  console.log(request);
-  //console.log("Request ID: " + id + " User: " + user.UID);
+  //Verify pin is correct
+  var pin = request.data().fulfill_pin; 
+  var form_val = Number(form.value);
+  console.log("request id is: " + id + 'request pin is: ' + pin);
+  //console.log("form value is:" + form.value);
+  //console.log("form casting number value is: " + form_val);
+  //console.log("pin comparison: " + (pin === form_val));
+  //console.log("pin entered is " + form)
+  if (pin === form_val) {
 
-  //TODO: Verify pin is correct
-
-  updateDoc(doc(db, "Requests", id), {
-    status: "Fullfilled"
-  });
   var newRequests = user.requests_taken;
-
+  console.log(newRequests);
+  console.log(newRequests.length);
   var remove_idx = -1;
   for (var i = 0; i < newRequests.length; ++i) {
     if (newRequests[i] === id) {
@@ -174,62 +84,84 @@ function onClickFulfilled(request, form) {
     }
   }
   console.log("remove idx is:" + remove_idx);
-  newRequests = newRequests.splice(remove_idx, remove_idx + 1);
+  newRequests.splice(remove_idx, remove_idx + 1);
+  console.log(newRequests);
   updateDoc(doc(db, "Users", user.UID), {
     requests_taken: newRequests
   });
+
+  updateDoc(doc(db, "Requests", id), {
+    status: "Fulfilled"
+  });
+  //also need to update the request taken
+
+  } 
+}
+
+//display is an int that specifies which bar it is in.  0 = Requests, 1 = My Requests, 2 = Requests Taken
+//if in Requests, show button to accept request.
+//if in My Requests, show secret pin.
+//if in Requests Taken, show input bar for pin.
+function formatRequest(request, display) {
+    var data = request.data();
+    console.log("Format: " + data.description);
+    var temp = document.createElement('a');
+    var title = document.createElement('h2');
+    var desc = document.createElement('p');
+    var tags = document.createElement('p');
+    var bounty = document.createElement('p');
+    title.innerText = data.title;
+    desc.innerText = "Description: " + data.description;
+    tags.innerText = "Tags: " + data.tags;
+    bounty.innerText = "Bounty: $" + data.bounty;
+    temp.appendChild(title);
+    temp.appendChild(desc);
+    temp.appendChild(tags);
+    temp.appendChild(bounty);
+
+    if (display == 0) {
+      var btn = document.createElement("button");
+      btn.textContent = "Take this order";
+      btn.onclick = () => onClickTakeReq(data);
+      temp.appendChild(btn);
+    }
+    if (display == 1) {
+      var pin = document.createElement('h5');
+      pin.innerText = "Secret Pin: " + data.fulfill_pin;
+      temp.appendChild(pin);
+    }
+    if (display == 2) {
+      var form = document.createElement('input');
+      form.value = "Enter 4 digits pin";
+      var btn = document.createElement("button");
+      btn.textContent = "Fulfill Order";
+      btn.onclick = () => onClickFulfilled(request, form);
+      temp.appendChild(form);
+      temp.appendChild(btn);
+    }
+  return temp;
 }
 
 function printRequests(querySnapshot) {
   querySnapshot.forEach((request) => {
     var request_data = request.data(); 
-    if (!(request_data.status === "Fullfilled")) { //Do not display fullfilled orders
-    document.getElementById('requests').appendChild(formatRequest(request));
+    if (!(request_data.status === "Fulfilled")) { //Do not display fulfilled orders
+    document.getElementById('requests').appendChild(formatRequest(request, 0));
     console.log("Request User: " + request_data.user);
     console.log("Current User Login: " + auth.currentUser.uid);
     if (request_data.user === auth.currentUser.uid) {
-      document.getElementById('myRequests').appendChild(formatMyRequest(request));
+      document.getElementById('myRequests').appendChild(formatRequest(request, 1));
       
     }  
     try {
       if ((request_data.users_taken_this).includes(auth.currentUser.uid)) {
         console.log("this user " + auth.currentUser.uid + " has taken the order: " + request.data().id);
-        document.getElementById('myRequestTaken').appendChild(formatRequestTaken(request));
+        document.getElementById('myRequestTaken').appendChild(formatRequest(request, 2));
       }
     } catch (e) {
       console.log("error:" + e);
     }
-    
-    //TODO
   }});
-}
-
-function formatRequestTaken(request) {
-  var data = request.data();
-  console.log("Format: " + data.description);
-  var temp = document.createElement('a');
-  var title = document.createElement('h2');
-  var desc = document.createElement('p');
-  var tags = document.createElement('p');
-  var bounty = document.createElement('p');
-  var form = document.createElement('input');
-  form.value = "Enter 4 digits pin";
-
-  //start of button
-  var btn = document.createElement("button");
-  btn.textContent = "Fullfill Order"
-  btn.onclick = () => onClickFulfilled(request, form);
-  title.innerText = data.title;
-  desc.innerText = data.description;
-  tags.innerText = data.tags;
-  bounty.innerText = "Bounty: $" + data.bounty;
-  temp.appendChild(title);
-  temp.appendChild(desc);
-  temp.appendChild(tags);
-  temp.appendChild(bounty);
-  temp.appendChild(form);
-  temp.appendChild(btn);
-return temp;
 }
 
 function testform()
