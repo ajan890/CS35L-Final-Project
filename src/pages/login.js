@@ -48,7 +48,7 @@ async function addNewUser(user)
     email: user.email,
     name: user.displayName,
     phone: 6904206969,
-    n_orders_fullfilled: 0,
+    n_orders_fulfilled: 0,
     n_orders_taken: 0,
     time_since_active: 0,
     requests_taken: [],
