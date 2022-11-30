@@ -229,7 +229,7 @@ async function getRequests() {
 
   
 onAuthStateChanged(auth, async (user) => {
-    //if(user) {
+    if(user) {
         name = user.displayName
         await getBalance(user);
         user = user;
@@ -237,7 +237,7 @@ onAuthStateChanged(auth, async (user) => {
           document.getElementById("header").innerHTML = "Hello: " + user.displayName;
           document.getElementById("balance").innerHTML = "You are this broke: $" + Number(balance);
         }
-    //}
+    }
 });
 
 async function getBalance(user)
