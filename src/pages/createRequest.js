@@ -44,7 +44,10 @@ async function balcheck(bounty) {
     if (bounty > balance) {
         alert("YOU'RE BROKE");
         return false;
-    } else {
+    } else if (bounty <= 0) {
+        alert("The bounty must be greater than 0!");
+        return false;
+    } else{
         await setDoc(docRef, {balance: balance - bounty}, {merge: true});
         return true;
     }
