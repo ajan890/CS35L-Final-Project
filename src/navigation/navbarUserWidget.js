@@ -95,7 +95,6 @@ export default function NavbarUserWidget () {
     }, []);
 
     if(user){
-        console.log(user)
         return (
             <div
                 style={{display : 'flex',

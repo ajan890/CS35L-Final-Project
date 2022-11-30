@@ -1,10 +1,38 @@
 #request_form {
-    background-color: rgba(220, 220, 220, 0.635);
-    border-radius: 20px;
-    padding: 10px;
-    width: fit-content;
-    margin-bottom: 10px;
+    margin: 2em auto;
+    width: 40em;
+    background-color: #EEE5E9;
+    border-radius: 1em;
     box-shadow: rgb(0, 0, 0) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#requestUpper{
+    display: flex;
+    padding: 1.5em 2em;
+    background-color: #92DCE5;
+    border-radius: 1em 1em 0 0;
+    align-content: center;
+}
+
+#requestLower{
+    padding: 1em 2em 2em 2em;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+}
+
+#tagElement{
+    border-radius: 0.5em;
+    padding: 0.5em;
+    border-style: solid;
+    border-color: #92DCE5;
+    display: flex;
+    column-gap: 1em;
+    row-gap: 1em;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .request_text {

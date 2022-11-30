@@ -24,9 +24,6 @@ export default function Navbar () {
 
     let homeHref = user ? "/dashboard" : "/"
 
-    console.log(window.location.host + "/login")
-    console.log(window.location.href)
-
     let loginUrl = window.location.protocol + "//" + window.location.host + "/login"
 
     if(window.location.href === loginUrl){
