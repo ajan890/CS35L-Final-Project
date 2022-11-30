@@ -130,37 +130,39 @@ function onClickDelete(request) {
   getServerRequest(request).then(function(result) {
     request_data = (result);
     console.log(request_data);
-    if (request.status === "Taken" || request.status === "Fulfilled") {
+    if (request_data.status === "Taken" || request_data.status === "Fulfilled") {
       alert("you cannot delete a order that has been taken or fulfilled!");
-    }
-    //update the request status
-    request.status = "Deleted";
-    updateDoc(doc(db, "Requests", request.id), {
-      status: "Deleted",
-    });
-    //delete element at html myRequest
-    var myRequests = document.getElementById("myRequests");
-    console.log("myRequests are: ", myRequests);
-    var children = myRequests.childNodes;
-    var desire_child;
-    for (var child in children) {
-      if (children[child].id === request.id) {
-        console.log("found the child");
-        desire_child = children[child];
+      
+    } else {
+      //update the request status
+      request.status = "Deleted";
+      updateDoc(doc(db, "Requests", request.id), {
+        status: "Deleted",
+      });
+      //delete element at html myRequest
+      var myRequests = document.getElementById("myRequests");
+      console.log("myRequests are: ", myRequests);
+      var children = myRequests.childNodes;
+      var desire_child;
+      for (var child in children) {
+        if (children[child].id === request.id) {
+          console.log("found the child");
+          desire_child = children[child];
+        }
       }
-    }
-    myRequests.removeChild(desire_child);
-    //delete element at html request
-    var requests = document.getElementById("requests");
-    console.log("Requests are: ", requests);
-    children = requests.childNodes;
-    for (var child in children) {
-      if (children[child].id === request.id) {
-        console.log("found the child");
-        desire_child = children[child];
+      myRequests.removeChild(desire_child);
+      //delete element at html request
+      var requests = document.getElementById("requests");
+      console.log("Requests are: ", requests);
+      children = requests.childNodes;
+      for (var child in children) {
+        if (children[child].id === request.id) {
+          console.log("found the child");
+          desire_child = children[child];
+        }
       }
-    }
-    requests.removeChild(desire_child); 
+      requests.removeChild(desire_child);
+  } 
   });
 }
 

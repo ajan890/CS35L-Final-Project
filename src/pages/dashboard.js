@@ -86,6 +86,7 @@ function onClickDelete(request) {
     console.log(request_data);
     if (request_data.status === "Taken" || request_data.status === "Fulfilled") {
       alert("you cannot delete a order that has been taken or fulfilled!");
+      return;
     }
     //update the request status
     request.status = "Deleted";
@@ -180,7 +181,7 @@ function onClickFulfilled(request, form) {
   var request_data;
   getServerRequest(request).then(function (result) {
     request_data = result;
-    request.data().status = result.status;
+    request.data().status = request_data.status;
     //user cannot fulfilled orders that is deleted or fulfilled
     if (request_data.status === "Deleted") {
       alert ("Someone else has deleted this order!");
