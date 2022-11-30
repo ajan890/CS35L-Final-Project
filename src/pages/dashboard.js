@@ -84,7 +84,7 @@ function onClickDelete(request) {
   getServerRequest(request).then(function(result) {
     request_data = (result);
     console.log(request_data);
-    if (request.status === "Taken" || request.status === "Fulfilled") {
+    if (request_data.status === "Taken" || request_data.status === "Fulfilled") {
       alert("you cannot delete a order that has been taken or fulfilled!");
     }
     //update the request status
@@ -151,6 +151,21 @@ function formatRequestSub(request) {
   return temp;
 }
 
+function delete_child(section, child_id) {
+  //child is the id of request in each element(added in formatprint)
+  //section is an element in [requestsTaken, myRequest, requests]
+  var allrequestsTaken = document.getElementById(section);
+  var children = allrequestsTaken.childNodes;
+  var desire_child;
+  for (var child in children) {
+    if (children[child].id === child_id) {
+      console.log("found the child");
+      desire_child = children[child];
+    }
+  }
+  allrequestsTaken.removeChild(desire_child);
+}
+
 //update the request status
 function onClickFulfilled(request, form) {
   var id = request.id;
@@ -162,55 +177,63 @@ function onClickFulfilled(request, form) {
   console.log("this is userbal: " + userbal);
   console.log("this is the bounty: " + bounty);
   console.log("Logged in user: " + user.UID);
-  if (pin === form_val) {
+  var request_data;
+  getServerRequest(request).then(function (result) {
+    request_data = result;
+    request.data().status = result.status;
+    //user cannot fulfilled orders that is deleted or fulfilled
+    if (request_data.status === "Deleted") {
+      alert ("Someone else has deleted this order!");
+      delete_child("requestsTaken", request.id);
+      return;
+    } else if (request_data.status === "Fulfilled") {
+      alert ("Another person has delivered this order!");
+      delete_child("requestsTaken", request.id);
+      return;
+    }
+    //verify pin
+    if (pin === form_val) {
 
-    console.log(user.requests_taken);
-    console.log(user.requests_taken.length);
-    var remove_idx = -1;
-    for (var i = 0; i < user.requests_taken; ++i) {
-      if (user.requests_taken[i] === id) {
+      console.log(user.requests_taken);
+      console.log(user.requests_taken.length);
+      var remove_idx = -1;
+      for (var i = 0; i < user.requests_taken; ++i) {
+        if (user.requests_taken[i] === id) {
           remove_idx = i;
           break;
+        }
       }
-    }
-    console.log("remove idx is:" + remove_idx);
-    user.requests_taken.splice(remove_idx, remove_idx + 1);
-    console.log(user.requests_taken);
-    user.n_orders_fulfilled = user.n_orders_fulfilled + 1;
+      console.log("remove idx is:" + remove_idx);
+      user.requests_taken.splice(remove_idx, remove_idx + 1);
+      console.log(user.requests_taken);
+      user.n_orders_fulfilled = user.n_orders_fulfilled + 1;
 
-
-    //update the local and remote data at the same time
-    request.data().status = "Fulfilled";
-    updateDoc(doc(db, "Requests", id), {
-      status: "Fulfilled"
-    });
-    var allrequestsTaken = document.getElementById("requestsTaken");
-    var children = allrequestsTaken.childNodes;
-    var desire_child;
-    for (var child in children) {
-      if (children[child].id === request.id) {
-        console.log("found the child");
-        desire_child = children[child];
+      //update the local and remote data at the same time
+      request.data().status = "Fulfilled";
+      updateDoc(doc(db, "Requests", id), {
+        status: "Fulfilled"
+      });
+      delete_child("requestsTaken", request.id);
+      //FR2: calcualte the active bonus and update in server and page
+      let bonus_active = active_bonus(user);
+      console.log("active bonus is " + bonus_active);
+      if (bonus_active > 0) {
+        alert("Thank you for being active in the network. You are rewarded with $" + bonus_active + " in you balance.");
       }
+      //update the balance for the bounty
+      user.balance = Number(userbal + bounty + bonus_active);
+      user.balance = Math.round(user.balance * 100) / 100;
+      document.getElementById("balance").innerHTML = "You are this broke: $" + user.balance;
+      updateDoc(doc(db, "Users", user.UID), {
+        balance: user.balance,
+        requests_taken: user.requests_taken,
+        n_orders_fulfilled: user.n_orders_fulfilled,
+      });
+      alert("Sucessfully Fulfilled!");
+    } else {
+      alert("Your pin is incorrect");
     }
-    allrequestsTaken.removeChild(desire_child)
-    //FR2: calcualte the active bonus and update in server and page
-    let bonus_active = active_bonus(user);
-    console.log("active bonus is " + bonus_active);
-    if (bonus_active > 0) {
-      alert("Thank you for being active in the network. You are rewarded with $" + bonus_active + " in you balance.");
-    }
-    //update the balance for the bounty
-    user.balance = Number(userbal + bounty + bonus_active); 
-    user.balance = Math.round(user.balance * 100) / 100;
-    document.getElementById("balance").innerHTML = "You are this broke: $" + user.balance;
-    updateDoc(doc(db, "Users", user.UID), {
-      balance: user.balance,
-      requests_taken: user.requests_taken,
-      n_orders_fulfilled : user.n_orders_fulfilled,
-    });
-    alert("Sucessfully Fulfilled!");
-  } 
+  });
 }
 
 function active_bonus(user) {
