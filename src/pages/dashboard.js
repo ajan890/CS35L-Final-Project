@@ -229,13 +229,15 @@ async function getRequests() {
 
   
 onAuthStateChanged(auth, async (user) => {
-    if(user) {
+    //if(user) {
         name = user.displayName
         await getBalance(user);
         user = user;
-        document.getElementById("header").innerHTML = "Hello: " + user.displayName;
-        document.getElementById("balance").innerHTML = "You are this broke: $" + Number(balance);
-    }
+        if (document.getElementById("header") !== null) {
+          document.getElementById("header").innerHTML = "Hello: " + user.displayName;
+          document.getElementById("balance").innerHTML = "You are this broke: $" + Number(balance);
+        }
+    //}
 });
 
 async function getBalance(user)
@@ -277,11 +279,6 @@ function Dashboard() {
         </div>
     );
 }
-
-
-
-
-
 
 
 export default Dashboard
