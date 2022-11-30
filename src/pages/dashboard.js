@@ -119,6 +119,9 @@ async function getServerRequest(request)
 
 function formatRequestTaken(request) {
   var toReturn = formatRequestSub(request);
+  var deliver_loc = document.createElement('p');
+  deliver_loc.innerText = "Delivery location: " + request.data().destination;
+  toReturn.appendChild(deliver_loc);
   var form = document.createElement('input');
   form.value = "Enter 4 digits pin";
   var btn = document.createElement("button");
