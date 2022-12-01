@@ -1,5 +1,6 @@
 import React from "react";
 
+//This is the deault page that gets loaded if the URL could not be found
 class ErrorPage extends React.Component
 {
     render(){

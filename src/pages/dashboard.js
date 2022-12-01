@@ -9,6 +9,7 @@ import "./dashboard.css";
 var user = null;
 var balance = null;
 
+//gets the user for usage
 async function getUser() {
   const users = await getDocs(collection(db, "Users"));
   const authUID = auth.currentUser.uid;
@@ -22,6 +23,7 @@ async function getUser() {
   console.log("1USER: " + user.UID);
 }
 
+//logic for taking requests
 function onClickTakeReq(request) {
   console.log("Taking request");
   var id = request.id;
@@ -49,6 +51,7 @@ function onClickTakeReq(request) {
     alert("Request Taken!");
   }
 }
+
 
 function formatRequest(request) {
   var data = request.data();
@@ -108,6 +111,8 @@ function onClickDelete(request) {
   });
 }
 
+
+//get the requests from the database
 async function getServerRequest(request)
 {
     var request_id = request.id;
@@ -246,6 +251,7 @@ function onClickFulfilled(request, form) {
   });
 }
 
+//calculating the user bonus for loyalty
 function active_bonus(user, request) {
   console.log("The number of order this user has taken is: " + user.n_orders_taken + "\n" +
     "the number of order this user has fulfilled is: " + user.n_orders_fulfilled);
@@ -281,9 +287,9 @@ async function getRequests() {
       }});
   }
 
+//when user logs in or logs out change the dashboard information
 onAuthStateChanged(auth, async (user) => {
     if(user) {
-        //name = user.displayName
         await getBalance(user);
         user = user;
         if (document.getElementById("header") !== null) {
@@ -293,6 +299,7 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
+//gets the user balance
 async function getBalance(user)
 {
     var uid = user.uid;

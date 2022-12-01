@@ -7,6 +7,7 @@ import { db, auth } from "../firebase/initFirebase";
 import { useEffectOnce } from '../utilities';
 import "./login.css"
 
+//configuration for the UI
 var uiConfig = {
     callbacks: {
         signInSuccessWithAuthResult: function(authResult, redirectUrl) {
@@ -27,6 +28,7 @@ var uiConfig = {
     ],
 };
 
+//checks if the user is new to the database
 async function isExistingUser(uid)
 {
   const users = collection(db, "Users");
@@ -41,6 +43,7 @@ async function isExistingUser(uid)
   }
 }
 
+//adds new users to the database
 async function addNewUser(user)
 {
   await setDoc(doc(db, "Users", user.uid), {
@@ -55,6 +58,8 @@ async function addNewUser(user)
     UID: user.uid,
   });
 }
+
+//when someone logs in check if they exist in the database
 onAuthStateChanged(auth, async (user) => {
   if(user) {
     const is = await isExistingUser(user.uid)
@@ -65,9 +70,7 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-
-
-
+//start the login UI
 function startLogin() {
     if(firebaseui.auth.AuthUI.getInstance()) {
         const ui = firebaseui.auth.AuthUI.getInstance();
