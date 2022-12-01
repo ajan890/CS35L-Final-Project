@@ -7,25 +7,22 @@
     left: 0;
     width: 100%;
     position: fixed;
-    z-index: 1;
+    z-index: -1;
 }
 
 #top_overlay {
-    margin-top: -5%;
-    left: 0;
-    position: absolute;
     width: 100%;
-    height: 120%;
+    padding: 18% 0;
     background-color: rgba(0,0,0,0.25);
-    z-index: 2;
+    z-index: 0;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 #title_text {
-    position: absolute;
     z-index: 2;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     font-size: 70px;
     color: white;
     font-family: 'Fredericka the Great', cursive;
@@ -33,44 +30,32 @@
 }
 
 #title_subtitle {
-    position: absolute;
     z-index: 2;
-    top: 61%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     font-size: 18px;
     color: white;
     font-family: 'Libre Caslon Text', serif;
     text-align: center;
 }
 
-#background_two {
-    left: -2.7%;
-    width: 105.5%;
-    height: auto;
-    margin-top: 45%;
-    position: relative;
-    z-index: 3;
+#login_ad {
+    padding: 20% 0;
+    z-index: 2;
+    background-image: url("./images/royce_hall.jpg");
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 2em;
 }
 
-#login_title {
-    position: relative;
-    margin-top: -38%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 4;
-    font-size: 20px;
-    text-align: center;
+#login_title {;
     font-size: 50px;
+    text-align: center;
     color: white;   /* <-- Change color of text title for Royce Hall */
     text-shadow: 2px 2px rgb(26, 30, 46);    /* <-- Change shadow color of text title for Royce Hall */
 }
 
 #login_description {
-    position: relative;
-    margin-top: 4%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     z-index: 4;
     font-size: 20px;
     font-family: Arial, Helvetica, sans-serif;
@@ -81,11 +66,6 @@
 }
 
 #login_button {
-    position: relative;
-    margin-top: 6%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 3;
     font-size: 15px;
     align-items: center;
     appearance: none;
@@ -124,67 +104,53 @@
 }
 
 #Features {
-    left: -2.7%;
-    width: 105.5%;
+    height: fit-content;
+    width: 100%;
     background-color: lightgray;
-    margin-top: 14%;
     padding-top: 2%;
     padding-bottom: 2.5%;
-    position: relative;
     text-align: center;
     font-size: 50px;
     font-family: 'Fahkwang', sans-serif;
-    z-index: 3;
-}
-
-#background_three {
-    left: -2.7%;
-    width: 105.5%;
-    position: relative;
-    margin-top: -10%;
-    height: auto;
-    z-index: 2;
-    margin-bottom: -1.7%;
 }
 
 #features_container {
+    background-image: url("./images/snowy_mountain.jpg");
+    background-size: cover;
+    height: auto;
     display: flex;
-    position: relative;
-    margin-top: -28%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    z-index: 3;
+    justify-content: center;
+    column-gap: 2em;
+    padding: 15% 0;
+    text-align: center;
 }
 
 .feature_element {
-    display: inline-block;
-    margin-left: 2%;
-    width: 100%;    
+    padding: 3em 3em 10em 3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     height: auto;
-    padding-bottom: 10%;
     background-color: rgb(228, 228, 228);
     background-size: 80%;
-    text-align: center;
-    z-index: 3;
     border-radius: 20px;
+    row-gap: 2em;
 }
 
 .feature_number {
+    transform: translate(0, -75%);
     font-size: 45px;
     background-color: lightgray;
     border-radius: 70px;
     width: 100px;
     height: 100px;
-    margin-left: 33%;
-    margin-top: -15%;
     display: flex;
     align-items: center;
-    text-align: center;
+    justify-content: center;
 }
 
 .feature_title {
-    margin-top: 5%;
+    width: 100%;
     font-size: 30px;
     font-family: 'Fahkwang', sans-serif;
 }
@@ -195,16 +161,10 @@
 }
 
 #propoganda {
-    left: -2.7%;
-    width: 105.5%;
-    position: relative;
-    margin-top: -16%;
-    padding-top: 5%;
-    padding-bottom: 4%;
-    z-index: 2;
     text-align: center;
     background-color: black;
     color: white;
+    padding: 15% 0;
 }
 
 #propoganda_title {
@@ -224,14 +184,8 @@
 }   
 
 #footer {
-    left: -2.7%;
-    width: 105.5%;
-    position: relative;
-    z-index: 2;
     color: white;
     background-color: black;
-    padding-bottom: 3%;
-    margin-bottom: -3%;
 }
 
 #footer_img {
@@ -243,6 +197,7 @@
 
 #footer_text {
     margin-top: 2%;
+    padding-bottom: 2%;
     border-radius: 20px;
     text-align: center;
 }
