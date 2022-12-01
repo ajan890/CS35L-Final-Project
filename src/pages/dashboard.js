@@ -216,10 +216,10 @@ function onClickFulfilled(request, form) {
       });
       delete_child("requestsTaken", request.id);
       //FR2: calcualte the active bonus and update in server and page
-      let bonus_active = active_bonus(user);
+      let bonus_active = active_bonus(user, request);
       console.log("active bonus is " + bonus_active);
       if (bonus_active > 0) {
-        alert("Thank you for being active in the network. You are rewarded with $" + bonus_active + " in you balance.");
+        alert("Thank you for being active in the network. You are rewarded with $" + Math.round(bonus_active * 100) / 100 + " in you balance.");
       }
       //update the balance for the bounty
       user.balance = Number(userbal + bounty + bonus_active);
@@ -237,14 +237,16 @@ function onClickFulfilled(request, form) {
   });
 }
 
-function active_bonus(user) {
+function active_bonus(user, request) {
   console.log("The number of order this user has taken is: " + user.n_orders_taken + "\n" +
     "the number of order this user has fulfilled is: " + user.n_orders_fulfilled);
-  if (user.n_orders_fulfilled > 0 && user.n_orders_taken > 0 
-    && user.n_orders_fulfilled % 3 === 0) {
-      let fullfill_rate = user.n_orders_fulfilled / user.n_orders_taken;
-      return (fullfill_rate + 1) * 0.015;
-    }
+  let base_rate = 0.025;
+  let rate_based_on_req = Math.min(0.01, 0.001 * user.n_orders_fulfilled / 2); 
+  if (user.n_orders_fulfilled > 0 && user.n_orders_taken > 0) {
+    console.log(base_rate + rate_based_on_req);
+    console.log(request.data().bounty);
+      return (base_rate + rate_based_on_req) * Number(request.data().bounty);
+  }
   return 0;  
 } 
 
