@@ -240,8 +240,8 @@ function onClickFulfilled(request, form) {
 function active_bonus(user, request) {
   console.log("The number of order this user has taken is: " + user.n_orders_taken + "\n" +
     "the number of order this user has fulfilled is: " + user.n_orders_fulfilled);
-  let base_rate = 0.025;
-  let rate_based_on_req = Math.min(0.01, 0.001 * user.n_orders_fulfilled / 2); 
+  let base_rate = 0.02;
+  let rate_based_on_req = Math.min(0.015, 0.001 * user.n_orders_fulfilled); 
   if (user.n_orders_fulfilled > 0 && user.n_orders_taken > 0) {
     console.log(base_rate + rate_based_on_req);
     console.log(request.data().bounty);
