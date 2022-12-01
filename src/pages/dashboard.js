@@ -132,6 +132,7 @@ function formatRequestTaken(request) {
   toReturn.appendChild(btn);
   return toReturn;
 }
+
 function formatRequestSub(request) {
   var data = request.data();
   console.log("Format: " + data.description);
@@ -139,14 +140,22 @@ function formatRequestSub(request) {
   var title = document.createElement('h2');
   var desc = document.createElement('p');
   var tags = document.createElement('p');
+  var loc = document.createElement('p');
+  var dest = document.createElement('p');
   var bounty = document.createElement('p');
+
   title.innerText = data.title;
   desc.innerText = "Description: " + data.description;
   tags.innerText = "Tags: " + data.tags;
+  loc.innerText = "Store/Location: " + data.from;
+  dest.innerText = "Destination: " + data.destination;
   bounty.innerText = "Bounty: $" + data.bounty;
+
   temp.appendChild(title);
   temp.appendChild(desc);
   temp.appendChild(tags);
+  temp.appendChild(loc);
+  temp.appendChild(dest);
   temp.appendChild(bounty);
   temp.id = request.id;
   return temp;

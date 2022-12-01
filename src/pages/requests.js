@@ -6,15 +6,16 @@ import "./requests.css";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 var user;
+var requestSnapshot;
 
 async function getRequests() {
   const querySnapshot = await getDocs(collection(db, "Requests"));
-  var count = 0;
-  querySnapshot.forEach((doc) => {
-    console.log(count + doc.data().description);
-    count++;
-  });
-
+  // var count = 0;
+  // querySnapshot.forEach((doc) => {
+  //   console.log(count + doc.data().description);
+  //   count++;
+  // });
+  requestSnapshot = querySnapshot;
   printRequests(querySnapshot);
 }
 
@@ -193,27 +194,57 @@ function formatRequestSub(request) {
   var title = document.createElement('h2');
   var desc = document.createElement('p');
   var tags = document.createElement('p');
+  var loc = document.createElement('p');
+  var dest = document.createElement('p');
   var bounty = document.createElement('p');
+
   title.innerText = data.title;
   desc.innerText = "Description: " + data.description;
   tags.innerText = "Tags: " + data.tags;
+  loc.innerText = "Store/Location: " + data.from;
+  dest.innerText = "Destination: " + data.destination;
   bounty.innerText = "Bounty: $" + data.bounty;
+
   temp.appendChild(title);
   temp.appendChild(desc);
   temp.appendChild(tags);
+  temp.appendChild(loc);
+  temp.appendChild(dest);
   temp.appendChild(bounty);
   temp.id = request.id;
   return temp;
 }
 
-
-function printRequests(querySnapshot) {
+function searchRequests(querySnapshot, tag) {
+  //first, clear all child nodes
+  while (document.getElementById('requests').firstChild) {
+    document.getElementById('requests').removeChild(document.getElementById('requests').firstChild);
+  }
+  //repopulate
   querySnapshot.forEach((request) => {
     var request_data = request.data(); 
     if (!(request_data.status === "Fulfilled") && !(request_data.status === "Deleted")) { //Do not display fulfilled orders
-    document.getElementById('requests').appendChild(formatRequest(request));
-    console.log("Request User: " + request_data.user);
-    console.log("Current User Login: " + auth.currentUser.uid);
+      if (tag === "") {
+        document.getElementById('requests').appendChild(formatRequest(request));
+      } else {
+        var tags = request_data.tags;
+        var hasPart = false;
+        tags.forEach((t) => {
+          if (t.indexOf(tag) == 0) hasPart = true;
+        });
+        if (hasPart) document.getElementById('requests').appendChild(formatRequest(request));
+      }
+  }});
+}
+
+function printRequests(querySnapshot) {
+  //repopulate
+  querySnapshot.forEach((request) => {
+    var request_data = request.data(); 
+    if (!(request_data.status === "Fulfilled") && !(request_data.status === "Deleted")) { //Do not display fulfilled orders
+      document.getElementById('requests').appendChild(formatRequest(request));
+      console.log("Request User: " + request_data.user);
+      console.log("Current User Login: " + auth.currentUser.uid);
     if (request_data.user === auth.currentUser.uid) {
       document.getElementById('myRequests').appendChild(formatMyRequest(request));
       
@@ -229,11 +260,20 @@ function printRequests(querySnapshot) {
   }});
 }
 
+function tagSearchChange(event) {
+  const value = event.target.value;
+  searchRequests(requestSnapshot, value);
+}
+
 function testform()
 {
   return(
     <div className="wrapper">
       <h1>Requests</h1> 
+      <div>
+        <a>Search by tags: </a><input type='text' id='tag_search' onChange={tagSearchChange}></input>
+      </div>
+
           <div id="requests" className="scrollmenu"></div>
       <h1>My Requests</h1>
         <div id="myRequests" className="scrollmenu"></div>
