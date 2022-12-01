@@ -4,12 +4,12 @@
 }
 
 #navbar{
-    background: #4F0000;
+    background: #F2FDFF;
     height: 2em;
     display: flex;
     padding: 1em 1em;
     align-items: center;
-    color: black;
+    color: #0B0014;
     position: relative;
     z-index: 5;
 }
