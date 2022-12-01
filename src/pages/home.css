@@ -19,6 +19,7 @@
     justify-content: center;
     align-items: center;
     display: flex;
+    padding-bottom: 16%;
 }
 
 #title_text {
@@ -27,6 +28,7 @@
     color: white;
     font-family: 'Fredericka the Great', cursive;
     text-align: center;
+    margin-bottom: 5%;
 }
 
 #title_subtitle {
@@ -39,6 +41,7 @@
 
 #login_ad {
     padding: 20% 0;
+    padding-bottom: 16%;
     z-index: 2;
     background-image: url("./images/royce_hall.jpg");
     background-size: cover;
@@ -48,11 +51,12 @@
     row-gap: 2em;
 }
 
-#login_title {;
+#login_title {
     font-size: 50px;
     text-align: center;
     color: white;   /* <-- Change color of text title for Royce Hall */
     text-shadow: 2px 2px rgb(26, 30, 46);    /* <-- Change shadow color of text title for Royce Hall */
+    padding-top: 6%;
 }
 
 #login_description {
@@ -63,6 +67,7 @@
     color: white;      /* <-- Change color of text for Royce Hall */
     width: max-content;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);  /* <-- Change shadow color of text for Royce Hall */
+    padding-bottom: -10%;
 }
 
 #login_button {
@@ -112,6 +117,8 @@
     text-align: center;
     font-size: 50px;
     font-family: 'Fahkwang', sans-serif;
+    z-index: 2;
+    position: relative;
 }
 
 #features_container {
@@ -121,12 +128,16 @@
     display: flex;
     justify-content: center;
     column-gap: 2em;
-    padding: 15% 0;
+    padding: 8% 0;
+    padding-top: 18%;
+    margin-top: -7%;
     text-align: center;
+    z-index: 1;
 }
 
 .feature_element {
     padding: 3em 3em 10em 3em;
+    padding-bottom: 5%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -153,6 +164,7 @@
     width: 100%;
     font-size: 30px;
     font-family: 'Fahkwang', sans-serif;
+    padding-top: 8%;
 }
 
 .feature_text {
@@ -164,7 +176,7 @@
     text-align: center;
     background-color: black;
     color: white;
-    padding: 15% 0;
+    padding: 5% 0;
 }
 
 #propoganda_title {
@@ -175,12 +187,16 @@
 #propoganda_slogan {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
+    margin-bottom: 2%;
 }
 
 #propoganda_text {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 15px;
+    font-size: 17px;
     line-height: 30px;
+    width: 80%;
+    margin: auto;
+    margin-bottom: -1%;
 }   
 
 #footer {

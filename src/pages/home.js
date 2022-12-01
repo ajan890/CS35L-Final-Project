@@ -92,19 +92,19 @@ function Home() {
                 <div id="propoganda_slogan"><br></br>
                     Still better than USC
                 </div>
-                <div id="propoganda_text"><br></br>
+                <div id="propoganda_text">
                     We came up with this idea totally on the fly since we needed something for our CS35L project but it
-                    actually ended<br></br>
+                    actually ended
                     up sounding like a pretty great community connection project that would never work in real life due
                     to
-                    the amount of<br></br>
+                    the amount of
                     trust each individual would have to have towards every other individual. But hey, that's what dreams
-                    (and CS class<br></br>
+                    (and CS class
                     projects) are for right. With the amount of walking around you have to do everyday, why not help a
-                    fellow Bruin out<br></br>
+                    fellow Bruin out
                     by picking up a couple of things along the way? Since you're still reading, here's a picture of a
                     laptop
-                    and some<br></br>
+                    and some
                     coffee I found off of google Looks nice, doesn't it? Just like this webpage, I'm sure. #UAW STRIKE
                 </div>
             </div>
