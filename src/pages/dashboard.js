@@ -8,6 +8,8 @@ import {active_bonus, getServerRequest, TakenRequest, MyRequest} from "./request
 
 import "./dashboard.css";
 import {MyRequests} from "./requestBoxes/myRequests";
+import {IconButton} from "@mui/material";
+import {NavigateBefore, NavigateNext} from "@mui/icons-material";
 
 
 function Dashboard() {
@@ -19,8 +21,7 @@ function Dashboard() {
         getServerRequest(request).then(function (result) {
 
             updateDoc(doc(db, "Requests", request.id), {
-                status: "Not Taken",
-                users_taken_this: [],
+                status: "Not Taken", users_taken_this: [],
             });
             //delete element at html myRequest
             setTakenRequests(takenRequestsRef.current.filter((rq) => {
@@ -62,7 +63,7 @@ function Dashboard() {
             }
             console.log(form_val)
             //verify pin
-            if (pin !== form_val){
+            if (pin !== form_val) {
                 alert("Your pin is incorrect");
                 return;
             }
@@ -98,9 +99,7 @@ function Dashboard() {
             user.balance = Math.round(user.balance * 100) / 100;
             document.getElementById("balance").innerHTML = "You are this broke: $" + user.balance;
             updateDoc(doc(db, "Users", user.UID), {
-                balance: user.balance,
-                requests_taken: user.requests_taken,
-                n_orders_fulfilled: user.n_orders_fulfilled,
+                balance: user.balance, requests_taken: user.requests_taken, n_orders_fulfilled: user.n_orders_fulfilled,
             });
             alert("Sucessfully Fulfilled!");
         });
@@ -117,7 +116,9 @@ function Dashboard() {
                     if ((request_data.users_taken_this).includes(auth.currentUser.uid)) {
                         console.log("order status is: ", request_data.status);
                         console.log("this user " + auth.currentUser.uid + " has taken the order: " + request_data.id);
-                        newTakenRequests.push(<TakenRequest request={request} key={request.id} onClickFulfilled={onClickFulfilled} onClickDelete={onClickDeleteTaken}/>)
+                        newTakenRequests.push(<TakenRequest request={request} key={request.id}
+                                                            onClickFulfilled={onClickFulfilled}
+                                                            onClickDelete={onClickDeleteTaken}/>)
                     }
                 } catch (e) {
                     console.log("error:" + e);
@@ -125,15 +126,19 @@ function Dashboard() {
             }
         });
 
+        if(newTakenRequests.length === 0) newTakenRequests.push(<div style={{flexGrow : "1",
+            display : "flex", alignItems : "center", justifyContent : "center",
+            fontSize : "2em", borderRadius : "1em", border: "dashed"}}>No requests</div>)
+
         setTakenRequests(newTakenRequests)
     });
 
-    return (
-        <div id="dashboardDiv">
-            <img style={{position:"fixed", zIndex : -1, width : "100%", left : 0, top : 0}} src={require("./images/sakura_trees - blur.jpg")}/>
+    return (<div id="dashboardDiv">
+            <img style={{position: "fixed", zIndex: -1, width: "100%", left: 0, top: 0}}
+                 src={require("./images/sakura_trees - blur.jpg")}/>
             <div id="dashboardTop">
                 <div>
-                    <b style={{fontSize : "3em"}} id="header">Hello</b>
+                    <b style={{fontSize: "3em"}} id="header">Hello</b>
                 </div>
                 <div id="balance">You are this broke:</div>
                 <div id="add-balance">
@@ -142,19 +147,40 @@ function Dashboard() {
                     </a>
                 </div>
             </div>
-            <div style={{backgroundColor : "#F5E9E2", padding : "0em 3em"}}>
-            <div style={{height : "1em"}}></div>
-            <MyRequests/>
-            <div>
-                <h2 id="second_title">Requests Taken</h2>
-                <div id="requestsTaken" className="scrollmenu">{takenRequests}</div>
-                <a href="/dashboard/requests">
-                    <button className="button">Go to Requests</button>
-                </a>
+            <div style={{backgroundColor: "#F5E9E2", padding: "0em 3em"}}>
+                <div style={{height: "1em"}}></div>
+                <MyRequests/>
+                <div>
+                    <div style={{display : "flex", alignItems : "center", columnGap : "1em"}}>
+                        <b style={{fontSize : "2em", }} id="second_title">Requests Taken</b>
+                        <div style={{flexGrow : 1}}/>
+                        <a href="/dashboard/requests">
+                            <button className="button">Go to Requests</button>
+                        </a>
+                    </div>
+                    <div style={{display: "flex", alignItems: "center"}}>
+                        <div>
+                            <IconButton onClick={() => {
+                                document.getElementById('requestsTaken').scrollBy({left: -500})
+                            }}>
+                                <NavigateBefore/>
+                            </IconButton>
+                        </div>
+                        <div id="requestsTaken" className="scrollmenu">{takenRequests}</div>
+                        <div>
+                            <IconButton onClick={() => {
+                                document.getElementById('myRequests').scrollBy({left: +500})
+                            }}>
+                                <NavigateNext/>
+                            </IconButton>
+                        </div>
+                    </div>
+                </div>
             </div>
-            </div>
-        </div>
-    );
+        <footer style={{padding : "1em", backgroundColor : "#773344", color : "#F5E9E2"}}>
+            @A 35L Project
+        </footer>
+        </div>);
 }
 
 export default Dashboard

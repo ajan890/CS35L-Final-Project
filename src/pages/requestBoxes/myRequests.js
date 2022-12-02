@@ -4,6 +4,8 @@ import {auth, db, getUser} from "../../firebase/initFirebase";
 import {collection, doc, getDocs, updateDoc} from "firebase/firestore";
 import {MyRequest, TakenRequest, getServerRequest} from "./requestBoxes";
 import {useRef, useState} from "react";
+import {IconButton} from "@mui/material";
+import {NavigateBefore, NavigateNext} from "@mui/icons-material";
 
 export function MyRequests(){
     const [requests, setRequests] = useState([])
@@ -40,6 +42,10 @@ export function MyRequests(){
             }
         });
 
+        if(newRequests.length === 0) newRequests.push(<div style={{flexGrow : "1", display : "flex",
+            alignItems : "center", justifyContent : "center", fontSize : "2em",
+            borderRadius : "1em", border: "dashed"}}>No requests</div>)
+
         setRequests(newRequests)
     });
 
@@ -52,7 +58,23 @@ export function MyRequests(){
                     <button className="button">Submit Request</button>
                 </a>
             </div>
-            <div id="myRequests" className="scrollmenu">{requests}</div>
+            <div style={{display : "flex", alignItems: "center", width: "100%"}}>
+                <div>
+                <IconButton onClick={() => {
+                    document.getElementById('myRequests').scrollBy({left: -500})
+                }}>
+                    <NavigateBefore/>
+                </IconButton>
+                </div>
+                <div id="myRequests" className="scrollmenu">{requests}</div>
+                <div>
+                <IconButton onClick={() => {
+                    document.getElementById('myRequests').scrollBy({left: +500})
+                }}>
+                    <NavigateNext/>
+                </IconButton>
+                </div>
+            </div>
         </div>
     )
 }

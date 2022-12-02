@@ -171,6 +171,10 @@ function Requests() {
         />
 
         <div id="requests">{requests}</div>
+
+        <footer style={{padding : "1em", backgroundColor : "#773344", color : "#F5E9E2", margin: "1em -3em 0em -3em"}}>
+            @A 35L Project
+        </footer>
     </div>);
 }
 
