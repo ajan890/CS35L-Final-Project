@@ -82,7 +82,7 @@ export async function getServerRequest(request) {
     return request_data;
 }
 
-export function MyRequest(props) {
+function RequestHeader(props){
     let data = props.request.data();
     const [chips, setChips] = useState([])
 
@@ -103,34 +103,50 @@ export function MyRequest(props) {
         convertTagsToChips()
     })
 
+    return(
+        <div id="requestBoxUpper">
+            <div id="requestBoxUpperTop">
+                <div style={{display : "flex", alignItems : "center", borderStyle : "solid", height : "auto", padding : "0em 1em", borderRadius : "1em"}}>
+                    <b style={{fontSize: "2em"}}>{"$" + data.bounty}</b>
+                </div>
+                <div style={{minWidth: 0, flexShrink: 2, display: "flex", flexDirection: "column"}}>
+                    <b style={{width : "100%", fontSize: "2em", textOverflow: "ellipsis", overflow: "hidden"}}>{data.title}</b>
+                    <div style={{width : "100%", minHeight : "2em", overflowX : "hidden"}}>{chips}</div>
+                </div>
+                <div style={{flexGrow : 1}}></div>
+                <div style={{display : props.closable ? "block" : "none"}}>
+                    <IconButton onClick={() => {props.onClickDelete(props.request)}}>
+                        <Close/>
+                    </IconButton>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function RequestBody(props){
+    let data = props.request.data();
+
+    return (
+        <div id="requestBoxLower">
+            <TextField id="description" label="Description" multiline variant="outlined" minRows="5"
+                       fullWidth name={"description"} value={data.description} disabled/>
+            <div style={{display : "flex", marginTop : "1em", columnGap : "2em"}}>
+                <TextField size={"small"} label={"Store/Location"} name={"location"} disabled value={data.from}/>
+                <div style={{flexGrow : "1"}}/>
+                <TextField size={"small"} label={"Destination"} name={"destination"} disabled value={data.destination}/>
+            </div>
+        </div>
+    )
+}
+
+export function MyRequest(props) {
+    let data = props.request.data();
+
     return (
         <div className={"requestInfo"} id={props.request.id}>
-            <div id="requestBoxUpper">
-                <div id="requestBoxUpperTop">
-                    <div style={{display : "flex", alignItems : "center", borderStyle : "solid", height : "auto", padding : "0em 1em", borderRadius : "1em"}}>
-                        <b style={{fontSize: "2em"}}>{"$" + data.bounty}</b>
-                    </div>
-                    <div style={{minWidth: 0, flexShrink: 2, display: "flex", flexDirection: "column"}}>
-                        <b style={{width : "100%", fontSize: "2em", textOverflow: "ellipsis", overflow: "hidden"}}>{data.title}</b>
-                        <div style={{width : "100%", minHeight : "2em", overflowX : "hidden"}}>{chips}</div>
-                    </div>
-                    <div style={{flexGrow : 1}}></div>
-                    <div>
-                        <IconButton onClick={() => {props.onClickDelete(props.request)}}>
-                            <Close/>
-                        </IconButton>
-                    </div>
-                </div>
-            </div>
-            <div id="requestBoxLower">
-                <TextField id="description" label="Description" multiline variant="outlined" minRows="5"
-                           fullWidth name={"description"} value={data.description} disabled/>
-                <div style={{display : "flex", marginTop : "1em", columnGap : "2em"}}>
-                    <TextField size={"small"} label={"Store/Location"} name={"location"} disabled value={data.from}/>
-                    <div style={{flexGrow : "1"}}/>
-                    <TextField size={"small"} label={"Destination"} name={"destination"} disabled value={data.destination}/>
-                </div>
-            </div>
+            <RequestHeader request={props.request} onClickDelete={props.onClickDelete} closable/>
+            <RequestBody request={props.request}/>
             <div id="requestBoxBottom">
                 <div style={{border : "solid", borderRadius : "1em", padding : "0em 1em"}}>
                     <b>Order status: </b>
@@ -147,55 +163,12 @@ export function MyRequest(props) {
 }
 
 export function TakenRequest(props) {
-    let data = props.request.data();
     const [pin, setPin] = useState(0)
-    const [chips, setChips] = useState([])
-
-    const convertTagsToChips = () => {
-        let newChips = []
-        data.tags.forEach((tag) => {
-            newChips.push(
-                <Chip
-                    label={tag}
-                    key={tag}
-                />
-            )
-        })
-        setChips(newChips)
-    }
-
-    useEffectOnce(() => {
-        convertTagsToChips()
-    })
 
     return (
         <div className={"requestInfo"} id={props.request.id}>
-            <div id="requestBoxUpper">
-                <div id="requestBoxUpperTop">
-                    <div style={{display : "flex", alignItems : "center", borderStyle : "solid", height : "auto", padding : "0em 1em", borderRadius : "1em"}}>
-                        <b style={{fontSize: "2em"}}>{"$" + data.bounty}</b>
-                    </div>
-                    <div style={{minWidth: 0, flexShrink: 2, display: "flex", flexDirection: "column"}}>
-                        <b style={{width : "100%", fontSize: "2em", textOverflow: "ellipsis", overflow: "hidden"}}>{data.title}</b>
-                        <div style={{width : "100%", minHeight : "2em", overflowX : "hidden"}}>{chips}</div>
-                    </div>
-                    <div style={{flexGrow : 1}}></div>
-                    <div>
-                        <IconButton onClick={() => {props.onClickDelete(props.request)}}>
-                            <Close/>
-                        </IconButton>
-                    </div>
-                </div>
-            </div>
-            <div id="requestBoxLower">
-                <TextField id="description" label="Description" multiline variant="outlined" minRows="5"
-                           fullWidth name={"description"} value={data.description} disabled/>
-                <div style={{display : "flex", marginTop : "1em", columnGap : "2em"}}>
-                    <TextField size={"small"} label={"Store/Location"} name={"location"} disabled value={data.from}/>
-                    <div style={{flexGrow : "1"}}/>
-                    <TextField size={"small"} label={"Destination"} name={"destination"} disabled value={data.destination}/>
-                </div>
-            </div>
+            <RequestHeader request={props.request} onClickDelete={props.onClickDelete} closable/>
+            <RequestBody request={props.request}/>
             <ThemeProvider theme={theme}>
                 <div id="requestBoxBottom" style={{justifyContent: "center"}}>
                     <TextField sx={{ input: { color: 'white' } }} focused size="small" type={"number"} label={"Enter 4 digits pin"} onChange={(e) => {setPin(e.target.valueAsNumber)}}/>
@@ -211,49 +184,10 @@ export function TakenRequest(props) {
 }
 
 export function UntakenRequest(props) {
-    let data = props.request.data();
-    const [chips, setChips] = useState([])
-
-    const convertTagsToChips = () => {
-        let newChips = []
-        data.tags.forEach((tag) => {
-            newChips.push(
-                <Chip
-                    label={tag}
-                    key={tag}
-                />
-            )
-        })
-        setChips(newChips)
-    }
-
-    useEffectOnce(() => {
-        convertTagsToChips()
-    })
-
     return (
         <div className={"requestInfo"} id={props.request.id}>
-            <div id="requestBoxUpper">
-                <div id="requestBoxUpperTop">
-                    <div style={{display : "flex", alignItems : "center", borderStyle : "solid", height : "auto", padding : "0em 1em", borderRadius : "1em"}}>
-                        <b style={{fontSize: "2em"}}>{"$" + data.bounty}</b>
-                    </div>
-                    <div style={{minWidth: 0, flexShrink: 2, display: "flex", flexDirection: "column"}}>
-                        <b style={{width : "100%", fontSize: "2em", textOverflow: "ellipsis", overflow: "hidden"}}>{data.title}</b>
-                        <div style={{width : "100%", minHeight : "2em", overflowX : "hidden"}}>{chips}</div>
-                    </div>
-                    <div style={{flexGrow : 1}}></div>
-                </div>
-            </div>
-            <div id="requestBoxLower">
-                <TextField id="description" label="Description" multiline variant="outlined" minRows="5"
-                           fullWidth name={"description"} value={data.description} disabled/>
-                <div style={{display : "flex", marginTop : "1em", columnGap : "2em"}}>
-                    <TextField size={"small"} label={"Store/Location"} name={"location"} disabled value={data.from}/>
-                    <div style={{flexGrow : "1"}}/>
-                    <TextField size={"small"} label={"Destination"} name={"destination"} disabled value={data.destination}/>
-                </div>
-            </div>
+            <RequestHeader request={props.request}/>
+            <RequestBody request={props.request}/>
             <div id="requestBoxBottom">
                 <ThemeProvider theme={theme}>
                     <Button variant={"outlined"} onClick={() => {props.onTakeOrder(props.request)}} style={{margin : "auto"}}>Take this order</Button>

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="efd249d8-7421-42ae-97cb-501622f243a0" name="Changes" comment="" />
+    <list default="true" id="efd249d8-7421-42ae-97cb-501622f243a0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/requestBoxes/requestBoxes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/requestBoxes/requestBoxes.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -94,7 +97,8 @@
       <workItem from="1669755242596" duration="36782000" />
       <workItem from="1669877737134" duration="7251000" />
       <workItem from="1669889022920" duration="37609000" />
-      <workItem from="1669967632052" duration="6883000" />
+      <workItem from="1669967632052" duration="7634000" />
+      <workItem from="1670010543180" duration="2058000" />
     </task>
     <servers />
   </component>
