@@ -121,6 +121,9 @@ function CreateRequest(){
             tags: tags
         }
         await onClickCreateRequest(submissionData);
+        document.getElementById("requestForm").reset();
+        await setTags([])
+        convertTagsToChips()
     }
 
     const handleInputChange = (e) => {
