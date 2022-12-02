@@ -177,9 +177,6 @@ function Dashboard() {
                     </div>
                 </div>
             </div>
-        <footer style={{padding : "1em", backgroundColor : "#773344", color : "#F5E9E2"}}>
-            @A 35L Project
-        </footer>
         </div>);
 }
 

@@ -112,9 +112,6 @@ function Home() {
 
             <div id="footer">
                 <img id="footer_img" src={require("./images/coffee_laptop.jpg")} alt="Coffee's gone"></img>
-                <div id="footer_text">
-                    CS35L Final Project © 2022 No Showers | No Rights Reserved | Contact: Joe Mama
-                </div>
             </div>
 
         </div>

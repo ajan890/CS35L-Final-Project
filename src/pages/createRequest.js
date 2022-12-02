@@ -177,9 +177,6 @@ function CreateRequest(){
 
                 <button id="button" onClick={handleSubmit} style={{margin: "0em 0em 2em 2em"}}>Submit</button>
             </div>
-            <footer style={{padding : "1em", backgroundColor : "#0B0014", color : "#F5E9E2", margin : "0em -3em"}}>
-                @A 35L Project
-            </footer>
         </div>
     );
 }
