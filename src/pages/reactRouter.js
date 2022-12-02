@@ -7,6 +7,7 @@ import CreateRequest from "./createRequest";
 import AddBalance from "./addbalance"
 import ErrorPage from "./404";
 
+//page navigation tree
 const router = createBrowserRouter([
     {
         path: "/",

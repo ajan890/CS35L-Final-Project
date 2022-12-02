@@ -182,26 +182,3 @@ function CreateRequest(){
 }
 
 export default CreateRequest
-
-
-
-
-
-//input1 is a str. Function returns first (up to) 10 tags that begin with input1 in an array.
-async function getRecommendations(input1) {
-    var input = input1.toLowerCase();
-    const tagQuery = query(collection(db, "Tags"), where("name", ">=", input), limit(10));
-    const snapshot = await getDocs(tagQuery);
-    var tagArray = [];
-    snapshot.forEach((item) => {
-        tagArray.push(item.data().name);
-    });
-
-    for (var i = tagArray.length - 1; i >= 0; i--) {
-        if (tagArray[i].indexOf(input) != 0) {
-            tagArray.splice(i, 1);
-        }
-    }
-    console.log("Array: " + tagArray);
-    return tagArray;
-}
