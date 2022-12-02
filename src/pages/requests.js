@@ -10,11 +10,6 @@ var requestSnapshot;
 
 async function getRequests() {
   const querySnapshot = await getDocs(collection(db, "Requests"));
-  // var count = 0;
-  // querySnapshot.forEach((doc) => {
-  //   console.log(count + doc.data().description);
-  //   count++;
-  // });
   requestSnapshot = querySnapshot;
   printRequests(querySnapshot);
 }
@@ -60,43 +55,6 @@ function onClickTakeReq(request) {
   }
 }
 
-//update the request status
-// function onClickFulfilled(request, form) {
-//   var id = request.id;
-//   //Verify pin is correct
-//   var pin = request.data().fulfill_pin; 
-//   var form_val = Number(form.value);
-//   console.log("request id is: " + id + 'request pin is: ' + pin);
-//   //console.log("form value is:" + form.value);
-//   //console.log("form casting number value is: " + form_val);
-//   //console.log("pin comparison: " + (pin === form_val));
-//   //console.log("pin entered is " + form)
-//   if (pin === form_val) {
-
-//   var newRequests = user.requests_taken;
-//   console.log(newRequests);
-//   console.log(newRequests.length);
-//   var remove_idx = -1;
-//   for (var i = 0; i < newRequests.length; ++i) {
-//     if (newRequests[i] === id) {
-//         remove_idx = i;
-//         break;
-//     }
-//   }
-//   console.log("remove idx is:" + remove_idx);
-//   newRequests.splice(remove_idx, remove_idx + 1);
-//   console.log(newRequests);
-//   updateDoc(doc(db, "Users", user.UID), {
-//     requests_taken: newRequests
-//   });
-
-//   updateDoc(doc(db, "Requests", id), {
-//     status: "Fulfilled"
-//   });
-//   //also need to update the request taken
-
-//   } 
-// }
 function formatRequest(request) {
   var data = request.data();
   var toReturn = formatRequestSub(request);
@@ -176,17 +134,6 @@ async function getServerRequest(request)
     return request_data;
 }
 
-// function formatRequestTaken(request) {
-//   var toReturn = formatRequestSub(request);
-//   var form = document.createElement('input');
-//   form.value = "Enter 4 digits pin";
-//   var btn = document.createElement("button");
-//   btn.textContent = "Fulfill Order";
-//   btn.onclick = () => onClickFulfilled(request, form);
-//   toReturn.appendChild(form);
-//   toReturn.appendChild(btn);
-
-// }
 function formatRequestSub(request) {
   var data = request.data();
   console.log("Format: " + data.description);
@@ -249,14 +196,6 @@ function printRequests(querySnapshot) {
       document.getElementById('myRequests').appendChild(formatMyRequest(request));
       
     }  
-    // try {
-    //   if ((request_data.users_taken_this).includes(auth.currentUser.uid)) {
-    //     console.log("this user " + auth.currentUser.uid + " has taken the order: " + request.data().id);
-    //     document.getElementById('myRequestTaken').appendChild(formatRequestTaken(request));
-    //   }
-    // } catch (e) {
-    //   console.log("error:" + e);
-    // }
   }});
 }
 
@@ -291,7 +230,6 @@ function Requests()
 {  
   useEffectOnce(getRequests);
   useEffectOnce(getUser);
-  //getRequests();
     return (
         testform()
 
