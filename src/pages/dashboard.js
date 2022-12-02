@@ -17,13 +17,10 @@ function Dashboard() {
 
     let onClickDeleteTaken = (request) => {
         getServerRequest(request).then(function (result) {
-            let newUsersTaken = request.users_taken_this.filter((usr) =>{
-                return usr !== auth.currentUser.uid;
-            })
-            let newStatus = newUsersTaken.length === 0 ? request.status = "Not Taken" : request.status;
+
             updateDoc(doc(db, "Requests", request.id), {
-                status: newStatus,
-                users_taken_this: newUsersTaken
+                status: "Not Taken",
+                users_taken_this: [],
             });
             //delete element at html myRequest
             setTakenRequests(takenRequestsRef.current.filter((rq) => {
@@ -59,11 +56,10 @@ function Dashboard() {
                 removeTakenRequest(request.id)
                 return;
             } else if (request.status === "Fulfilled") {
-                alert("Another person has delivered this order!");
+                alert("The order has been delivered!");
                 removeTakenRequest(request.id)
                 return;
             }
-
             console.log(form_val)
             //verify pin
             if (pin !== form_val){
