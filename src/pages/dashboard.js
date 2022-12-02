@@ -4,42 +4,26 @@ import {getDocs, collection, updateDoc, doc, getDoc} from "firebase/firestore";
 import {useEffectOnce} from "../utilities.js";
 
 import {db, auth, getUser} from "../firebase/initFirebase.js";
-import {active_bonus, getServerRequest, FormatRequestTaken, FormatMyRequest} from "./requestBoxes/dashboardRequestBox"
+import {active_bonus, getServerRequest, TakenRequest, MyRequest} from "./requestBoxes/requestBoxes"
 
 import "./dashboard.css";
+import {MyRequests} from "./requestBoxes/myRequests";
 
 
 function Dashboard() {
-    const [requests, setRequests] = useState([])
-    const requestsRef = useRef();
-    requestsRef.current = requests;
     const [takenRequests, setTakenRequests] = useState([])
     const takenRequestsRef = useRef();
     takenRequestsRef.current = takenRequests;
 
-    let onClickDelete = (request) => {
-        getServerRequest(request).then(function (result) {
-            if (result.status === "Taken" || result.status === "Fulfilled") {
-                alert("you cannot delete a order that has been taken or fulfilled!");
-                return;
-            }
-            request.status = "Deleted";
-            updateDoc(doc(db, "Requests", request.id), {
-                status: "Deleted",
-            });
-            //delete element at html myRequest
-            setRequests(requestsRef.current.filter((rq) => {
-                return rq.key !== request.id
-            }))
-        });
-    }
-
     let onClickDeleteTaken = (request) => {
         getServerRequest(request).then(function (result) {
-            request.status = "Not Taken";
+            let newUsersTaken = request.users_taken_this.filter((usr) =>{
+                return usr !== auth.currentUser.uid;
+            })
+            let newStatus = newUsersTaken.length === 0 ? request.status = "Not Taken" : request.status;
             updateDoc(doc(db, "Requests", request.id), {
-                status: "Not Taken",
-                users_taken_this: []
+                status: newStatus,
+                users_taken_this: newUsersTaken
             });
             //delete element at html myRequest
             setTakenRequests(takenRequestsRef.current.filter((rq) => {
@@ -129,19 +113,15 @@ function Dashboard() {
     useEffectOnce(async () => {
         await getUser();
         const querySnapshot = await getDocs(collection(db, "Requests"));
-        let newRequests = []
         let newTakenRequests = []
         await querySnapshot.forEach((request) => {
             let request_data = request.data();
             if (!(request_data.status === "Fulfilled") && !(request_data.status === "Deleted")) {
-                if (request_data.user === auth.currentUser.uid) {
-                    newRequests.push(<FormatMyRequest request={request} key={request.id} onClickDelete={onClickDelete}/>)
-                }
                 try {
                     if ((request_data.users_taken_this).includes(auth.currentUser.uid)) {
                         console.log("order status is: ", request_data.status);
                         console.log("this user " + auth.currentUser.uid + " has taken the order: " + request_data.id);
-                        newTakenRequests.push(<FormatRequestTaken request={request} key={request.id} onClickFulfilled={onClickFulfilled} onClickDelete={onClickDeleteTaken}/>)
+                        newTakenRequests.push(<TakenRequest request={request} key={request.id} onClickFulfilled={onClickFulfilled} onClickDelete={onClickDeleteTaken}/>)
                     }
                 } catch (e) {
                     console.log("error:" + e);
@@ -149,7 +129,6 @@ function Dashboard() {
             }
         });
 
-        setRequests(newRequests)
         setTakenRequests(newTakenRequests)
     });
 
@@ -164,13 +143,7 @@ function Dashboard() {
                     <button className="button">Add balance</button>
                 </a>
             </div>
-            <div>
-                <h2>My requests</h2>
-                <div id="myRequests" className="scrollmenu">{requests}</div>
-                <a href="dashboard/newrequest">
-                    <button className="button">Submit Request</button>
-                </a>
-            </div>
+            <MyRequests/>
             <div>
                 <h2 id="second_title">Requests Taken</h2>
                 <div id="requestsTaken" className="scrollmenu">{takenRequests}</div>

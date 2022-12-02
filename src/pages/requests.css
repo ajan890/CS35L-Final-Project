@@ -1,3 +1,13 @@
+#requests{
+    display: flex;
+    column-gap: 0.4em;
+    row-gap: 0.4em;
+    margin: auto;
+    flex-wrap: wrap;
+    height: fit-content;
+    min-height: 260px;
+}
+
 .button {
     margin-top: 1%;
     margin-bottom: 0.5%;

@@ -3,24 +3,22 @@
     text-shadow: 0.8px 0.8px rgb(106, 106, 106);
 }
 
-#dashboardDiv{margin-top: 0;
-    background-image: url("./images/sakura_trees.jpg");
+#dashboardDiv{
+    background-color: #F5E9E2;
 }
 
 /*used on requests page*/
 div.scrollmenu {
     display: flex;
     column-gap: 1em;
+    margin: auto;
     overflow-y: hidden;
-    overflow-x: scroll;
+    overflow-x: hidden;
     white-space: nowrap;
     height: fit-content;
     min-height: 260px;
     width: 90%;
     padding: 1em;
-    background-color: rgba(220, 220, 220, 0.800);
-    border-radius: 20px;
-    box-shadow: rgb(0, 0, 0) 0 2px 2px -1px,rgba(0, 0, 0, .14) 0 2px 2px 0,rgba(0, 0, 0, .12) 0 1px 2px 0;
 }
 
 .button {
