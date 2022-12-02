@@ -1,5 +1,7 @@
 #requestsPage{
-    background-color: #F5E9E2;
+    background-image : url("./images/logo - Copy.png");
+    background-repeat: repeat;
+    background-size: cover;
     min-height: 90vh;
 }
 

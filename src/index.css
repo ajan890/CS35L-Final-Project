@@ -1,6 +1,8 @@
 html {
   height: 100%;
-  background: #773344;
+  background-image : url("./pages/images/logoCopy2.png");
+  background-repeat: repeat;
+  background-size: initial;
   scroll-behavior: smooth;
 }
 

@@ -147,7 +147,7 @@ function Dashboard() {
                     </a>
                 </div>
             </div>
-            <div style={{backgroundColor: "#F5E9E2", padding: "0em 3em"}}>
+            <div id={"dashboardContentDiv"}>
                 <div style={{height: "1em"}}></div>
                 <MyRequests/>
                 <div>
