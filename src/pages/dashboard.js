@@ -50,13 +50,13 @@ function Dashboard() {
         console.log("Logged in user: " + user.UID);
 
         getServerRequest(request).then(function (result) {
-            request.data().status = request.status;
+            
             //user cannot fulfilled orders that is deleted or fulfilled
-            if (request.status === "Deleted") {
+            if (result.status === "Deleted") {
                 alert("Someone else has deleted this order!");
                 removeTakenRequest(request.id)
                 return;
-            } else if (request.status === "Fulfilled") {
+            } else if (result.status === "Fulfilled") {
                 alert("The order has been delivered!");
                 removeTakenRequest(request.id)
                 return;
