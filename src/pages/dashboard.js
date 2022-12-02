@@ -129,16 +129,21 @@ function Dashboard() {
     });
 
     return (
-        <div className="wrapper" id="dashboardDiv">
-            <div>
-                <b style={{fontSize : "3em"}} id="header">Hello</b>
+        <div id="dashboardDiv">
+            <img style={{position:"fixed", zIndex : -1, width : "100%", left : 0, top : 0}} src={require("./images/sakura_trees - blur.jpg")}/>
+            <div id="dashboardTop">
+                <div>
+                    <b style={{fontSize : "3em"}} id="header">Hello</b>
+                </div>
+                <div id="balance">You are this broke:</div>
+                <div id="add-balance">
+                    <a href="dashboard/addbalance">
+                        <button className="button">Add balance</button>
+                    </a>
+                </div>
             </div>
-            <div id="balance">You are this broke:</div>
-            <div id="add-balance">
-                <a href="dashboard/addbalance">
-                    <button className="button">Add balance</button>
-                </a>
-            </div>
+            <div style={{backgroundColor : "#F5E9E2", padding : "0em 3em"}}>
+            <div style={{height : "1em"}}></div>
             <MyRequests/>
             <div>
                 <h2 id="second_title">Requests Taken</h2>
@@ -146,6 +151,7 @@ function Dashboard() {
                 <a href="/dashboard/requests">
                     <button className="button">Go to Requests</button>
                 </a>
+            </div>
             </div>
         </div>
     );

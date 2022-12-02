@@ -4,9 +4,15 @@
     margin-bottom: 30px;
 }
 
-#dashboardDiv{
-    background-color: #F5E9E2;
-    padding-bottom: 1%;
+#dashboardTop{
+
+    font-family: caverson;
+    color: #F5E9E2;
+    padding: 14em 1em 9em 1em;
+    display: flex;
+    row-gap: 1em;
+    align-items: center;
+    flex-direction: column;
 }
 
 /*used on requests page*/

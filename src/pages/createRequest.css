@@ -11,7 +11,7 @@
 #requestUpper{
     display: flex;
     padding: 1.5em 2em;
-    background-color: #92DCE5;
+    background-color: #E3B5A4;
     border-radius: 1em 1em 0 0;
     align-content: center;
 }
@@ -27,7 +27,7 @@
     border-radius: 0.5em;
     padding: 0.5em;
     border-style: solid;
-    border-color: #92DCE5;
+    border-color: #E3B5A4;
     display: flex;
     column-gap: 1em;
     row-gap: 1em;

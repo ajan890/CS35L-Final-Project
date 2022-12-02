@@ -117,6 +117,7 @@ export default function NavbarUserWidget () {
                     sx={{ height : "2em", width : "2em", fontSize : '1.1em'}}
                 />
                 <Menu
+                    disableScrollLock={true}
                     id="basic-menu"
                     anchorEl={anchorEl}
                     open={open}
