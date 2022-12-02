@@ -15,15 +15,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root{
-  flex-grow: 1;
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
 .wrapper{
-  margin: 0 3em;
+  padding: 0 3em;
+  margin: 0;
 }

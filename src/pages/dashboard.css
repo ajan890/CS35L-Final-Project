@@ -3,8 +3,8 @@
     text-shadow: 0.8px 0.8px rgb(106, 106, 106);
 }
 
-#second_title {
-    margin-top: 60px;
+#dashboardDiv{margin-top: 0;
+    background-image: url("./images/sakura_trees.jpg");
 }
 
 /*used on requests page*/

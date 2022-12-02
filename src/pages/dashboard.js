@@ -154,9 +154,9 @@ function Dashboard() {
     });
 
     return (
-        <div className="wrapper">
+        <div className="wrapper" id="dashboardDiv">
             <div>
-                <h1 id="header">Hello</h1>
+                <b style={{fontSize : "3em"}} id="header">Hello</b>
             </div>
             <div id="balance">You are this broke:</div>
             <div id="add-balance">
