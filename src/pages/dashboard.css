@@ -7,6 +7,22 @@
     margin-top: 60px;
 }
 
+/*used on requests page*/
+div.scrollmenu {
+    display: flex;
+    column-gap: 1em;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    white-space: nowrap;
+    height: fit-content;
+    min-height: 260px;
+    width: 90%;
+    padding: 1em;
+    background-color: rgba(220, 220, 220, 0.800);
+    border-radius: 20px;
+    box-shadow: rgb(0, 0, 0) 0 2px 2px -1px,rgba(0, 0, 0, .14) 0 2px 2px 0,rgba(0, 0, 0, .12) 0 1px 2px 0;
+}
+
 .button {
     margin-top: 1%;
     margin-bottom: 0.5%;

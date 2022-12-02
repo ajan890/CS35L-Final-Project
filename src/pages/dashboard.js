@@ -1,332 +1,181 @@
-import { onAuthStateChanged } from "firebase/auth";
-import React from "react";
-import {auth} from "../firebase/initFirebase";
-import { useEffectOnce } from "../utilities.js";
-import {db} from "../firebase/initFirebase.js";
+import React, {useEffect, useRef, useState} from "react";
 import {getDocs, collection, updateDoc, doc, getDoc} from "firebase/firestore";
+
+import {useEffectOnce} from "../utilities.js";
+
+import {db, auth, getUser} from "../firebase/initFirebase.js";
+import {active_bonus, getServerRequest, FormatRequestTaken, FormatMyRequest} from "./requestBoxes/dashboardRequestBox"
+
 import "./dashboard.css";
-//var name = "";
-var user = null;
-var balance = null;
-
-async function getUser() {
-  const users = await getDocs(collection(db, "Users"));
-  const authUID = auth.currentUser.uid;
-  console.log("AUTH ID: " + authUID);
-  users.forEach((userIter) => {
-    console.log(userIter.data().UID);
-    if (userIter.data().UID === authUID) {
-      user = userIter.data();
-    }
-  });
-  console.log("1USER: " + user.UID);
-}
-
-function onClickTakeReq(request) {
-  console.log("Taking request");
-  var id = request.id;
-  console.log(request);
-  console.log("Request ID: " + id + " User: " + user.UID);
-  var users_taken_this_new = request.users_taken_this;
-  //avoid duplicate order taken and take the request of their own
-  if (! users_taken_this_new.includes(user.UID) && !(request.user === user.UID)) {
-    console.log("Taking request requirement is fulfilled");
-    request.users_taken_this.push(user.UID);
-    //request.users_taken_this.push(user.UID);
-    //update status and array
-    updateDoc(doc(db, "Requests", id), {
-      status: "Taken",
-      users_taken_this: request.users_taken_this,
-    });
-    request.status = "Taken";
-    user.requests_taken.push(id);
-    user.n_orders_taken = user.n_orders_taken + 1;
-    updateDoc(doc(db, "Users", user.UID), {
-      requests_taken: user.requests_taken,
-      n_orders_taken: user.n_orders_taken,
-    });
-    //window.location = "/dashboard/requests";
-    alert("Request Taken!");
-  }
-}
-
-function formatRequest(request) {
-  var data = request.data();
-  var toReturn = formatRequestSub(request);
-  var btn = document.createElement("button");
-  btn.textContent = "Take this order";
-  btn.onclick = () => onClickTakeReq(data);
-  toReturn.appendChild(btn);
-  return (toReturn);
-}
-
-function formatMyRequest(request) {
-  var data = request.data();
-  var toReturn = formatRequestSub(request);
-  var pin = document.createElement('h5');
-  pin.innerText = "Secret Pin: " + data.fulfill_pin;
-  toReturn.appendChild(pin);
-  //show the status of the order
-  var req_stat = document.createElement('h5');
-  req_stat.innerText = "Order status: " + data.status;
-  toReturn.appendChild(req_stat);
-  //delete button
-  var delete_button = document.createElement("button");
-  delete_button.textContent = "Delete this order";
-  delete_button.onclick = () => onClickDelete(request);
-  toReturn.appendChild(delete_button);
-  return(toReturn);
-}
-
-function onClickDelete(request) {
-  //fetch data from the server
-  var request_data;
-  getServerRequest(request).then(function(result) {
-    request_data = (result);
-    console.log(request_data);
-    if (request_data.status === "Taken" || request_data.status === "Fulfilled") {
-      alert("you cannot delete a order that has been taken or fulfilled!");
-      return;
-    }
-    //update the request status
-    request.status = "Deleted";
-    updateDoc(doc(db, "Requests", request.id), {
-      status: "Deleted",
-    });
-    //delete element at html myRequest
-    var myRequests = document.getElementById("myRequests");
-    console.log("myRequests are: ", myRequests);
-    var children = myRequests.childNodes;
-    var desire_child;
-    for (var child in children) {
-      if (children[child].id === request.id) {
-        console.log("found the child");
-        desire_child = children[child];
-      }
-    }
-    myRequests.removeChild(desire_child);
-  });
-}
-
-async function getServerRequest(request)
-{
-    var request_id = request.id;
-    const docRef = doc(db, "Requests", request_id);
-    const docSnap = await getDoc(docRef);
-    var request_data = docSnap.data();
-    return request_data;
-}
-
-
-function formatRequestTaken(request) {
-  var toReturn = formatRequestSub(request);
-  var deliver_loc = document.createElement('p');
-  deliver_loc.innerText = "Delivery location: " + request.data().destination;
-  toReturn.appendChild(deliver_loc);
-  var form = document.createElement('input');
-  form.value = "Enter 4 digits pin";
-  var btn = document.createElement("button");
-  btn.textContent = "Fulfill Order";
-  btn.onclick = () => onClickFulfilled(request, form);
-  toReturn.appendChild(form);
-  toReturn.appendChild(btn);
-  return toReturn;
-}
-
-function formatRequestSub(request) {
-  var data = request.data();
-  console.log("Format: " + data.description);
-  var temp = document.createElement('a');
-  var title = document.createElement('h2');
-  var desc = document.createElement('p');
-  var tags = document.createElement('p');
-  var loc = document.createElement('p');
-  var dest = document.createElement('p');
-  var bounty = document.createElement('p');
-
-  title.innerText = data.title;
-  desc.innerText = "Description: " + data.description;
-  tags.innerText = "Tags: " + data.tags;
-  loc.innerText = "Store/Location: " + data.from;
-  dest.innerText = "Destination: " + data.destination;
-  bounty.innerText = "Bounty: $" + data.bounty;
-
-  temp.appendChild(title);
-  temp.appendChild(desc);
-  temp.appendChild(tags);
-  temp.appendChild(loc);
-  temp.appendChild(dest);
-  temp.appendChild(bounty);
-  temp.id = request.id;
-  return temp;
-}
-
-function delete_child(section, child_id) {
-  //child is the id of request in each element(added in formatprint)
-  //section is an element in [requestsTaken, myRequest, requests]
-  var allrequestsTaken = document.getElementById(section);
-  var children = allrequestsTaken.childNodes;
-  var desire_child;
-  for (var child in children) {
-    if (children[child].id === child_id) {
-      console.log("found the child");
-      desire_child = children[child];
-    }
-  }
-  allrequestsTaken.removeChild(desire_child);
-}
-
-//update the request status
-function onClickFulfilled(request, form) {
-  var id = request.id;
-  var bounty = parseInt(request.data().bounty);
-  var pin = request.data().fulfill_pin; 
-  var form_val = Number(form.value);
-  console.log("request id is: " + id + '\nrequest pin is: ' + pin);
-  var userbal = user.balance;
-  console.log("this is userbal: " + userbal);
-  console.log("this is the bounty: " + bounty);
-  console.log("Logged in user: " + user.UID);
-  var request_data;
-  getServerRequest(request).then(function (result) {
-    request_data = result;
-    request.data().status = request_data.status;
-    //user cannot fulfilled orders that is deleted or fulfilled
-    if (request_data.status === "Deleted") {
-      alert ("Someone else has deleted this order!");
-      delete_child("requestsTaken", request.id);
-      return;
-    } else if (request_data.status === "Fulfilled") {
-      alert ("Another person has delivered this order!");
-      delete_child("requestsTaken", request.id);
-      return;
-    }
-    //verify pin
-    if (pin === form_val) {
-
-      console.log(user.requests_taken);
-      console.log(user.requests_taken.length);
-      var remove_idx = -1;
-      for (var i = 0; i < user.requests_taken; ++i) {
-        if (user.requests_taken[i] === id) {
-          remove_idx = i;
-          break;
-        }
-      }
-      console.log("remove idx is:" + remove_idx);
-      user.requests_taken.splice(remove_idx, remove_idx + 1);
-      console.log(user.requests_taken);
-      user.n_orders_fulfilled = user.n_orders_fulfilled + 1;
-
-      //update the local and remote data at the same time
-      request.data().status = "Fulfilled";
-      updateDoc(doc(db, "Requests", id), {
-        status: "Fulfilled"
-      });
-      delete_child("requestsTaken", request.id);
-      //FR2: calcualte the active bonus and update in server and page
-      let bonus_active = active_bonus(user, request);
-      console.log("active bonus is " + bonus_active);
-      if (bonus_active > 0) {
-        alert("Thank you for being active in the network. You are rewarded with $" + Math.round(bonus_active * 100) / 100 + " in you balance.");
-      }
-      //update the balance for the bounty
-      user.balance = Number(userbal + bounty + bonus_active);
-      user.balance = Math.round(user.balance * 100) / 100;
-      document.getElementById("balance").innerHTML = "You are this broke: $" + user.balance;
-      updateDoc(doc(db, "Users", user.UID), {
-        balance: user.balance,
-        requests_taken: user.requests_taken,
-        n_orders_fulfilled: user.n_orders_fulfilled,
-      });
-      alert("Sucessfully Fulfilled!");
-    } else {
-      alert("Your pin is incorrect");
-    }
-  });
-}
-
-function active_bonus(user, request) {
-  console.log("The number of order this user has taken is: " + user.n_orders_taken + "\n" +
-    "the number of order this user has fulfilled is: " + user.n_orders_fulfilled);
-  let base_rate = 0.02;
-  let rate_based_on_req = Math.min(0.015, 0.001 * user.n_orders_fulfilled); 
-  if (user.n_orders_fulfilled > 0 && user.n_orders_taken > 0) {
-    console.log(base_rate + rate_based_on_req);
-    console.log(request.data().bounty);
-      return (base_rate + rate_based_on_req) * Number(request.data().bounty);
-  }
-  return 0;  
-} 
-
-async function getRequests() { 
-  await getUser();
-    const querySnapshot = await getDocs(collection(db, "Requests"));
-    querySnapshot.forEach((request) => {
-        var request_data = request.data();
-        if (!(request_data.status === "Fulfilled") && !(request_data.status === "Deleted")) {
-          if (request_data.user === auth.currentUser.uid) {
-            document.getElementById('myRequests').appendChild(formatMyRequest(request));
-          }
-          //TODO: REMOVE TRY WHEN FINISHING THE PROJECT
-          try {
-            if ((request_data.users_taken_this).includes(auth.currentUser.uid)) {
-              console.log("order status is: ", request_data.status);
-              console.log("this user " + auth.currentUser.uid + " has taken the order: " + request_data.id);
-              document.getElementById('requestsTaken').appendChild(formatRequestTaken(request));
-            }
-          } catch (e) {
-            console.log("error:" + e);
-          }
-      }});
-  }
-
-onAuthStateChanged(auth, async (user) => {
-    if(user) {
-        //name = user.displayName
-        await getBalance(user);
-        user = user;
-        if (document.getElementById("header") !== null) {
-          document.getElementById("header").innerHTML = "Hello: " + user.displayName;
-          document.getElementById("balance").innerHTML = "You are this broke: $" + Number(balance);
-        }
-    }
-});
-
-async function getBalance(user)
-{
-    var uid = user.uid;
-    const docRef = doc(db, "Users", uid);
-    const docSnap = await getDoc(docRef);
-    balance = docSnap.data().balance;
-    return balance
-}
 
 
 function Dashboard() {
-    useEffectOnce(getRequests);
-    useEffectOnce(getUser); 
-    return( 
-        <div>
+    const [requests, setRequests] = useState([])
+    const requestsRef = useRef();
+    requestsRef.current = requests;
+    const [takenRequests, setTakenRequests] = useState([])
+    const takenRequestsRef = useRef();
+    takenRequestsRef.current = takenRequests;
+
+    let onClickDelete = (request) => {
+        getServerRequest(request).then(function (result) {
+            if (result.status === "Taken" || result.status === "Fulfilled") {
+                alert("you cannot delete a order that has been taken or fulfilled!");
+                return;
+            }
+            request.status = "Deleted";
+            updateDoc(doc(db, "Requests", request.id), {
+                status: "Deleted",
+            });
+            //delete element at html myRequest
+            setRequests(requestsRef.current.filter((rq) => {
+                return rq.key !== request.id
+            }))
+        });
+    }
+
+    let onClickDeleteTaken = (request) => {
+        getServerRequest(request).then(function (result) {
+            request.status = "Not Taken";
+            updateDoc(doc(db, "Requests", request.id), {
+                status: "Not Taken",
+                users_taken_this: []
+            });
+            //delete element at html myRequest
+            setTakenRequests(takenRequestsRef.current.filter((rq) => {
+                return rq.key !== request.id
+            }))
+        });
+    }
+
+    async function onClickFulfilled(request, form) {
+        let removeTakenRequest = (id) => {
+            setTakenRequests(takenRequestsRef.current.filter((rq) => {
+                return rq.key !== id
+            }))
+        }
+
+        let user = await getUser()
+
+        let id = request.id;
+        let bounty = parseInt(request.data().bounty);
+        let pin = request.data().fulfill_pin;
+        let form_val = form;
+        console.log("request id is: " + id + '\nrequest pin is: ' + pin);
+        let userbal = user.balance;
+        console.log("this is userbal: " + userbal);
+        console.log("this is the bounty: " + bounty);
+        console.log("Logged in user: " + user.UID);
+
+        getServerRequest(request).then(function (result) {
+            request.data().status = request.status;
+            //user cannot fulfilled orders that is deleted or fulfilled
+            if (request.status === "Deleted") {
+                alert("Someone else has deleted this order!");
+                removeTakenRequest(request.id)
+                return;
+            } else if (request.status === "Fulfilled") {
+                alert("Another person has delivered this order!");
+                removeTakenRequest(request.id)
+                return;
+            }
+
+            console.log(form_val)
+            //verify pin
+            if (pin !== form_val){
+                alert("Your pin is incorrect");
+                return;
+            }
+
+            console.log(user.requests_taken);
+            console.log(user.requests_taken.length);
+            let remove_idx = -1;
+            for (let i = 0; i < user.requests_taken; ++i) {
+                if (user.requests_taken[i] === id) {
+                    remove_idx = i;
+                    break;
+                }
+            }
+            console.log("remove idx is:" + remove_idx);
+            user.requests_taken.splice(remove_idx, remove_idx + 1);
+            console.log(user.requests_taken);
+            user.n_orders_fulfilled = user.n_orders_fulfilled + 1;
+
+            //update the local and remote data at the same time
+            request.data().status = "Fulfilled";
+            updateDoc(doc(db, "Requests", id), {
+                status: "Fulfilled"
+            });
+            removeTakenRequest(request.id)
+            //FR2: calcualte the active bonus and update in server and page
+            let bonus_active = active_bonus(user, request);
+            console.log("active bonus is " + bonus_active);
+            if (bonus_active > 0) {
+                alert("Thank you for being active in the network. You are rewarded with $" + Math.round(bonus_active * 100) / 100 + " in you balance.");
+            }
+            //update the balance for the bounty
+            user.balance = Number(userbal + bounty + bonus_active);
+            user.balance = Math.round(user.balance * 100) / 100;
+            document.getElementById("balance").innerHTML = "You are this broke: $" + user.balance;
+            updateDoc(doc(db, "Users", user.UID), {
+                balance: user.balance,
+                requests_taken: user.requests_taken,
+                n_orders_fulfilled: user.n_orders_fulfilled,
+            });
+            alert("Sucessfully Fulfilled!");
+        });
+    }
+
+    useEffectOnce(async () => {
+        await getUser();
+        const querySnapshot = await getDocs(collection(db, "Requests"));
+        let newRequests = []
+        let newTakenRequests = []
+        await querySnapshot.forEach((request) => {
+            let request_data = request.data();
+            if (!(request_data.status === "Fulfilled") && !(request_data.status === "Deleted")) {
+                if (request_data.user === auth.currentUser.uid) {
+                    newRequests.push(<FormatMyRequest request={request} key={request.id} onClickDelete={onClickDelete}/>)
+                }
+                try {
+                    if ((request_data.users_taken_this).includes(auth.currentUser.uid)) {
+                        console.log("order status is: ", request_data.status);
+                        console.log("this user " + auth.currentUser.uid + " has taken the order: " + request_data.id);
+                        newTakenRequests.push(<FormatRequestTaken request={request} key={request.id} onClickFulfilled={onClickFulfilled} onClickDelete={onClickDeleteTaken}/>)
+                    }
+                } catch (e) {
+                    console.log("error:" + e);
+                }
+            }
+        });
+
+        setRequests(newRequests)
+        setTakenRequests(newTakenRequests)
+    });
+
+    return (
+        <div className="wrapper">
             <div>
                 <h1 id="header">Hello</h1>
             </div>
-                <div id="balance">You are this broke:</div>
-                <div id="add-balance">
-                    <a href="dashboard/addbalance">
-                        <button className="button">Add balance</button>
-                    </a>
-                </div>
+            <div id="balance">You are this broke:</div>
+            <div id="add-balance">
+                <a href="dashboard/addbalance">
+                    <button className="button">Add balance</button>
+                </a>
+            </div>
             <div>
                 <h2>My requests</h2>
-                <div id="myRequests" className="scrollmenu"></div>
-                <a href="dashboard/newrequest"> <button className="button">Submit Request</button> </a>
+                <div id="myRequests" className="scrollmenu">{requests}</div>
+                <a href="dashboard/newrequest">
+                    <button className="button">Submit Request</button>
+                </a>
             </div>
             <div>
                 <h2 id="second_title">Requests Taken</h2>
-                <div id="requestsTaken" className="scrollmenu"></div>
+                <div id="requestsTaken" className="scrollmenu">{takenRequests}</div>
                 <a href="/dashboard/requests">
-                  <button className="button">Go to Requests</button>
+                    <button className="button">Go to Requests</button>
                 </a>
             </div>
         </div>

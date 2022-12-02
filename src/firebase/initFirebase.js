@@ -1,6 +1,6 @@
 
 import { initializeApp } from "firebase/app";
-import {getFirestore} from "firebase/firestore";
+import {collection, getDocs, getFirestore} from "firebase/firestore";
 import {getAuth} from "firebase/auth";
 
 const firebaseConfig = {
@@ -17,5 +17,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
+
+export async function getUser() {
+    let user = null;
+
+    const users = await getDocs(collection(db, "Users"));
+    const authUID = auth.currentUser.uid;
+    await users.forEach((userIter) => {
+        if (userIter.data().UID === authUID) {
+            user = userIter.data();
+        }
+    });
+    console.log("1USER: " + user.UID);
+    return user
+}
 
 export { app, db, auth };
