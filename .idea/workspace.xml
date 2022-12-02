@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efd249d8-7421-42ae-97cb-501622f243a0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pages/requestBoxes/myRequests.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/images/logoWithName.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/images/logoWithName.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/navbar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/dashboard.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/requestBoxes/dashboardRequestBox.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/requestBoxes/requestBoxes.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/requestBoxes/dashboardRequestBox.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/requestBoxes/requestBoxes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/requestBoxes/requestBoxes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/requestBoxes/requestBoxes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/requests.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/requests.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/requests.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/requests.js" afterDir="false" />
     </list>
@@ -104,7 +98,7 @@
       <workItem from="1669456238591" duration="463000" />
       <workItem from="1669755242596" duration="36782000" />
       <workItem from="1669877737134" duration="7251000" />
-      <workItem from="1669889022920" duration="29745000" />
+      <workItem from="1669889022920" duration="35525000" />
     </task>
     <servers />
   </component>

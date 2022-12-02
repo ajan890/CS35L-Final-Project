@@ -41,34 +41,6 @@ const theme = createTheme({
     },
 });
 
-// function onClickTakeReq(request) {
-//     console.log("Taking request");
-//     var id = request.id;
-//     console.log(request);
-//     console.log("Request ID: " + id + " User: " + user.UID);
-//     var users_taken_this_new = request.users_taken_this;
-//     //avoid duplicate order taken and take the request of their own
-//     if (!users_taken_this_new.includes(user.UID) && !(request.user === user.UID)) {
-//         console.log("Taking request requirement is fulfilled");
-//         request.users_taken_this.push(user.UID);
-//         //request.users_taken_this.push(user.UID);
-//         //update status and array
-//         updateDoc(doc(db, "Requests", id), {
-//             status: "Taken",
-//             users_taken_this: request.users_taken_this,
-//         });
-//         request.status = "Taken";
-//         user.requests_taken.push(id);
-//         user.n_orders_taken = user.n_orders_taken + 1;
-//         updateDoc(doc(db, "Users", user.UID), {
-//             requests_taken: user.requests_taken,
-//             n_orders_taken: user.n_orders_taken,
-//         });
-//         //window.location = "/dashboard/requests";
-//         alert("Request Taken!");
-//     }
-// }
-
 export function active_bonus(user, request) {
     console.log("The number of order this user has taken is: " + user.n_orders_taken + "\n" +
         "the number of order this user has fulfilled is: " + user.n_orders_fulfilled);
@@ -140,7 +112,7 @@ export function MyRequest(props) {
                     </div>
                     <div style={{minWidth: 0, flexShrink: 2, display: "flex", flexDirection: "column"}}>
                         <b style={{width : "100%", fontSize: "2em", textOverflow: "ellipsis", overflow: "hidden"}}>{data.title}</b>
-                        <div style={{width : "100%", minHeight : "2em"}}>{chips}</div>
+                        <div style={{width : "100%", minHeight : "2em", overflowX : "hidden"}}>{chips}</div>
                     </div>
                     <div style={{flexGrow : 1}}></div>
                     <div>
@@ -205,7 +177,7 @@ export function TakenRequest(props) {
                     </div>
                     <div style={{minWidth: 0, flexShrink: 2, display: "flex", flexDirection: "column"}}>
                         <b style={{width : "100%", fontSize: "2em", textOverflow: "ellipsis", overflow: "hidden"}}>{data.title}</b>
-                        <div style={{width : "100%", minHeight : "2em"}}>{chips}</div>
+                        <div style={{width : "100%", minHeight : "2em", overflowX : "hidden"}}>{chips}</div>
                     </div>
                     <div style={{flexGrow : 1}}></div>
                     <div>
@@ -268,7 +240,7 @@ export function UntakenRequest(props) {
                     </div>
                     <div style={{minWidth: 0, flexShrink: 2, display: "flex", flexDirection: "column"}}>
                         <b style={{width : "100%", fontSize: "2em", textOverflow: "ellipsis", overflow: "hidden"}}>{data.title}</b>
-                        <div style={{width : "100%", minHeight : "2em"}}>{chips}</div>
+                        <div style={{width : "100%", minHeight : "2em", overflowX : "hidden"}}>{chips}</div>
                     </div>
                     <div style={{flexGrow : 1}}></div>
                 </div>
@@ -284,7 +256,7 @@ export function UntakenRequest(props) {
             </div>
             <div id="requestBoxBottom">
                 <ThemeProvider theme={theme}>
-                    <Button variant={"outlined"} onClick={props.onTakeOrder} style={{margin : "auto"}}>Take this order</Button>
+                    <Button variant={"outlined"} onClick={() => {props.onTakeOrder(props.request)}} style={{margin : "auto"}}>Take this order</Button>
                 </ThemeProvider>
             </div>
         </div>

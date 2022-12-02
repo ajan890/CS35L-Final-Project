@@ -1,8 +1,13 @@
+#requestsPage{
+    background-color: #F5E9E2;
+    min-height: 90vh;
+}
+
 #requests{
     display: flex;
     column-gap: 0.4em;
     row-gap: 0.4em;
-    margin: auto;
+    margin-top: 1em;
     flex-wrap: wrap;
     height: fit-content;
     min-height: 260px;
