@@ -83,7 +83,14 @@ function Requests() {
         console.log("Request ID: " + id + " User: " + user.UID);
         console.log(requestsRef.current)
         let users_taken_this_new = request.users_taken_this;
+        
         //avoid duplicate order taken and take the request of their own
+        getServerRequest(request).then(function (request_data) {
+        if (request_data.status === "Taken" || request.status === "Deleted") {
+          alert("This request is taken or deleted.");
+          window.location.reload(false);
+          return;
+        }
         if (!users_taken_this_new.includes(user.UID) && !(request.user === user.UID)) {
             console.log("Taking request requirement is fulfilled");
             request.users_taken_this.push(user.UID);
@@ -101,6 +108,7 @@ function Requests() {
                 window.location.reload(false);
             })
         }
+      });
     }
 
     let onClickDelete = (request) => {
