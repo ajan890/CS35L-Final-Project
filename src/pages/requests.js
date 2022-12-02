@@ -123,12 +123,13 @@ function Requests() {
     let onClickDeleteTaken = (request) => {
         request = request.data()
         getServerRequest(request).then(function (result) {
-            let newUsersTaken = request.users_taken_this.filter((usr) => {
-                return usr !== auth.currentUser.uid;
-            })
-            let newStatus = newUsersTaken.length === 0 ? request.status = "Not Taken" : request.status;
+            // let newUsersTaken = request.users_taken_this.filter((usr) => {
+            //     return usr !== auth.currentUser.uid;
+            // })
+            // let newStatus = newUsersTaken.length === 0 ? request.status = "Not Taken" : request.status;
             updateDoc(doc(db, "Requests", request.id), {
-                status: newStatus, users_taken_this: newUsersTaken
+                status: "Not Taken", 
+                users_taken_this: [],
             }).then(() => {
                 window.location.reload(false);
             });
@@ -141,7 +142,11 @@ function Requests() {
         let newRequests = []
         querySnapshot.forEach((request) => {
             var request_data = request.data();
-            if (!(request_data.status === "Fulfilled") && !(request_data.status === "Deleted")) { //Do not display fulfilled orders
+            if (!(request_data.status === "Fulfilled") && 
+              !(request_data.status === "Deleted") &&
+              !(request_data.status === "Taken")
+            ) { //Do not display fulfilled orders
+
                 if (request_data.user === auth.currentUser.uid) {
                     newRequests.push(<MyRequest request={request} key={request.id} onClickDelete={onClickDelete}/>)
                 } else if ((request_data.users_taken_this).includes(auth.currentUser.uid)) {
