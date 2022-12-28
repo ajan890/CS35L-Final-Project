@@ -9,6 +9,8 @@ Usage Instructions:
 
 A tab should open in a browser with the app.  Open in Chrome for best results.
 
+**NOTICE:** There are API keys present in the code, which were used during development and the demo.  However, the Firebase database has been reset, and thus **the API keys no longer work.**  To use this app, you will have to replace the API keys with your own.
+
 Project Description:
     This project is a community-oriented market-style request making and fulfillment platform.
     Users will be able to create requests about items they want and specify details such as 
